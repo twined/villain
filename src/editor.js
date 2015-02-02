@@ -117,23 +117,27 @@ Villain.Editor = Backbone.View.extend({
         this.isDirty = true;
     },
 
-    initialize: function() {
+    initialize: function(options) {
         that = this;
-
-        this.isDirty = false;
+        this.$textArea = $(options.textArea) || this.textArea;
+        $('<div id="villain"></div>').insertAfter(this.$textArea);
+        this.el = "#villain";
         this.$el = $(this.el);
-        this.$textArea = $(this.textArea);
-        this.$textArea.hide();
 
+        this.$textArea.hide();
+        this.isDirty = false;
         try {
             this.data = JSON.parse(this.$textArea.val());
         } catch (e) {
             console.log('editor/init: No usable JSON found in textarea.');
             this.data = null;
         }
+        // inject json to textarea before submitting.
+        $('form').submit(function( event ) {
+            that.$textArea.val(that.getJSON());
+        });
         // create a blockstore
         Villain.BlockStore.create('main');
-
         this.render();
     },
 
