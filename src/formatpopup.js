@@ -10,16 +10,19 @@ Villain.FormatPopUp = Backbone.View.extend({
     },
 
     onClickBold: function(e) {
+        e.preventDefault();
         document.execCommand('bold', false, false);
         this.activateButton('.villain-format-bold');
     },
 
     onClickItalic: function(e) {
+        e.preventDefault();
         document.execCommand('italic', false, false);
         this.activateButton('.villain-format-italic');
     },
 
     onClickLink: function(e) {
+        e.preventDefault();
         var link = prompt('Sett inn link:'),
             link_regex = /((ftp|http|https):\/\/.)|mailto(?=\:[-\.\w]+@)/;
 
@@ -33,6 +36,7 @@ Villain.FormatPopUp = Backbone.View.extend({
     },
 
     onClickUnlink: function(e) {
+        e.preventDefault();
         document.execCommand('unlink', false, false);
     },
 
