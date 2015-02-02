@@ -321,8 +321,10 @@
     }
 
     .row {
-        max-width: 0;
         @include outer-container;
+        max-width: none;
+        margin-left: 20px;
+        margin-right: 20px;
         .one {
             @include span-columns(1);
         }
