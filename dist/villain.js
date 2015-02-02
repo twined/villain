@@ -219,7 +219,6 @@
     
         onClickBlockButton: function(e) {
             /* clicked a button in the add new block container */
-            console.log(e);
             e.preventDefault();
     
             $button = $(e.currentTarget);
@@ -307,7 +306,6 @@
     };
     
     Villain.BlockStore.del = function(store, id) {
-        console.log(Villain.BlockStore[store]);
         Villain.BlockStore[store] = _.filter(Villain.BlockStore[store], function(block) {
              return block.id !== id;
         });
@@ -439,7 +437,6 @@
         },
     
         onDragStart: function(e) {
-            console.log(e.currentTarget);
             e.originalEvent.dataTransfer.setDragImage(this.$el.get(0), this.$el.width(), this.$el.height());
             e.originalEvent.dataTransfer.setData('Text', this.dataId);
             e.stopPropagation();
@@ -488,7 +485,6 @@
                     cleanHtml = Villain.Editor.processPaste(clipboardHTML);
                     e.stopPropagation();
                     e.preventDefault();
-                    console.log(cleanHtml);
                     Villain.Editor.pasteHtmlAtCaret(cleanHtml);
                     return false;
                 }
@@ -500,7 +496,6 @@
         },
     
         initialize: function(json, store) {
-            console.log('BaseBlock.initialize() -- ' + this.type);
             this.data = json || null;
             this.dataId = this.getIdFromBlockStore();
             this.$el.attr('data-block-id', this.dataId);
@@ -543,7 +538,6 @@
         },
     
         getJSON: function() {
-            console.log('getJSON/' + this.type + ': ' + 'No parser found.');
             return [];
         },
     
@@ -571,14 +565,11 @@
         },
     
         render: function() {
-            console.log('BASEBLOCK: render');
             if (this.data) {
                 // we got passed data. render editorhtm
-                console.log('BASEBLOCK: call renderEditorHtml');
                 html = this.renderEditorHtml();
             } else {
                 // no data, probably want a blank block
-                console.log('BASEBLOCK: call renderEmpty');
                 html = this.renderEmpty();
             }
             this.el.innerHTML = html;
@@ -612,11 +603,11 @@
         },
     
         renderEditorHtml: function() {
-            console.log('BASEBLOCK: renderEditorHtml');
+    
         },
     
         renderEmpty: function() {
-            console.log('BASEBLOCK: renderEmpty');
+    
         },
     
         renderPlus: function() {
@@ -650,14 +641,12 @@
             blockTemplate = this.template({content: Villain.toHTML(this.data.text)});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
         renderEmpty: function() {
             blockTemplate = this.template({content: ''});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
         getJSON: function() {
@@ -695,7 +684,6 @@
             blockTemplate = this.template();
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -703,7 +691,6 @@
             blockTemplate = this.template();
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -743,7 +730,6 @@
             blockTemplate = this.template({content: this.data.text});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -751,7 +737,6 @@
             blockTemplate = this.template({content: ''});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -764,7 +749,6 @@
                     text: textNode
                 }
             };
-            console.log('header:getjson > ' + textNode);
             return json;
         },
     
@@ -799,7 +783,6 @@
             blockTemplate = this.template({content: this.data.text});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -807,7 +790,6 @@
             blockTemplate = this.template({content: 'Liste'});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -883,7 +865,6 @@
             this.loading();
             var uid  = [this.dataId, (new Date()).getTime(), 'raw'].join('-');
             img = this.$setup.find('.villain-image-dropper img');
-            console.log(img);
             if (!this.file) {
                 this.done();
                 return false;
@@ -918,7 +899,6 @@
                 },
                 dataType: 'json'
             }).done($.proxy(function(data) {
-                console.log(data);
                 if (data.status == '200') {
                     // image uploaded successfully
                     this.$setup.append('<div class="villain-message success">Bildet er lastet opp</div>');
@@ -993,11 +973,6 @@
                                 cache: false,
                                 contentType: false,
                                 processData: false,
-                                //crossDomain: this.options.crossDomain,
-                                //xhrFields: {
-                                //    withCredentials: this.options.withCredentials
-                                //},
-                                //headers: this.options.headers,
                                 dataType: 'json'
                             }).done($.proxy(function(data) {
                                 if (data.status == 200) {
@@ -1007,7 +982,6 @@
                                     json.title = '';
                                     that.setData(json);
                                     that.refreshBlock();
-                                    console.log(data);
                                 }
                             }, this));
                         });
@@ -1079,7 +1053,6 @@
             blockTemplate = this.template({url: this.data.url});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -1087,7 +1060,6 @@
             blockTemplate = this.template({url: 'http://placehold.it/1150x400'});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
         getJSON: function() {
@@ -1147,7 +1119,6 @@
     
                     return false;
                 }
-    
                 if (!data.hasOwnProperty('images')) {
                     return false;
                 }
@@ -1180,13 +1151,6 @@
                 fileList.push([
                     '<div class="three">',
                     '<div class="center-cropped" style="background-image: url(', urlAPI.createObjectURL(f), ');"></div>',
-                    /*
-                    '   <td><i class="fa fa-file-image-o"></i></td>',
-                    '   <td>', escape(f.name), '</td>',
-                    '   <td>', f.type || 'n/a', '</td>',
-                    '   <td>', f.size, ' bytes</td>',
-                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-                    */
                     '</div>'].join('\n')
                 );
             }
@@ -1200,7 +1164,6 @@
                 }
             }
             listHTML += '</div></div>';
-            //this.$setup.append('<div class="row">' + fileList.join('') + '</div>');
             this.$setup.append(listHTML);
         }
     },
@@ -1291,7 +1254,6 @@
             blockTemplate = this.template({content: ''});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -1299,7 +1261,6 @@
             blockTemplate = this.template({content: ''});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            console.log(wrapperTemplate);
             return wrapperTemplate;
         },
     
@@ -1397,7 +1358,6 @@
     
         // override render
         render: function() {
-            console.log('render in COLUMNS');
             // create a blockstore for these columns
             Villain.BlockStore.create(this.id);
             this.store = this.id;
@@ -1411,11 +1371,9 @@
             this.$inner = this.$('.villain-block-inner');
             if (this.data) {
                 // we got passed data. render editorhtml
-                console.log('call renderEditorHtml');
                 this.renderEditorHtml();
             } else {
                 // no data, probably want a blank block
-                console.log('call renderEmpty');
                 this.renderEmpty();
             }
     
@@ -1436,7 +1394,6 @@
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             //TODO: add plus
-            console.log(wrapperTemplate);
             return this;
         },
     
@@ -1445,7 +1402,6 @@
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             //TODO: add plus
-            console.log(wrapperTemplate);
             return this;
         },
     
@@ -1478,7 +1434,6 @@
                 $column.append(addblock.$el);
                 for (var j = 0; j < columnData.length; j++) {
                     if ((BlockClass = Villain.BlockRegistry.getBlockClassByType(columnData[j].type)) !== false) {
-                        console.log('parseColumn: ' + columnData[j].data);
                         block = new BlockClass(columnData[j].data, this.store);
                         $column.append(block.$el);
                         addblock = new Villain.Plus(this.store);
@@ -1522,7 +1477,6 @@
     
         _updateColumnCount: function(e) {
             var columnCount = $(e.target).val();
-            console.log(columnCount);
             this.$('.villain-column-widths').remove();
             columnCountWrapper = $('<div class="villain-column-widths" />');
             for (var i = 1; i < (parseInt(columnCount) + 1); i++) {
@@ -1537,13 +1491,13 @@
         },
     
         _applyColumnCount: function(e) {
+            e.preventDefault();
             columnCount = this.$('input[name="villain-columns-number"]').val();
             for (var i = 1; i < (parseInt(columnCount) + 1); i++) {
                 columnClass = this.$('input[name="villain-column-width-' + i + '"]').val();
                 this.getRow().append(this.columnTemplate({columnClass: columnClass}));
                 addblock = new Villain.Plus(this.store);
                 this.getColumn(i - 1).append(addblock.$el);
-                console.log(this.getColumn(i));
             }
             // hide the setup
             this.$setup.hide();
@@ -1592,12 +1546,10 @@
                 // check the main block store for the id. if it's not there
                 // it probably belongs to a superblock
                 if ((block = Villain.BlockStore.getBlockById('main', $(this).data('block-id'))) !== false) {
-                    console.log('block-type: ' + block.type + ' block-id: ' + block.id);
                     blockJson = block.getJSON();
                     json.push(blockJson);
                 }
             });
-            console.log(JSON.stringify(JSON.parse(JSON.stringify(json)),null,2));
             return JSON.stringify(json);
     
             // we get both the column object and the child objects?
@@ -1616,14 +1568,12 @@
         },
     
         onDragOverDroppable: function(e) {
-            console.log('curr: ' + $(e.currentTarget).attr('class'));
             e.preventDefault();
             e.stopPropagation();
         },
     
         onDropDroppable: function(e) {
             //do something
-            console.log('dropped');
             target = e.currentTarget;
             if ($(target).hasClass('villain-droppable') !== true) {
                 e.preventDefault();
@@ -1652,7 +1602,6 @@
             $sourceAdd.insertAfter($source);
             $sourceAdd.attr('data-blockstore', newBlockStore);
             // get the block store
-            console.log($sourceAdd);
         },
     
         onDropTextblock: function(e) {
@@ -1695,23 +1644,27 @@
             this.isDirty = true;
         },
     
-        initialize: function() {
+        initialize: function(options) {
             that = this;
-    
-            this.isDirty = false;
+            this.$textArea = $(options.textArea) || this.textArea;
+            $('<div id="villain"></div>').insertAfter(this.$textArea);
+            this.el = "#villain";
             this.$el = $(this.el);
-            this.$textArea = $(this.textArea);
-            this.$textArea.hide();
     
+            this.$textArea.hide();
+            this.isDirty = false;
             try {
                 this.data = JSON.parse(this.$textArea.val());
             } catch (e) {
                 console.log('editor/init: No usable JSON found in textarea.');
                 this.data = null;
             }
+            // inject json to textarea before submitting.
+            $('form').submit(function( event ) {
+                that.$textArea.val(that.getJSON());
+            });
             // create a blockstore
             Villain.BlockStore.create('main');
-    
             this.render();
         },
     
@@ -1817,7 +1770,6 @@
         },
     
         hidePopUp: function() {
-            console.log('hidePopUp');
             this.$el.removeClass('show-popup');
         },
     
@@ -1856,7 +1808,6 @@
     Villain.Editor.EditorHTML = Villain.Editor.EditorHTML || {};
 
     Villain.toMD = function(html) {
-        console.log(html);
         html = toMarkdown(html);
         html = html.replace(/&nbsp;/g,' ');
         // Divitis style line breaks (handle the first line)
@@ -1874,17 +1825,14 @@
                    // Convert normal line breaks
                    .replace(/&lt;/g,'<').replace(/&gt;/g,'>');
                    // Encoding
-        /*
-        html = html.replace(/<(\w+)(?:\s+\w+="[^"]+(?:"\$[^"]+"[^"]+)?")*>\s*<\/\1>/gim, '') //Empty elements
-                   .replace(/\n/mg,"");
-        */
 
         // strip whatever might be left.
         aggressiveStrip = true;
         if (aggressiveStrip) {
             html = html.replace(/<\/?[^>]+(>|$)/g, '');
         } else {
-            html = html.replace(/<(?=\S)\/?[^>]+(>|$)/ig, ''); // strip rest of the tags
+            // strip rest of the tags
+            html = html.replace(/<(?=\S)\/?[^>]+(>|$)/ig, '');
         }
         return html;
     };
@@ -2026,18 +1974,6 @@
             // Insert HTML.
              return clean_html;
         }
-        // Li cleanup.
-        /*
-        this.$element.find('li').each ($.proxy(function(index, li) {
-          this.wrapTextInElement($(li), true);
-        }, this));
-        */
-        if (this.options.paragraphy) {
-            this.wrapText(true);
-        }
-
-        //this.cleanupLists();
-        //this.afterPaste();
     };
 
     Villain.Editor.wordClean = function(html) {
@@ -2166,26 +2102,12 @@
         );
         html = html.replace(aa_reg, '');
 
-        // Sanitize SRC or HREF.
-        /*
-        var s_reg = new RegExp('<([^>]*)(src|href)=(\'[^\']*\'|""[^""]*""|[^\\s>]+)([^>]*)>', 'gi');
-        html = html.replace(s_reg, $.proxy(function(str, a1, a2, a3, a4) {
-            return '<' + a1 + a2 + '="' +
-                villain.Editor.sanitizeURL(
-                    a3.replace(/^["'](.*)["']\/?$/gi, '$1')
-                ) + '"' + a4 + '>';
-        }, this));
-        */
-
         // Clean style.
         var style_reg = new RegExp(
             'style=("[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,!\\/\'%]*"|' +
             '\'[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,!\\/"%]*\')', 'gi'
         );
         html = html.replace(style_reg, '');
-
-        // Clean tags.
-        //html = villain.Editor.cleanTags(html, true);
 
         // Remove the class.
         var $div = $('<div>').append(html);
