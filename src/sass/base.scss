@@ -136,6 +136,8 @@
 
     label {
       font-weight: bold;
+      text-transform: none;
+      letter-spacing: 0;
       margin-bottom: $base-spacing / 4;
 
       &.required:after {
