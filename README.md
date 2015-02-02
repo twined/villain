@@ -23,7 +23,7 @@ Add to your HTML:
     <div id="villain"></div>
     <script type="text/javascript">
         $(document).ready(function() {
-            v = new Villain.Editor({ el: '#villain', textArea: '#id_body' });
+            v = new Villain.Editor({textArea: 'textarea[name="post[body]"]'});
         });
     </script>
 ```
