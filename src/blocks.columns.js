@@ -173,6 +173,7 @@ Villain.Blocks.Columns = Villain.Block.extend({
     },
 
     _applyColumnCount: function(e) {
+        e.preventDefault();
         columnCount = this.$('input[name="villain-columns-number"]').val();
         for (var i = 1; i < (parseInt(columnCount) + 1); i++) {
             columnClass = this.$('input[name="villain-column-width-' + i + '"]').val();
