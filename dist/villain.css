@@ -124,6 +124,8 @@ html {
   font-size: 1em; }
 #villain label {
   font-weight: bold;
+  text-transform: none;
+  letter-spacing: 0;
   margin-bottom: 0.375em; }
   #villain label.required:after {
     content: "*"; }
