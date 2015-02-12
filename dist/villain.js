@@ -1195,7 +1195,7 @@
         },
     
         template: _.template(
-            '<div class="villain-video-block villain-content"><%= content =></div>'
+            '<div class="villain-video-block villain-content"><%= content %></div>'
         ),
     
         events: {
@@ -1210,6 +1210,13 @@
                 return;
             }
     
+            embedString = this.buildString(videoUrl);
+    
+            this.$content.html(embedString);
+            this.hideSetup();
+        },
+    
+        buildString: function(videoUrl) {
             var match, data;
     
             _.each(this.providers, function(provider, index) {
@@ -1228,21 +1235,12 @@
                 return;
             }
     
-            /*
-            if (this.providers[data.source].square) {
-                this.$editor.addClass('st-block__editor--with-square-media');
-            } else {
-                this.$editor.addClass('st-block__editor--with-sixteen-by-nine-media');
-            }
-            */
-    
             var embedString = this.providers[data.source].html
                 .replace('{{protocol}}', window.location.protocol)
                 .replace('{{remote_id}}', data.remote_id)
                 .replace('{{width}}', '100%'); // for videos that can't resize automatically like vine
     
-            this.$content.html(embedString);
-            this.hideSetup();
+            return embedString;
         },
     
         initialize: function(json, store) {
@@ -1251,7 +1249,16 @@
         },
     
         renderEditorHtml: function() {
-            blockTemplate = this.template({content: ''});
+            if (!this.providers.hasOwnProperty(this.data.source)) {
+                return;
+            }
+    
+            var embedString = this.providers[this.data.source].html
+                .replace('{{protocol}}', window.location.protocol)
+                .replace('{{remote_id}}', this.data.remote_id)
+                .replace('{{width}}', '100%'); // for videos that can't resize automatically like vine
+    
+            blockTemplate = this.template({content: embedString});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
@@ -1268,9 +1275,7 @@
             url = this.$('img').attr('src');
             json = {
                 type: this.type,
-                data: {
-                    url: url
-                }
+                data: this.data
             };
             return json;
         },
@@ -1550,9 +1555,8 @@
                     json.push(blockJson);
                 }
             });
-            return JSON.stringify(json);
-    
-            // we get both the column object and the child objects?
+            ret = JSON.stringify(json);
+            return ret != "[]" ? ret : "";
         },
     
        onDragEnterDroppable: function(e) {

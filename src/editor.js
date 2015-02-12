@@ -23,9 +23,8 @@ Villain.Editor = Backbone.View.extend({
                 json.push(blockJson);
             }
         });
-        return JSON.stringify(json);
-
-        // we get both the column object and the child objects?
+        ret = JSON.stringify(json);
+        return ret != "[]" ? ret : "";
     },
 
    onDragEnterDroppable: function(e) {
