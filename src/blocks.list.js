@@ -2,12 +2,12 @@ Villain.Blocks.List = Villain.Block.extend({
     type: 'list',
     template: _.template([
         '<div class="villain-text-block villain-text-block-list villain-content" contenteditable="true">',
-          '<ul><li><%= content %></li></ul>',
+          '<%= content %>',
         '</div>'].join('\n')
     ),
 
     renderEditorHtml: function() {
-        blockTemplate = this.template({content: this.data.text});
+        blockTemplate = this.template({content: markdown.toHTML(this.data.text)});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
         return wrapperTemplate;
