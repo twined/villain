@@ -5,6 +5,13 @@
     Villain.EventBus = Villain.EventBus || _.extend({}, Backbone.Events);
     Villain.Blocks = Villain.Blocks || {};
     Villain.Editor = Villain.Editor || {};
+    Villain.options = Villain.options || [];
+
+    Villain.defaults = {
+        browseURL: "browse/",
+        textArea: "#textarea",
+        uploadURL: "/upload/post"
+    };
 
     function $element(el) {
         return el instanceof $ ? el : $(el);
@@ -880,7 +887,7 @@
     
             $.ajax({
                 type: 'post',
-                url: 'last-opp/bilde/',
+                url: Villain.options['uploadURL'],
                 data: data,
                 cache: false,
                 contentType: false,
@@ -1109,7 +1116,7 @@
             this.loading();
             $.ajax({
                 type: 'get',
-                url: 'browse/',
+                url: Villain.options['browseURL'],
                 cache: false,
                 contentType: false,
                 processData: false,
@@ -1669,6 +1676,7 @@
             });
             // create a blockstore
             Villain.BlockStore.create('main');
+            Villain.setOptions(options);
             this.render();
         },
     
@@ -1926,6 +1934,10 @@
       }
 
       return html;
+    };
+
+    Villain.setOptions = function(options) {
+        Villain.options = $.extend({}, Villain.defaults, options);
     };
 
     Villain.browser = function() {

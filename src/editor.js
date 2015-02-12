@@ -137,6 +137,7 @@ Villain.Editor = Backbone.View.extend({
         });
         // create a blockstore
         Villain.BlockStore.create('main');
+        Villain.setOptions(options);
         this.render();
     },
 

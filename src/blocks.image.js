@@ -36,7 +36,7 @@ Villain.Blocks.Image = Villain.Block.extend({
 
         $.ajax({
             type: 'post',
-            url: 'last-opp/bilde/',
+            url: Villain.options['uploadURL'],
             data: data,
             cache: false,
             contentType: false,
@@ -265,7 +265,7 @@ Villain.Blocks.Image = Villain.Block.extend({
         this.loading();
         $.ajax({
             type: 'get',
-            url: 'browse/',
+            url: Villain.options['browseURL'],
             cache: false,
             contentType: false,
             processData: false,

@@ -5,6 +5,13 @@
     Villain.EventBus = Villain.EventBus || _.extend({}, Backbone.Events);
     Villain.Blocks = Villain.Blocks || {};
     Villain.Editor = Villain.Editor || {};
+    Villain.options = Villain.options || [];
+
+    Villain.defaults = {
+        browseURL: "browse/",
+        textArea: "#textarea",
+        uploadURL: "/upload/post"
+    };
 
     function $element(el) {
         return el instanceof $ ? el : $(el);
@@ -152,6 +159,10 @@
       }
 
       return html;
+    };
+
+    Villain.setOptions = function(options) {
+        Villain.options = $.extend({}, Villain.defaults, options);
     };
 
     Villain.browser = function() {
