@@ -8,9 +8,9 @@
     Villain.options = Villain.options || [];
 
     Villain.defaults = {
-        browseURL: "browse/",
-        textArea: "#textarea",
-        uploadURL: "/upload/post"
+        browseURL: 'browse/',
+        textArea: '#textarea',
+        uploadURL: '/upload/post'
     };
 
     function $element(el) {

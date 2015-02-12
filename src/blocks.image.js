@@ -18,6 +18,7 @@ Villain.Blocks.Image = Villain.Block.extend({
     },
 
     onUploadClickAfterDrop: function(e) {
+        e.preventDefault();
         this.loading();
         var uid  = [this.dataId, (new Date()).getTime(), 'raw'].join('-');
         img = this.$setup.find('.villain-image-dropper img');
@@ -29,13 +30,17 @@ Villain.Blocks.Image = Villain.Block.extend({
         var data = new FormData();
 
         data.append('name', this.file.name);
-        data.append('file', this.file);
+        data.append('image', this.file);
         data.append('uid', uid);
 
         that = this;
 
         $.ajax({
             type: 'post',
+            dataType: 'json',
+            accepts: {
+                json: 'text/json'
+            },
             url: Villain.options['uploadURL'],
             data: data,
             cache: false,
@@ -46,9 +51,11 @@ Villain.Blocks.Image = Villain.Block.extend({
             //    withCredentials: this.options.withCredentials
             //},
             //headers: this.options.headers,
-            xhr: function() {  // Custom XMLHttpRequest
+            // Custom XMLHttpRequest
+            xhr: function() {
                 var customXhr = $.ajaxSettings.xhr();
-                if (customXhr.upload){ // Check if upload property exists
+                // Check if upload property exists
+                if (customXhr.upload) {
                     customXhr.upload.addEventListener('progress', that.progressHandlingFunction, false);
                 }
                 return customXhr;
@@ -134,8 +141,8 @@ Villain.Blocks.Image = Villain.Block.extend({
                             if (data.status == 200) {
                                 // set the image title and credits as data
                                 json = that.getData();
-                                json.caption = '';
-                                json.title = '';
+                                json.title = data.title;
+                                json.credits = data.credits;
                                 that.setData(json);
                                 that.refreshBlock();
                             }
@@ -219,11 +226,12 @@ Villain.Blocks.Image = Villain.Block.extend({
         return wrapperTemplate;
     },
     getJSON: function() {
-        url = this.$('img').attr('src');
         json = {
             type: this.type,
             data: {
-                url: url
+                url: this.data.url,
+                title: this.data.title || "",
+                credits: this.data.credits || ""
             }
         };
         return json;
