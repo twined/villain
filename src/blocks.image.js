@@ -41,7 +41,7 @@ Villain.Blocks.Image = Villain.Block.extend({
             accepts: {
                 json: 'text/json'
             },
-            url: Villain.options['uploadURL'],
+            url: this.addToPathName(Villain.options['uploadURL']),
             data: data,
             cache: false,
             contentType: false,
@@ -273,14 +273,13 @@ Villain.Blocks.Image = Villain.Block.extend({
         this.loading();
         $.ajax({
             type: 'get',
-            url: Villain.options['browseURL'],
+            url: this.addToPathName(Villain.options['browseURL']),
             cache: false,
             contentType: false,
             processData: false,
             dataType: 'json'
         }).done($.proxy(function(data) {
             if (data.status != 200) {
-
                 return false;
             }
             if (!data.hasOwnProperty('images')) {
@@ -301,7 +300,6 @@ Villain.Blocks.Image = Villain.Block.extend({
             this.$setup.append('<div class="villain-message success">Klikk på bildet du vil sette inn</div>');
             this.$setup.append($images);
             this.done();
-
         }, this));
 
     },

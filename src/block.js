@@ -95,6 +95,13 @@ Villain.Block = Backbone.View.extend({
         this.$el.loadingOverlay('remove');
     },
 
+    addToPathName: function(relativeUrl) {
+        var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
+        var fullPath = window.location.pathname + divider + relativeUrl;
+        console.log(fullPath);
+        return fullPath;
+    },
+
     destroy: function() {
         // delete the plus after
         this.$el.next('.villain-add-block').remove();
@@ -184,6 +191,10 @@ Villain.Block = Backbone.View.extend({
         this.id = 'villain-block-' + this.dataId;
         this.addToBlockStore(store);
         this.render();
+    },
+
+    doRenderCallback: function() {
+
     },
 
     hasTextBlock: function() {

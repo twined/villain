@@ -55,11 +55,25 @@ gulp.task('build-scripts', function() {
     var rigger = require('gulp-rigger');
     var uglify = require('gulp-uglify');
     var rename = require('gulp-rename');
+    var concat = require('gulp-concat');
+
     gulp.src('src/villain.js')
         .pipe(rigger())
         .pipe(gulp.dest('dist/'))
         .pipe(rename({suffix: '-min'}))
         .pipe(uglify())
+        .pipe(gulp.dest('dist/'));
+
+    gulp.src(['./js/underscore.js', './js/backbone.js',
+              './js/to-markdown.js', './js/markdown.min.js'])
+        .pipe(concat('villain.vendor.js'))
+        .pipe(gulp.dest('dist/'))
+        .pipe(rename({suffix: '-min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/'));
+
+    gulp.src(['./dist/villain.vendor-min.js', './dist/villain-min.js'])
+        .pipe(concat('villain.all-min.js'))
         .pipe(gulp.dest('dist/'));
 });
 

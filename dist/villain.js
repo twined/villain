@@ -426,6 +426,13 @@
             this.$el.loadingOverlay('remove');
         },
     
+        addToPathName: function(relativeUrl) {
+            var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
+            var fullPath = window.location.pathname + divider + relativeUrl;
+            console.log(fullPath);
+            return fullPath;
+        },
+    
         destroy: function() {
             // delete the plus after
             this.$el.next('.villain-add-block').remove();
@@ -515,6 +522,10 @@
             this.id = 'villain-block-' + this.dataId;
             this.addToBlockStore(store);
             this.render();
+        },
+    
+        doRenderCallback: function() {
+    
         },
     
         hasTextBlock: function() {
@@ -892,7 +903,7 @@
                 accepts: {
                     json: 'text/json'
                 },
-                url: Villain.options['uploadURL'],
+                url: this.addToPathName(Villain.options['uploadURL']),
                 data: data,
                 cache: false,
                 contentType: false,
@@ -1124,14 +1135,13 @@
             this.loading();
             $.ajax({
                 type: 'get',
-                url: Villain.options['browseURL'],
+                url: this.addToPathName(Villain.options['browseURL']),
                 cache: false,
                 contentType: false,
                 processData: false,
                 dataType: 'json'
             }).done($.proxy(function(data) {
                 if (data.status != 200) {
-    
                     return false;
                 }
                 if (!data.hasOwnProperty('images')) {
@@ -1152,7 +1162,6 @@
                 this.$setup.append('<div class="villain-message success">Klikk på bildet du vil sette inn</div>');
                 this.$setup.append($images);
                 this.done();
-    
             }, this));
     
         },
