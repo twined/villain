@@ -117,7 +117,7 @@ Villain.Editor = Backbone.View.extend({
     },
 
     initialize: function(options) {
-        that = this;
+        _this = this;
         this.$textArea = $(options.textArea) || this.textArea;
         $('<div id="villain"></div>').insertAfter(this.$textArea);
         this.el = "#villain";
@@ -133,7 +133,7 @@ Villain.Editor = Backbone.View.extend({
         }
         // inject json to textarea before submitting.
         $('form').submit(function( event ) {
-            that.$textArea.val(that.getJSON());
+            _this.$textArea.val(_this.getJSON());
         });
         // create a blockstore
         Villain.BlockStore.create('main');

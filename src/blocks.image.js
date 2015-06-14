@@ -114,7 +114,7 @@ Villain.Blocks.Image = Villain.Block.extend({
                     ].join('\n'));
                     form = formTemplate({
                         method: data.form.method,
-                        action: data.form.action,
+                        action: that.addToPathName(data.form.action),
                         name: data.form.name,
                         inputs: inputsHtml
                     });
@@ -131,7 +131,7 @@ Villain.Blocks.Image = Villain.Block.extend({
 
                         $.ajax({
                             type: 'post',
-                            url: data.form.action,
+                            url: that.addToPathName(data.form.action),
                             data: imagedata,
                             cache: false,
                             contentType: false,

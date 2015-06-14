@@ -96,9 +96,12 @@ Villain.Block = Backbone.View.extend({
     },
 
     addToPathName: function(relativeUrl) {
-        var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
-        var fullPath = window.location.pathname + divider + relativeUrl;
-        console.log(fullPath);
+        if (relativeUrl.charAt(0) === "/") {
+            return relativeUrl;
+        } else {
+            var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
+            var fullPath = window.location.pathname + divider + relativeUrl;
+        }
         return fullPath;
     },
 

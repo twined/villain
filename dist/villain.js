@@ -427,9 +427,13 @@
         },
     
         addToPathName: function(relativeUrl) {
-            var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
-            var fullPath = window.location.pathname + divider + relativeUrl;
-            console.log(fullPath);
+            if (relativeUrl.charAt(0) === "/") {
+                return relativeUrl;
+            } else {
+                var divider = (window.location.pathname.slice(-1) == "/") ? "" : "/";
+                var fullPath = window.location.pathname + divider + relativeUrl;
+                console.log(fullPath);
+            }
             return fullPath;
         },
     
@@ -976,7 +980,7 @@
                         ].join('\n'));
                         form = formTemplate({
                             method: data.form.method,
-                            action: data.form.action,
+                            action: that.addToPathName(data.form.action),
                             name: data.form.name,
                             inputs: inputsHtml
                         });
@@ -993,7 +997,7 @@
     
                             $.ajax({
                                 type: 'post',
-                                url: data.form.action,
+                                url: that.addToPathName(data.form.action),
                                 data: imagedata,
                                 cache: false,
                                 contentType: false,
@@ -1075,6 +1079,7 @@
         },
     
         renderEditorHtml: function() {
+            console.log(this.data);
             blockTemplate = this.template({url: this.data.url});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
@@ -1673,7 +1678,7 @@
         },
     
         initialize: function(options) {
-            that = this;
+            _this = this;
             this.$textArea = $(options.textArea) || this.textArea;
             $('<div id="villain"></div>').insertAfter(this.$textArea);
             this.el = "#villain";
@@ -1689,7 +1694,7 @@
             }
             // inject json to textarea before submitting.
             $('form').submit(function( event ) {
-                that.$textArea.val(that.getJSON());
+                _this.$textArea.val(_this.getJSON());
             });
             // create a blockstore
             Villain.BlockStore.create('main');
