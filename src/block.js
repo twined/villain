@@ -29,6 +29,7 @@ Villain.Block = Backbone.View.extend({
 
     events: {
         'dragstart .villain-action-button-move': 'onDragStart',
+        'click .villain-action-button-move': 'onClickMove',
         'click .villain-action-button-del': 'onClickDelete',
         'mouseover .villain-block-inner': 'onMouseOver',
         'mouseout .villain-block-inner': 'onMouseOut',
@@ -36,6 +37,35 @@ Villain.Block = Backbone.View.extend({
         'mouseup .villain-text-block': 'onMouseUp',
         'click .villain-text-block': 'onClick',
         'click .villain-action-button-setup': 'onSetupClick'
+    },
+
+    initialize: function(json, store) {
+        this.data = json || null;
+        this.dataId = this.getIdFromBlockStore();
+        this.$el.attr('data-block-id', this.dataId);
+        this.$el.attr('data-block-type', this.type);
+        this.$el.attr('id', 'villain-block-' + this.dataId);
+        if (store) {
+            this.store = store;
+        }
+        this.$el.attr('data-blockstore', this.store);
+        this.id = 'villain-block-' + this.dataId;
+        this.addToBlockStore(store);
+        this.render();
+    },
+
+    render: function() {
+        if (this.hasData()) {
+            // we got passed data. render editorhtm
+            html = this.renderEditorHtml();
+        } else {
+            // no data, probably want a blank block
+            html = this.renderEmpty();
+        }
+        this.el.innerHTML = html;
+        this.setSections();
+        this.addSetup();
+        return this;
     },
 
     onClick: function(e) {
@@ -46,6 +76,7 @@ Villain.Block = Backbone.View.extend({
     },
 
     onSetupClick: function(e) {
+        e.stopPropagation();
         // is it active now?
         $button = this.$('.villain-action-button-setup');
         if ($button.hasClass('active')) {
@@ -122,12 +153,18 @@ Villain.Block = Backbone.View.extend({
         e.stopPropagation();
     },
 
+    onClickMove: function(e) {
+        e.stopPropagation();
+    },
+
     onDragStart: function(e) {
         e.originalEvent.dataTransfer.setDragImage(this.$el.get(0), this.$el.width(), this.$el.height());
         e.originalEvent.dataTransfer.setData('Text', this.dataId);
         e.stopPropagation();
     },
+
     onMouseOver: function(e) {
+        event.stopPropagation();
         this.$inner.addClass('hover');
         this.$inner.children('.villain-actions').visible();
     },
@@ -181,21 +218,6 @@ Villain.Block = Backbone.View.extend({
         return Villain.BlockStore.getId();
     },
 
-    initialize: function(json, store) {
-        this.data = json || null;
-        this.dataId = this.getIdFromBlockStore();
-        this.$el.attr('data-block-id', this.dataId);
-        this.$el.attr('data-block-type', this.type);
-        this.$el.attr('id', 'villain-block-' + this.dataId);
-        if (store) {
-            this.store = store;
-        }
-        this.$el.attr('data-blockstore', this.store);
-        this.id = 'villain-block-' + this.dataId;
-        this.addToBlockStore(store);
-        this.render();
-    },
-
     doRenderCallback: function() {
 
     },
@@ -243,29 +265,35 @@ Villain.Block = Backbone.View.extend({
         return this.data;
     },
 
+    setDataProperty: function(prop, value) {
+        data = this.getData();
+        data[prop] = value;
+        this.setData(data);
+    },
+
     hasData: function() {
-        return this.data ? true : false;
+        return this.data ? !_.isEmpty(this.data) : false;
     },
 
     refreshBlock: function() {
         html = this.renderEditorHtml();
         this.el.innerHTML = html;
-        this.$inner = this.$('.villain-block-inner');
+        this.addSetup();
         return this;
     },
 
-    render: function() {
-        if (this.data) {
-            // we got passed data. render editorhtm
-            html = this.renderEditorHtml();
-        } else {
-            // no data, probably want a blank block
-            html = this.renderEmpty();
-        }
-        this.el.innerHTML = html;
+    refreshContentBlock: function(hidden) {
+        block = this.renderContentBlockHtml();
+        this.$content.html($(block).html());
+        return this.$content;
+    },
+
+    setSections: function() {
         this.$inner = this.$('.villain-block-inner');
         this.$content = this.$('.villain-content');
+    },
 
+    addSetup: function() {
         if (this.setup) {
             // the block has a setup method - add the setupTemplate
             // and call setup()
@@ -277,7 +305,10 @@ Villain.Block = Backbone.View.extend({
         } else {
             this.$('.villain-action-button-setup').hide();
         }
-        return this;
+    },
+
+    clearSetup: function() {
+        this.$setup.empty();
     },
 
     getTextBlock: function() {
@@ -306,14 +337,19 @@ Villain.Block = Backbone.View.extend({
     },
 
     showSetup: function() {
+        innerHeight = this.$inner.height();
         this.$content.hide();
         $button = this.$('.villain-action-button-setup');
         $button.addClass('active');
         this.$setup.show();
+        if (this.$setup.height() < innerHeight) {
+            this.$setup.height(innerHeight);
+        }
     },
 
     hideSetup: function() {
         this.$setup.hide();
+        this.$setup.height("");
         $button = this.$('.villain-action-button-setup');
         $button.removeClass('active');
         this.$content.show();

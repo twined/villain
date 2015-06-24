@@ -430,6 +430,26 @@
     font-size: 32px;
 }
 
+.villain-text-block-header[data-header-level="1"] {
+  font-size: 32px;
+}
+
+.villain-text-block-header[data-header-level="2"] {
+  font-size: 25px;
+}
+
+.villain-text-block-header[data-header-level="3"] {
+  font-size: 20px;
+}
+
+.villain-text-block-header[data-header-level="4"] {
+  font-size: 17px;
+}
+
+.villain-text-block-header[data-header-level="5"] {
+  font-size: 14px;
+}
+
 .villain-text-block-subheader {
     font-size: 24px;
 }
@@ -498,6 +518,17 @@
     @include animation-fill-mode(both);
     @include animation-duration(0.5s);
     @include animation-name(fadeInDown);
+}
+
+.villain-block-wrapper.organize::after {
+  content: attr(data-block-type);
+  font-size: 12px;
+  color: #fff;
+  background-color: #000;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  display: block;
 }
 
 .villain-block-wrapper.loading {

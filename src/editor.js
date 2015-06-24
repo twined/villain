@@ -13,6 +13,60 @@ Villain.Editor = Backbone.View.extend({
         'drop .villain-text-block': 'onDropTextblock'
     },
 
+    initialize: function(options) {
+        _this = this;
+        this.$textArea = $(options.textArea) || this.textArea;
+        $('<div id="villain"></div>').insertAfter(this.$textArea);
+        this.el = "#villain";
+        this.$el = $(this.el);
+
+        this.$textArea.hide();
+        this.isDirty = false;
+        try {
+            this.data = JSON.parse(this.$textArea.val());
+        } catch (e) {
+            console.log('editor/init: No usable JSON found in textarea.');
+            this.data = null;
+        }
+        // inject json to textarea before submitting.
+        $('form').submit(function( event ) {
+            _this.$textArea.val(_this.getJSON());
+        });
+        // create a blockstore
+        Villain.BlockStore.create('main');
+        Villain.setOptions(options);
+        this.render();
+    },
+
+    render: function() {
+        // add + block
+        addblock = new Villain.Plus('main');
+        this.$el.append(addblock.$el);
+        // add format popup
+        formatPopUp = new Villain.FormatPopUp();
+        this.$el.append(formatPopUp.$el);
+        // parse json
+        if (!this.data) {
+            return false;
+        }
+        for (var i = 0; i <= this.data.length - 1; i++) {
+            blockJson = this.data[i];
+            if ((BlockClass = Villain.BlockRegistry.getBlockClassByType(blockJson.type)) !== false) {
+                block = new BlockClass(blockJson.data);
+                this.$el.append(block.$el);
+                this.$el.append(block.renderPlus().$el);
+            } else {
+                console.error('Villain: No class found for type: ' + blockJson.type);
+            }
+        }
+    },
+
+    organizeMode: function() {
+        $('.villain-block-wrapper').toggleClass('organize');
+        $('.villain-block-wrapper[data-block-type="columns"]').removeClass('organize');
+        $('.organize .villain-content').hide();
+    },
+
     getJSON: function() {
         var json = [];
         this.$('.villain-block-wrapper').each(function() {
@@ -115,52 +169,4 @@ Villain.Editor = Backbone.View.extend({
     markDirty: function() {
         this.isDirty = true;
     },
-
-    initialize: function(options) {
-        _this = this;
-        this.$textArea = $(options.textArea) || this.textArea;
-        $('<div id="villain"></div>').insertAfter(this.$textArea);
-        this.el = "#villain";
-        this.$el = $(this.el);
-
-        this.$textArea.hide();
-        this.isDirty = false;
-        try {
-            this.data = JSON.parse(this.$textArea.val());
-        } catch (e) {
-            console.log('editor/init: No usable JSON found in textarea.');
-            this.data = null;
-        }
-        // inject json to textarea before submitting.
-        $('form').submit(function( event ) {
-            _this.$textArea.val(_this.getJSON());
-        });
-        // create a blockstore
-        Villain.BlockStore.create('main');
-        Villain.setOptions(options);
-        this.render();
-    },
-
-    render: function() {
-        // add + block
-        addblock = new Villain.Plus('main');
-        this.$el.append(addblock.$el);
-        // add format popup
-        formatPopUp = new Villain.FormatPopUp();
-        this.$el.append(formatPopUp.$el);
-        // parse json
-        if (!this.data) {
-            return false;
-        }
-        for (var i = 0; i <= this.data.length - 1; i++) {
-            blockJson = this.data[i];
-            if ((BlockClass = Villain.BlockRegistry.getBlockClassByType(blockJson.type)) !== false) {
-                block = new BlockClass(blockJson.data);
-                this.$el.append(block.$el);
-                this.$el.append(block.renderPlus().$el);
-            } else {
-                console.error('Villain: No class found for type: ' + blockJson.type);
-            }
-        }
-    }
 });

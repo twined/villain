@@ -51,6 +51,8 @@ Villain.Blocks.Columns = Villain.Block.extend({
         this.el.innerHTML = wrapperTemplate;
 
         this.$inner = this.$('.villain-block-inner');
+        this.$content = this.$('.row');
+
         if (this.data) {
             // we got passed data. render editorhtml
             this.renderEditorHtml();
@@ -75,7 +77,6 @@ Villain.Blocks.Columns = Villain.Block.extend({
         blockTemplate = this.template({content: this.data});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-        //TODO: add plus
         return this;
     },
 
@@ -83,7 +84,6 @@ Villain.Blocks.Columns = Villain.Block.extend({
         blockTemplate = this.template({content: this.data});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-        //TODO: add plus
         return this;
     },
 
@@ -154,6 +154,8 @@ Villain.Blocks.Columns = Villain.Block.extend({
             ].join('\n'));
             this.$setup.show();
             this.$('.villain-columns-number').attr('autofocus', 'autofocus');
+        } else {
+            this.$setup.hide();
         }
     },
 
@@ -170,6 +172,7 @@ Villain.Blocks.Columns = Villain.Block.extend({
         }
         columnCountWrapper.append('<button class="villain-columns-apply">Sett opp kolonner</button>');
         this.$setup.append(columnCountWrapper);
+
     },
 
     _applyColumnCount: function(e) {
@@ -186,6 +189,21 @@ Villain.Blocks.Columns = Villain.Block.extend({
         // show the row
         this.getRow().show();
     },
+
+    onSetupClick: function(e) {
+        e.stopPropagation();
+        // is it active now?
+        $button = this.$('.villain-action-button-setup');
+        if ($button.hasClass('active')) {
+            // hide the setup
+            $button.removeClass('active');
+            this.hideSetup();
+        } else {
+            $button.addClass('active');
+            this.showSetup();
+        }
+    },
+
     renderPlus: function() {
         addblock = new Villain.Plus('main');
         return addblock;

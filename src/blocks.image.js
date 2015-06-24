@@ -17,18 +17,35 @@ Villain.Blocks.Image = Villain.Block.extend({
         _.extend(this.events, Villain.Block.prototype.events);
     },
 
+    renderEditorHtml: function() {
+        blockTemplate = this.renderContentBlockHtml();
+        actionsTemplate = this.actionsTemplate();
+        wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+        return wrapperTemplate;
+    },
+
+    renderContentBlockHtml: function() {
+        return this.template({url: this.data.url});
+    },
+
+    renderEmpty: function() {
+        blockTemplate = this.template({url: 'http://placehold.it/1150x400'});
+        actionsTemplate = this.actionsTemplate();
+        wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+        return wrapperTemplate;
+    },
+
     onUploadClickAfterDrop: function(e) {
+        var uid  = [this.dataId, (new Date()).getTime(), 'raw'].join('-');
+        var data = new FormData();
+
         e.preventDefault();
         this.loading();
-        var uid  = [this.dataId, (new Date()).getTime(), 'raw'].join('-');
         img = this.$setup.find('.villain-image-dropper img');
         if (!this.file) {
             this.done();
             return false;
         }
-
-        var data = new FormData();
-
         data.append('name', this.file.name);
         data.append('image', this.file);
         data.append('uid', uid);
@@ -46,11 +63,6 @@ Villain.Blocks.Image = Villain.Block.extend({
             cache: false,
             contentType: false,
             processData: false,
-            //crossDomain: this.options.crossDomain,
-            //xhrFields: {
-            //    withCredentials: this.options.withCredentials
-            //},
-            //headers: this.options.headers,
             // Custom XMLHttpRequest
             xhr: function() {
                 var customXhr = $.ajaxSettings.xhr();
@@ -76,7 +88,8 @@ Villain.Blocks.Image = Villain.Block.extend({
 
                     // set the image src as data
                     json = {
-                        url: imageData.src
+                        url: imageData.src,
+                        sizes: imageData.sizes
                     };
                     this.setData(json);
                 }
@@ -144,7 +157,9 @@ Villain.Blocks.Image = Villain.Block.extend({
                                 json.title = data.title;
                                 json.credits = data.credits;
                                 that.setData(json);
-                                that.refreshBlock();
+                                that.refreshContentBlock();
+                                that.hideSetup();
+                                that.setup();
                             }
                         }, this));
                     });
@@ -212,37 +227,28 @@ Villain.Blocks.Image = Villain.Block.extend({
         }
     },
 
-    renderEditorHtml: function() {
-        blockTemplate = this.template({url: this.data.url});
-        actionsTemplate = this.actionsTemplate();
-        wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-        return wrapperTemplate;
-    },
-
-    renderEmpty: function() {
-        blockTemplate = this.template({url: 'http://placehold.it/1150x400'});
-        actionsTemplate = this.actionsTemplate();
-        wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-        return wrapperTemplate;
-    },
     getJSON: function() {
+        data = this.getData();
         json = {
             type: this.type,
             data: {
-                url: this.data.url,
-                title: this.data.title || "",
-                credits: this.data.credits || ""
+                url: data.url,
+                sizes: data.sizes,
+                title: data.title || "",
+                credits: data.credits || ""
             }
         };
         return json;
     },
+
     getHTML: function() {
         url = this.$('img').attr('src');
         return this.template({url: url});
     },
+
     setup: function() {
-        // check if this block has data
-        // if not, show the setup div
+        // check if this block has data. if not, show the setup div
+        that = this;
         if (!this.hasData()) {
             this.$('.villain-image-block').hide();
             $imageDropper = $([
@@ -251,21 +257,51 @@ Villain.Blocks.Image = Villain.Block.extend({
                     '<div><hr></div>',
                     '<div>',
                         '<button class="villain-image-browse-button">Hent bilde fra server</button>',
-                        //'<button class="villain-image-upload-button">Last opp bilder</button>',
-                        //'<input class="hidden" type="file" id="files" value="Last opp bilder" name="files[]" multiple />',
                     '</div>',
                 '</div>'
             ].join('\n'));
             $imageDropper.find('.villain-image-browse-button').on('click', $.proxy(this.onImageBrowseButton, this));
-            /*
-            $imageDropper.find('input[type=file]').on('change', $.proxy(this.onUploadImagesButton, this));
-            $imageDropper.find('.villain-image-upload-button').on('click', function(e) {
-                $imageDropper.find('input[type=file]').click();
-            });
-            */
             this.$setup.append($imageDropper);
             this.$setup.show();
+        } else {
+            this.clearSetup();
+            data = this.getData();
+            $titleAndCredits = $([
+                '<label for="title">Tittel</label><input value="' + data.title + '" type="text" name="title" />',
+                '<label for="credits">Kreditering</label><input value="' + data.credits + '" type="text" name="credits" />'
+            ].join('\n'));
+            this.$setup.append($titleAndCredits);
+            this.$setup.find('input[name="title"]').on('keyup', _.debounce(function (e) {
+                that.setDataProperty('title', $(this).val());
+            }, 700, false));
+            this.$setup.find('input[name="credits"]').on('keyup', _.debounce(function (e) {
+                that.setDataProperty('credits', $(this).val());
+            }, 700, false));
+
+            /* create sizes overview */
+            for (var key in data.sizes) {
+                if (data.sizes.hasOwnProperty(key)) {
+                    checked = '';
+                    if (data.sizes[key] == data.url) {
+                        checked = ' checked="checked"';
+                    }
+                    $radio = $('<label for="' + key +'">'
+                           + '<input type="radio" name="' + 'imagesize'
+                           + '" value="' + data.sizes[key] + '"'
+                           + checked + ' />' + key + '</label>');
+                    this.$setup.append($radio);
+                }
+            }
+            this.$setup.find('input[type=radio]').on('change', $.proxy(function(e) {
+                this.setUrl($(e.target).val());
+            }, this));
+            this.hideSetup();
         }
+    },
+
+    setUrl: function(url) {
+        this.setDataProperty('url', url);
+        this.refreshContentBlock();
     },
 
     onImageBrowseButton: function(e) {
@@ -288,20 +324,31 @@ Villain.Blocks.Image = Villain.Block.extend({
             $images = $('<div />');
             for (var i = 0; i < data.images.length; i++) {
                 img = data.images[i];
-                $images.append('<img src="' + img.thumb + '" data-large="' + img.src + '" />');
+                $store_img = $('<img src="' + img.thumb + '" />');
+                $store_img.data('sizes', img.sizes)
+                          .data('large', img.src)
+                          .data('title', img.title)
+                          .data('credits', img.credits);
+                $images.append($store_img);
             }
             $images.on('click', 'img', $.proxy(function(e) {
                 this.setData({
-                    url: $(e.target).data('large')
+                    url: $(e.target).data('large'),
+                    title: $(e.target).data('title'),
+                    credits: $(e.target).data('credits'),
+                    sizes: $(e.target).data('sizes')
                 });
-                this.refreshBlock();
+                data = this.getData();
+                this.refreshContentBlock();
+                this.hideSetup();
+                this.setup();
             }, this));
+
             this.$setup.html('');
             this.$setup.append('<div class="villain-message success">Klikk på bildet du vil sette inn</div>');
             this.$setup.append($images);
             this.done();
         }, this));
-
     },
 
     onUploadImagesButton: function(e) {

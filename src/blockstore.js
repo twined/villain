@@ -6,6 +6,7 @@
  */
 
 Villain.BlockStore = [];
+Villain.BlockStore.stores = [];
 Villain.BlockStore.count = 1;
 
 // Don't need storeName here, since we never want two equal ids
@@ -37,7 +38,7 @@ Villain.BlockStore.add = function(store, id, blockObject) {
 
 Villain.BlockStore.del = function(store, id) {
     Villain.BlockStore[store] = _.filter(Villain.BlockStore[store], function(block) {
-         return block.id !== id;
+        return parseInt(block.id) !== parseInt(id);
     });
 };
 
@@ -47,8 +48,18 @@ Villain.BlockStore.delStore = function(store) {
         element.object.destroy();
     });
     Villain.BlockStore[store] = [];
+    var index = Villain.BlockStore.stores.indexOf(store);
+    Villain.BlockStore.stores.splice(index, 1);
 };
 
 Villain.BlockStore.create = function(name) {
     Villain.BlockStore[name] = [];
+    Villain.BlockStore.stores.push(name);
+};
+
+Villain.BlockStore.listAll = function() {
+    for (var i = 0; i < Villain.BlockStore.stores.length; i++) {
+        console.log(Villain.BlockStore.stores[i]);
+        console.log(Villain.BlockStore[Villain.BlockStore.stores[i]]);
+    }
 };
