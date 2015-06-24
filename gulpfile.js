@@ -24,7 +24,7 @@ gulp.task('build-sass', function() {
 gulp.task('watch', function() {
     var watch = require('gulp-watch');
     watch('src/**/*.js', function(files, cb) {
-        gulp.start('scripts', cb);
+        gulp.start('build-scripts', cb);
     });
     watch('src/sass/**/*.scss', function(files, cb) {
         gulp.start('sass', cb);
@@ -62,6 +62,7 @@ gulp.task('build-scripts', function() {
         .pipe(gulp.dest('dist/'))
         .pipe(rename({suffix: '-min'}))
         .pipe(uglify())
+        .on('error', function(err) { console.log(err.message); })
         .pipe(gulp.dest('dist/'));
 
     gulp.src(['./js/underscore.js', './js/backbone.js',
@@ -74,6 +75,10 @@ gulp.task('build-scripts', function() {
 
     gulp.src(['./dist/villain.vendor-min.js', './dist/villain-min.js'])
         .pipe(concat('villain.all-min.js'))
+        .pipe(gulp.dest('dist/'));
+
+    gulp.src(['./dist/villain.vendor.js', './dist/villain.js'])
+        .pipe(concat('villain.all.js'))
         .pipe(gulp.dest('dist/'));
 });
 
