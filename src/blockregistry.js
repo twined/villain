@@ -9,7 +9,7 @@ Villain.BlockRegistry.Map = {
     image: Villain.Blocks.Image,
     video: Villain.Blocks.Video,
     divider: Villain.Blocks.Divider,
-    columns: Villain.Blocks.Columns,
+    columns: Villain.Blocks.Columns
 };
 
 Villain.BlockRegistry.getBlockClassByType = function(type) {

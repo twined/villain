@@ -32,7 +32,7 @@ Villain.Blocks.Divider = Villain.Block.extend({
 }, {
     /* static methods */
     getButton: function(afterId) {
-        blockType = 'divider';
+        var blockType = 'divider';
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-minus"></i>',

@@ -124,8 +124,10 @@ html {
   font-size: 1em; }
 #villain label {
   font-weight: bold;
-  text-transform: none;
+  text-transform: uppercase;
   letter-spacing: 0;
+  margin-bottom: 0.375em;
+  font-size: 12px;
   margin-bottom: 0.375em; }
   #villain label.required:after {
     content: "*"; }
@@ -170,7 +172,7 @@ html {
 #villain input[type="checkbox"],
 #villain input[type="radio"] {
   display: inline;
-  margin-right: 0.375em; }
+  margin-right: 1.5em; }
 #villain input[type="file"] {
   padding-bottom: 0.75em;
   width: 100%; }
@@ -207,44 +209,54 @@ html {
     background-color: #FFB0B0;
     border-bottom: 4px solid #DF9898; }
 
-.villain-setup-block .villain-form {
-  max-width: 500px;
-  margin: 0 auto;
-  margin-top: 25px; }
-.villain-setup-block .villain-image-dropper {
-  text-align: center; }
-  .villain-setup-block .villain-image-dropper i {
-    font-size: 300px;
-    color: #CCC; }
-    .villain-setup-block .villain-image-dropper i.drop-hover {
-      color: #76CD88; }
-.villain-setup-block .villain-video-setup-icon {
-  text-align: center; }
-  .villain-setup-block .villain-video-setup-icon i {
-    font-size: 300px;
-    color: #CCC; }
-.villain-setup-block .villain-video-setup-input-wrapper {
-  margin: 25px auto;
-  max-width: 450px;
-  text-align: center; }
-.villain-setup-block .center-cropped {
-  width: 250px;
-  height: 250px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover; }
-.villain-setup-block button,
-.villain-setup-block input[type="submit"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  border: none;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  white-space: nowrap; }
+.villain-setup-block {
+  background-color: #F1F7EE;
+  padding: 20px 15px; }
+  .villain-setup-block:before {
+    content: "// Blokkoppsett";
+    margin-bottom: 15px;
+    display: block;
+    font-weight: bold; }
+  .villain-setup-block hr {
+    border-bottom: 1px solid #fff; }
+  .villain-setup-block .villain-form {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 25px; }
+  .villain-setup-block .villain-image-dropper {
+    text-align: center; }
+    .villain-setup-block .villain-image-dropper i {
+      font-size: 300px;
+      color: #CCC; }
+      .villain-setup-block .villain-image-dropper i.drop-hover {
+        color: #76CD88; }
+  .villain-setup-block .villain-video-setup-icon {
+    text-align: center; }
+    .villain-setup-block .villain-video-setup-icon i {
+      font-size: 300px;
+      color: #CCC; }
+  .villain-setup-block .villain-video-setup-input-wrapper {
+    margin: 25px auto;
+    max-width: 450px;
+    text-align: center; }
+  .villain-setup-block .center-cropped {
+    width: 250px;
+    height: 250px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+  .villain-setup-block button,
+  .villain-setup-block input[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap; }
 
 .villain-block-inner {
   border: 2px solid #fff;
@@ -267,6 +279,8 @@ html {
   .villain-block-inner .villain-text-block {
     /* make space for the action buttons */
     padding-right: 30px; }
+  .villain-block-inner .villain-text-block[data-text-type="lead"] {
+    font-size: 2rem; }
   .villain-block-inner .row {
     max-width: 68em;
     margin-left: auto;

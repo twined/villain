@@ -110,7 +110,7 @@ Villain.Blocks.Quote = Villain.Block.extend({
 {
     /* static methods */
     getButton: function(afterId) {
-        blockType = 'quote';
+        var blockType = 'quote';
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-quote-right"></i>',

@@ -6,7 +6,7 @@ Villain.FormatPopUp = Backbone.View.extend({
         'click .villain-format-bold': 'onClickBold',
         'click .villain-format-italic': 'onClickItalic',
         'click .villain-format-link': 'onClickLink',
-        'click .villain-format-unlink': 'onClickUnlink',
+        'click .villain-format-unlink': 'onClickUnlink'
     },
 
     onClickBold: function(e) {

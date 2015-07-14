@@ -128,7 +128,7 @@ Villain.Blocks.Columns = Villain.Block.extend({
     getJSON: function() {
         var json = {
             type: this.type,
-            data: [],
+            data: []
         };
         this.getColumns().each(function(i) {
             var blocksData = [];
@@ -212,7 +212,7 @@ Villain.Blocks.Columns = Villain.Block.extend({
 {
     /* Static methods */
     getButton: function(afterId) {
-        blockType = 'columns';
+        var blockType = 'columns';
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-columns"></i>',

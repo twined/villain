@@ -42,7 +42,7 @@ Villain.Blocks.List = Villain.Block.extend({
       return markdown.replace(/<\/li>/mg,'\n')
                      .replace(/<\/?[^>]+(>|$)/g, '')
                      .replace(/^(.+)$/mg,' - $1');
-    },
+    }
     /*
     onBlockRender: function() {
       this.checkForList = _.bind(this.checkForList, this);
@@ -54,7 +54,7 @@ Villain.Blocks.List = Villain.Block.extend({
 {
     /* static methods */
     getButton: function(afterId) {
-        blockType = 'list';
+        var blockType = 'list';
         t = _.template([
             '<button class="villain-block-button" ',
             '        data-type="<%= type %>" ',

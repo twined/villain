@@ -1,20 +1,20 @@
 (function($, _) {
-    var root = this,
-        Villain;
-    Villain = root.Villain = {};
+    var that = this,
+            Villain;
+    Villain = that.Villain = {};
     Villain.EventBus = Villain.EventBus || _.extend({}, Backbone.Events);
     Villain.Blocks = Villain.Blocks || {};
     Villain.Editor = Villain.Editor || {};
     Villain.options = Villain.options || [];
 
     Villain.defaults = {
-        browseURL: 'browse/',
-        textArea: '#textarea',
-        uploadURL: '/upload/post'
+            browseURL: 'browse/',
+            textArea: '#textarea',
+            uploadURL: '/upload/post'
     };
 
     function $element(el) {
-        return el instanceof $ ? el : $(el);
+            return el instanceof $ ? el : $(el);
     }
 
     /* Mixins */
@@ -654,24 +654,23 @@
         },
     
         getTextBlock: function() {
-          if (_.isUndefined(this.textBlock)) {
-            this.textBlock = this.$('.villain-text-block');
-          }
-          return this.textBlock;
+            this.$textBlock = this.$('.villain-text-block');
+            return this.$textBlock;
+        },
+    
+        getTextBlockInner: function() {
+            tb = this.getTextBlock();
+            return tb.html();
         },
     
         clearInsertedStyles: function(e) {
-          var target = e.target;
-          target.removeAttribute('style'); // Hacky fix for Chrome.
+            var target = e.target;
+            target.removeAttribute('style'); // Hacky fix for Chrome.
         },
     
-        renderEditorHtml: function() {
+        renderEditorHtml: function() {},
     
-        },
-    
-        renderEmpty: function() {
-    
-        },
+        renderEmpty: function() {},
     
         renderPlus: function() {
             addblock = new Villain.Plus(this.store);
@@ -702,40 +701,80 @@
     Villain.Blocks.Text = Villain.Block.extend({
         type: 'text',
         template: _.template(
-            '<div class="villain-text-block villain-content" contenteditable="true"><%= content %></div>'
+            '<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'
         ),
     
         renderEditorHtml: function() {
-            blockTemplate = this.template({content: Villain.toHTML(this.data.text)});
+            blockTemplate = this.renderContentBlockHtml();
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
         },
+    
+        renderContentBlockHtml: function() {
+            text = this.getTextBlockInner() ? this.getTextBlockInner() : this.data.text;
+            return this.template({content: Villain.toHTML(text), type: this.data.type});
+        },
+    
         renderEmpty: function() {
-            blockTemplate = this.template({content: ''});
+            blockTemplate = this.template({content: '', type: "paragraph"});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
         },
+    
         getJSON: function() {
-            textNode = Villain.toMD(this.getTextBlock().html());
+            textNode = Villain.toMD(this.getTextBlockInner());
+            data = this.getData();
             json = {
                 type: this.type,
                 data: {
-                    text: textNode
+                    text: textNode,
+                    type: data.type
                 }
             };
             return json;
         },
+    
         getHTML: function() {
             textNode = this.getTextBlock().html();
             return markdown.toHTML(textNode);
-        }
+        },
+    
+        setup: function() {
+            data = this.getData();
+            if (!data.hasOwnProperty('type')) {
+                this.setDataProperty('type', 'paragraph');
+            }
+            type = this.data.type;
+            this.$setup.hide();
+            var radios = "";
+            types = ['paragraph', 'lead'];
+            for (i in types) {
+                selected = "";
+                if (type === types[i]) {
+                    selected = ' checked="checked"';
+                }
+                radios += '<label><input type="radio" name="text-type" value="'
+                        + types[i] + '"' + selected + '>' + types[i] + '</label>';
+            }
+    
+            this.$setup.append($([
+                '<label>Type</label>',
+                radios
+            ].join('\n')));
+    
+            this.$setup.find('input[type=radio]').on('change', $.proxy(function(e) {
+                this.setDataProperty('type', $(e.target).val());
+                this.refreshContentBlock();
+                this.$content.attr('data-text-type', $(e.target).val());
+            }, this));
+        },
     },
     {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'text';
+            var blockType = 'text';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-paragraph"></i>',
@@ -778,7 +817,7 @@
     }, {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'divider';
+            var blockType = 'divider';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-minus"></i>',
@@ -806,41 +845,38 @@
         },
     
         renderEmpty: function() {
-            blockTemplate = this.template({content: ''});
+            blockTemplate = this.template({content: '', level: 1});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
         },
     
         setup: function() {
-            // if (this.hasData()) {
-                data = this.getData();
-                if (!data.hasOwnProperty('level')) {
-                    this.setDataProperty('level', 1);
+            data = this.getData();
+            if (!data.hasOwnProperty('level')) {
+                this.setDataProperty('level', 1);
+            }
+            level = data['level'];
+            this.$setup.hide();
+            var radios = "";
+            levels = [1, 2, 3, 4, 5];
+            for (i in levels) {
+                selected = "";
+                if (parseInt(level) === parseInt(levels[i])) {
+                    selected = ' checked="checked"';
                 }
-                level = data['level'];
-                this.$setup.hide();
-                var radios = "";
-                levels = [1, 2, 3, 4, 5];
-                for (i in levels) {
-                    selected = "";
-                    if (parseInt(level) === parseInt(levels[i])) {
-                        selected = ' checked="checked"';
-                    }
-                    radios += '<label><input type="radio" name="header-size" value="' + levels[i] + '"' + selected + '>H' + levels[i] + '</label>';
-                }
-                this.$setup.append($([
-                    '<label>Størrelse</label>',
-                    radios
-                ].join('\n')));
+                radios += '<label><input type="radio" name="header-size" value="' + levels[i] + '"' + selected + '>H' + levels[i] + '</label>';
+            }
+            this.$setup.append($([
+                '<label>Størrelse</label>',
+                radios
+            ].join('\n')));
     
-                this.$setup.find('input[type=radio]').on('change', $.proxy(function(e) {
-                    this.setDataProperty('level', $(e.target).val());
-                    this.refreshContentBlock();
-                    this.$content.attr('data-header-level', $(e.target).val());
-                }, this));
-            // }
-    
+            this.$setup.find('input[type=radio]').on('change', $.proxy(function(e) {
+                this.setDataProperty('level', $(e.target).val());
+                this.refreshContentBlock();
+                this.$content.attr('data-header-level', $(e.target).val());
+            }, this));
         },
     
         getData: function() {
@@ -867,7 +903,7 @@
     {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'header';
+            var blockType = 'header';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-header"></i>',
@@ -922,7 +958,7 @@
           return markdown.replace(/<\/li>/mg,'\n')
                          .replace(/<\/?[^>]+(>|$)/g, '')
                          .replace(/^(.+)$/mg,' - $1');
-        },
+        }
         /*
         onBlockRender: function() {
           this.checkForList = _.bind(this.checkForList, this);
@@ -934,7 +970,7 @@
     {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'list';
+            var blockType = 'list';
             t = _.template([
                 '<button class="villain-block-button" ',
                 '        data-type="<%= type %>" ',
@@ -1022,8 +1058,7 @@
                         customXhr.upload.addEventListener('progress', that.progressHandlingFunction, false);
                     }
                     return customXhr;
-                },
-                dataType: 'json'
+                }
             }).done($.proxy(function(data) {
                 if (data.status == '200') {
                     // image uploaded successfully
@@ -1229,6 +1264,8 @@
                     that.setDataProperty('credits', $(this).val());
                 }, 700, false));
     
+                this.$setup.append($('<label>Størrelse</label>'));
+    
                 /* create sizes overview */
                 for (var key in data.sizes) {
                     if (data.sizes.hasOwnProperty(key)) {
@@ -1330,7 +1367,7 @@
     {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'image';
+            var blockType = 'image';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-file-image-o"></i>',
@@ -1469,7 +1506,7 @@
     {
         /* static methods */
         getButton: function(afterId) {
-            blockType = 'video';
+            var blockType = 'video';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-video-camera"></i>',
@@ -1611,7 +1648,7 @@
         getJSON: function() {
             var json = {
                 type: this.type,
-                data: [],
+                data: []
             };
             this.getColumns().each(function(i) {
                 var blocksData = [];
@@ -1695,7 +1732,7 @@
     {
         /* Static methods */
         getButton: function(afterId) {
-            blockType = 'columns';
+            var blockType = 'columns';
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-columns"></i>',
@@ -1735,7 +1772,6 @@
             try {
                 this.data = JSON.parse(this.$textArea.val());
             } catch (e) {
-                console.log('editor/init: No usable JSON found in textarea.');
                 this.data = null;
             }
             // inject json to textarea before submitting.
@@ -1889,7 +1925,7 @@
             'click .villain-format-bold': 'onClickBold',
             'click .villain-format-italic': 'onClickItalic',
             'click .villain-format-link': 'onClickLink',
-            'click .villain-format-unlink': 'onClickUnlink',
+            'click .villain-format-unlink': 'onClickUnlink'
         },
     
         onClickBold: function(e) {
@@ -2000,24 +2036,24 @@
     Villain.Editor.HTML = Villain.Editor.HTML || {};
     Villain.Editor.EditorHTML = Villain.Editor.EditorHTML || {};
 
-    Villain.toMD = function(html) {
-        html = toMarkdown(html);
+    Villain.toMD = function toMD(html) {
+        var html = toMarkdown(html);
         html = html.replace(/&nbsp;/g,' ');
         // Divitis style line breaks (handle the first line)
         html = html.replace(/([^<>]+)(<div>)/g,'$1\n$2')
                     // (double opening divs with one close from Chrome)
-                   .replace(/<div><div>/g,'\n<div>')
-                   .replace(/<div><br \/><\/div>/g, '\n\n')
-                   .replace(/(?:<div>)([^<>]+)(?:<div>)/g,'$1\n')
-                   // ^ (handle nested divs that start with content)
-                   .replace(/(?:<div>)(?:<br>)?([^<>]+)(?:<br>)?(?:<\/div>)/g,'$1\n')
-                   // ^ (handle content inside divs)
-                   .replace(/<\/p>/g,'\n\n')
-                   // P tags as line breaks
-                   .replace(/<(.)?br(.)?>/g,'\n')
-                   // Convert normal line breaks
-                   .replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-                   // Encoding
+                    .replace(/<div><div>/g,'\n<div>')
+                    .replace(/<div><br \/><\/div>/g, '\n\n')
+                    .replace(/(?:<div>)([^<>]+)(?:<div>)/g,'$1\n')
+                    // ^ (handle nested divs that start with content)
+                    .replace(/(?:<div>)(?:<br>)?([^<>]+)(?:<br>)?(?:<\/div>)/g,'$1\n')
+                    // ^ (handle content inside divs)
+                    .replace(/<\/p>/g,'\n\n')
+                    // P tags as line breaks
+                    .replace(/<(.)?br(.)?>/g,'\n')
+                    // Convert normal line breaks
+                    .replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+                    // Encoding
 
         // strip whatever might be left.
         aggressiveStrip = true;
@@ -2030,100 +2066,88 @@
         return html;
     };
 
-    Villain.toHTML = function(markdown, type) {
+    Villain.toHTML = function toHTML(markdown, type) {
+        // MD -> HTML
+        type = _.classify(type);
 
-      // MD -> HTML
-      type = _.classify(type);
+        var html = markdown,
+            shouldWrap = type === 'Text';
 
-      var html = markdown,
-          shouldWrap = type === 'Text';
+        if (_.isUndefined(shouldWrap)) { shouldWrap = false; }
 
-      if (_.isUndefined(shouldWrap)) { shouldWrap = false; }
-
-      if (shouldWrap) {
-        html = '<div>' + html;
-      }
-
-      html = html.replace(/\[([^\]]+)\]\(([^\)]+)\)/gm,function(match, p1, p2) {
-        return '<a href="' + p2 + '">' + p1.replace(/\r?\n/g, '') + '</a>';
-      });
-
-      // This may seem crazy, but because JS doesn't have a look behind,
-      // we reverse the string to regex out the italic items (and bold)
-      // and look for something that doesn't start (or end in the reversed strings case)
-      // with a slash.
-      html = _.reverse(
-               _.reverse(html)
-               .replace(/_(?!\\)((_\\|[^_])*)_(?=$|[^\\])/gm, function(match, p1) {
-                  return '>i/<' + p1.replace(/\r?\n/g, '').replace(/[\s]+$/,'') + '>i<';
-               })
-               .replace(/\*\*(?!\\)((\*\*\\|[^\*\*])*)\*\*(?=$|[^\\])/gm, function(match, p1) {
-                  return '>b/<' + p1.replace(/\r?\n/g, '').replace(/[\s]+$/,'') + '>b<';
-               })
-              );
-
-      html =  html.replace(/^\> (.+)$/mg,'$1');
-
-      // Use custom formatters toHTML functions (if any exist)
-      var formatName, format;
-      for (formatName in Villain.Formatters) {
-        if (Villain.Formatters.hasOwnProperty(formatName)) {
-          format = Villain.Formatters[formatName];
-          // Do we have a toHTML function?
-          if (!_.isUndefined(format.toHTML) && _.isFunction(format.toHTML)) {
-            html = format.toHTML(html);
-          }
+        if (shouldWrap) {
+            html = '<div>' + html;
         }
-      }
 
-      // Use custom block toHTML functions (if any exist)
-      /*
-      var block;
-      if (Villain.Blocks.hasOwnProperty(type)) {
-        block = Villain.Blocks[type];
-        // Do we have a toHTML function?
-        if (!_.isUndefined(block.prototype.toHTML) && _.isFunction(block.prototype.toHTML)) {
-          html = block.prototype.toHTML(html);
+        html = html.replace(/\[([^\]]+)\]\(([^\)]+)\)/gm, function(match, p1, p2) {
+            return '<a href="' + p2 + '">' + p1.replace(/\r?\n/g, '') + '</a>';
+        });
+
+        // This may seem crazy, but because JS doesn't have a look behind,
+        // we reverse the string to regex out the italic items (and bold)
+        // and look for something that doesn't start (or end in the reversed strings case)
+        // with a slash.
+        html = _.reverse(
+            _.reverse(html)
+            .replace(/_(?!\\)((_\\|[^_])*)_(?=$|[^\\])/gm, function(match, p1) {
+                return '>i/<' + p1.replace(/\r?\n/g, '').replace(/[\s]+$/,'') + '>i<';
+            })
+            .replace(/\*\*(?!\\)((\*\*\\|[^\*\*])*)\*\*(?=$|[^\\])/gm, function(match, p1) {
+                return '>b/<' + p1.replace(/\r?\n/g, '').replace(/[\s]+$/,'') + '>b<';
+            })
+        );
+
+        html =  html.replace(/^\> (.+)$/mg,'$1');
+
+        // Use custom formatters toHTML functions (if any exist)
+        var formatName, format;
+        for (formatName in Villain.Formatters) {
+            if (Villain.Formatters.hasOwnProperty(formatName)) {
+                format = Villain.Formatters[formatName];
+                // Do we have a toHTML function?
+                if (!_.isUndefined(format.toHTML) && _.isFunction(format.toHTML)) {
+                    html = format.toHTML(html);
+                }
+            }
         }
-      }
-      */
-      if (shouldWrap) {
-        html = html.replace(/\r?\n\r?\n/gm, '</div><div><br></div><div>');
-        html = html.replace(/\r?\n/gm, '</div><div>');
-      }
 
-      html = html.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
-                 .replace(/\r?\n/g, '<br>')
-                 .replace(/\*\*/, '')
-                 .replace(/__/, '');  // Cleanup any markdown characters left
+        if (shouldWrap) {
+            html = html.replace(/\r?\n\r?\n/gm, '</div><div><br></div><div>')
+                       .replace(/\r?\n/gm, '</div><div>');
+        }
 
-      // Replace escaped
-      html = html.replace(/\\\*/g, '*')
-                 .replace(/\\\[/g, '[')
-                 .replace(/\\\]/g, ']')
-                 .replace(/\\\_/g, '_')
-                 .replace(/\\\(/g, '(')
-                 .replace(/\\\)/g, ')')
-                 .replace(/\\\-/g, '-');
+        html = html.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+                   .replace(/\r?\n/g, '<br>')
+                   .replace(/\*\*/, '')
+                   .replace(/__/, '');  // Cleanup any markdown characters left
 
-      if (shouldWrap) {
-        html += '</div>';
-      }
+        // Replace escaped
+        html = html.replace(/\\\*/g, '*')
+                   .replace(/\\\[/g, '[')
+                   .replace(/\\\]/g, ']')
+                   .replace(/\\\_/g, '_')
+                   .replace(/\\\(/g, '(')
+                   .replace(/\\\)/g, ')')
+                   .replace(/\\\-/g, '-');
 
-      return html;
+        if (shouldWrap) {
+            html += '</div>';
+        }
+
+        return html;
     };
 
-    Villain.setOptions = function(options) {
+    Villain.setOptions = function setOptions(options) {
         Villain.options = $.extend({}, Villain.defaults, options);
     };
 
-    Villain.browser = function() {
-      var browser = {};
+    Villain.browser = function browser() {
+        var browser = {};
 
-      if (this.getIEversion() > 0) {
-        browser.msie = true;
-      } else {
-        var ua = navigator.userAgent.toLowerCase(),
+        if (this.getIEversion() > 0) {
+            browser.msie = true;
+        } else {
+            var ua = navigator.userAgent.toLowerCase(),
             match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
                     /(webkit)[ \/]([\w.]+)/.exec(ua) ||
                     /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
@@ -2136,112 +2160,113 @@
                 version: match[2] || '0'
             };
 
-        if (match[1]) {
-            browser[matched.browser] = true;
-        }
-        if (parseInt(matched.version, 10) < 9 && browser.msie) {
-            browser.oldMsie = true;
-        }
+            if (match[1]) {
+                browser[matched.browser] = true;
+            }
+            if (parseInt(matched.version, 10) < 9 && browser.msie) {
+                browser.oldMsie = true;
+            }
 
-        // Chrome is Webkit, but Webkit is also Safari.
-        if (browser.chrome) {
-          browser.webkit = true;
-        } else if (browser.webkit) {
-          browser.safari = true;
+            // Chrome is Webkit, but Webkit is also Safari.
+            if (browser.chrome) {
+                browser.webkit = true;
+            } else if (browser.webkit) {
+                browser.safari = true;
+            }
         }
-      }
-      return browser;
+        return browser;
     };
 
-    Villain.Editor.processPaste = function(pastedFrag) {
+    Villain.Editor.processPaste = function processPaste(pastedFrag) {
+        var cleanHtml;
         if (pastedFrag.match(/(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/gi)) {
-            clean_html = Villain.Editor.wordClean(pastedFrag);
-            clean_html = Villain.Editor.clean($('<div>').append(clean_html).html(), false, true);
-            clean_html = Villain.Editor.removeEmptyTags(clean_html);
+            cleanHtml = Villain.Editor.wordClean(pastedFrag);
+            cleanHtml = Villain.Editor.clean($('<div>').append(cleanHtml).html(), false, true);
+            cleanHtml = Villain.Editor.removeEmptyTags(cleanHtml);
         } else {
             // Paste.
-            clean_html = Villain.Editor.clean(pastedFrag, false, true);
-            clean_html = Villain.Editor.removeEmptyTags(clean_html);
+            cleanHtml = Villain.Editor.clean(pastedFrag, false, true);
+            cleanHtml = Villain.Editor.removeEmptyTags(cleanHtml);
         }
 
-        clean_html = Villain.Editor.plainPasteClean(clean_html);
+        cleanHtml = Villain.Editor.plainPasteClean(cleanHtml);
 
         // Check if there is anything to clean.
-        if (clean_html !== '') {
+        if (cleanHtml !== '') {
             // Insert HTML.
-             return clean_html;
+            return cleanHtml;
         }
     };
 
-    Villain.Editor.wordClean = function(html) {
-      // Keep only body.
-      if (html.indexOf('<body') >= 0) {
-        html = html.replace(/[.\s\S\w\W<>]*<body[^>]*>([.\s\S\w\W<>]*)<\/body>[.\s\S\w\W<>]*/g, '$1');
-      }
+    Villain.Editor.wordClean = function wordClean(html) {
+        // Keep only body.
+        if (html.indexOf('<body') >= 0) {
+            html = html.replace(/[.\s\S\w\W<>]*<body[^>]*>([.\s\S\w\W<>]*)<\/body>[.\s\S\w\W<>]*/g, '$1');
+        }
 
-      // Single item list.
-      html = html.replace(
-        /<p(.*?)class="?'?MsoListParagraph"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
-        '<ul><li><p>$3</p></li></ul>'
-      );
+        // Single item list.
+        html = html.replace(
+            /<p(.*?)class="?'?MsoListParagraph"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
+            '<ul><li><p>$3</p></li></ul>'
+        );
 
-      // List start.
-      html = html.replace(
-        /<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
-        '<ul><li><p>$3</p></li>'
-      );
+        // List start.
+        html = html.replace(
+            /<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
+            '<ul><li><p>$3</p></li>'
+        );
 
-      // List middle.
-      html = html.replace(
-        /<p(.*?)class="?'?MsoListParagraphCxSpMiddle"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
-        '<li><p>$3</p></li>'
-      );
+        // List middle.
+        html = html.replace(
+            /<p(.*?)class="?'?MsoListParagraphCxSpMiddle"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
+            '<li><p>$3</p></li>'
+        );
 
-      // List end.
-      html = html.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
-          '<li><p>$3</p></li></ul>');
+        // List end.
+        html = html.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)>([\s\S]*?)<\/p>/gi,
+                '<li><p>$3</p></li></ul>');
 
-      // Clean list bullets.
-      html = html.replace(/<span([^<]*?)style="?'?mso-list:Ignore"?'?([\s\S]*?)>([\s\S]*?)<span/gi, '<span><span');
+        // Clean list bullets.
+        html = html.replace(/<span([^<]*?)style="?'?mso-list:Ignore"?'?([\s\S]*?)>([\s\S]*?)<span/gi, '<span><span');
 
-      // Webkit clean list bullets.
-      html = html.replace(/<!--\[if \!supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, '');
+        // Webkit clean list bullets.
+        html = html.replace(/<!--\[if \!supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, '');
 
-      // Remove mso classes.
-      html = html.replace(/(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/gi, ' ');
+        // Remove mso classes.
+        html = html.replace(/(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/gi, ' ');
 
-      // Remove comments.
-      html = html.replace(/<!--[\s\S]*?-->/gi, '');
+        // Remove comments.
+        html = html.replace(/<!--[\s\S]*?-->/gi, '');
 
-      // Remove tags but keep content.
-      html = html.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, '');
+        // Remove tags but keep content.
+        html = html.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, '');
 
-      // Remove no needed tags.
-      var word_tags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
-      for (var i = 0; i < word_tags.length; i++) {
-        var regex = new RegExp('<' + word_tags[i] + '.*?' + word_tags[i] + '(.*?)>', 'gi');
-        html = html.replace(regex, '');
-      }
+        // Remove no needed tags.
+        var word_tags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+        for (var i = 0; i < word_tags.length; i++) {
+            var regex = new RegExp('<' + word_tags[i] + '.*?' + word_tags[i] + '(.*?)>', 'gi');
+            html = html.replace(regex, '');
+        }
 
-      // Remove attributes.
-      html = html.replace(/([\w\-]*)=("[^<>"]*"|'[^<>']*'|\w+)/gi, '');
+        // Remove attributes.
+        html = html.replace(/([\w\-]*)=("[^<>"]*"|'[^<>']*'|\w+)/gi, '');
 
-      // Remove spaces.
-      html = html.replace(/&nbsp;/gi, '');
+        // Remove spaces.
+        html = html.replace(/&nbsp;/gi, '');
 
-      // Remove empty tags.
-      var oldHTML;
-      do {
-        oldHTML = html;
-        html = html.replace(/<[^\/>][^>]*><\/[^>]+>/gi, '');
-      } while (html != oldHTML);
+        // Remove empty tags.
+        var oldHTML;
+        do {
+            oldHTML = html;
+            html = html.replace(/<[^\/>][^>]*><\/[^>]+>/gi, '');
+        } while (html != oldHTML);
 
-      html = Villain.Editor.clean(html);
+        html = Villain.Editor.clean(html);
 
-      return html;
+        return html;
     };
 
-    Villain.Editor.clean = function(html, allow_id, clean_style, allowed_tags, allowed_attrs) {
+    Villain.Editor.clean = function clean(html, allow_id, clean_style, allowed_tags, allowed_attrs) {
         // List of allowed attributes.
         allowed_attrs = [
             'accept', 'accept-charset', 'accesskey', 'action', 'align',
@@ -2308,7 +2333,7 @@
 
         // Remove the class.
         var $div = $('<div>').append(html);
-        $div.find('[class]:not([class^="fr-"])').each (function(index, el) {
+        $div.find('[class]:not([class^="fr-"])').each(function(index, el) {
             $(el).removeAttr('class');
         });
 
@@ -2317,60 +2342,59 @@
         return html;
     };
 
-    Villain.Editor.plainPasteClean = function(html) {
-      var $div = $('<div>').html(html);
+    Villain.Editor.plainPasteClean = function plainPasteClean(html) {
+        var $div = $('<div>').html(html);
 
-      $div.find('h1, h2, h3, h4, h5, h6, pre, blockquote').each (function(i, el) {
-        $(el).replaceWith('<p>' + $(el).html() + '</p>');
-      });
+        $div.find('h1, h2, h3, h4, h5, h6, pre, blockquote').each(function(i, el) {
+            $(el).replaceWith('<p>' + $(el).html() + '</p>');
+        });
 
-      var replacePlain = function(i, el) {
-        $(el).replaceWith($(el).html());
-      };
+        var replacePlain = function(i, el) {
+            $(el).replaceWith($(el).html());
+        };
 
-      while ($div.find('strong, em, strike, b, u, i, sup, sub, span, a').length) {
-        $div.find('strong, em, strike, b, u, i, sup, sub, span, a').each (replacePlain);
-      }
-
-      return $div.html();
-    };
-
-    Villain.Editor.removeEmptyTags = function(html) {
-      var i,
-          $div = $('<div>').html(html),
-          // Clean empty tags.
-          empty_tags = $div.find('*:empty:not(br, img, td, th)');
-
-      while (empty_tags.length) {
-        for (i = 0; i < empty_tags.length; i++) {
-          $(empty_tags[i]).remove();
+        while ($div.find('strong, em, strike, b, u, i, sup, sub, span, a').length) {
+            $div.find('strong, em, strike, b, u, i, sup, sub, span, a').each (replacePlain);
         }
 
-        empty_tags = $div.find('*:empty:not(br, img, td, th)');
-      }
-
-      // Workaround for Notepad paste.
-      $div.find('> div').each(function(i, div) {
-        $(div).replaceWith($(div).html() + '<br/>');
-      });
-
-      // Remove divs.
-      var divs = $div.find('div');
-      while (divs.length) {
-        for (i = 0; i < divs.length; i++) {
-          var $el = $(divs[i]),
-              text = $el.html().replace(/\u0009/gi, '').trim();
-
-          $el.replaceWith(text);
-        }
-
-        divs = $div.find('div');
-      }
-
-      return $div.html();
+        return $div.html();
     };
 
-    Villain.Editor.pasteHtmlAtCaret = function(html) {
+    Villain.Editor.removeEmptyTags = function removeEmptyTags(html) {
+        var i,
+            $div = $('<div>').html(html),
+            empty_tags = $div.find('*:empty:not(br, img, td, th)');
+
+        while (empty_tags.length) {
+            for (i = 0; i < empty_tags.length; i++) {
+                $(empty_tags[i]).remove();
+            }
+
+            empty_tags = $div.find('*:empty:not(br, img, td, th)');
+        }
+
+        // Workaround for Notepad paste.
+        $div.find('> div').each(function(i, div) {
+            $(div).replaceWith($(div).html() + '<br/>');
+        });
+
+        // Remove divs.
+        var divs = $div.find('div');
+        while (divs.length) {
+            for (i = 0; i < divs.length; i++) {
+                var $el = $(divs[i]),
+                    text = $el.html().replace(/\u0009/gi, '').trim();
+
+                $el.replaceWith(text);
+            }
+
+            divs = $div.find('div');
+        }
+
+        return $div.html();
+    };
+
+    Villain.Editor.pasteHtmlAtCaret = function pasteHtmlAtCaret(html) {
         var sel, range;
         if (window.getSelection) {
             // IE9 and non-IE
@@ -2385,7 +2409,7 @@
                 var el = document.createElement('div');
                 el.innerHTML = html;
                 var frag = document.createDocumentFragment(), node, lastNode;
-                while ((node = el.firstChild)) {
+                while (node = el.firstChild) {
                     lastNode = frag.appendChild(node);
                 }
                 range.insertNode(frag);
@@ -2416,7 +2440,7 @@
         image: Villain.Blocks.Image,
         video: Villain.Blocks.Video,
         divider: Villain.Blocks.Divider,
-        columns: Villain.Blocks.Columns,
+        columns: Villain.Blocks.Columns
     };
     
     Villain.BlockRegistry.getBlockClassByType = function(type) {

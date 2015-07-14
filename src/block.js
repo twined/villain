@@ -312,24 +312,23 @@ Villain.Block = Backbone.View.extend({
     },
 
     getTextBlock: function() {
-      if (_.isUndefined(this.textBlock)) {
-        this.textBlock = this.$('.villain-text-block');
-      }
-      return this.textBlock;
+        this.$textBlock = this.$('.villain-text-block');
+        return this.$textBlock;
+    },
+
+    getTextBlockInner: function() {
+        tb = this.getTextBlock();
+        return tb.html();
     },
 
     clearInsertedStyles: function(e) {
-      var target = e.target;
-      target.removeAttribute('style'); // Hacky fix for Chrome.
+        var target = e.target;
+        target.removeAttribute('style'); // Hacky fix for Chrome.
     },
 
-    renderEditorHtml: function() {
+    renderEditorHtml: function() {},
 
-    },
-
-    renderEmpty: function() {
-
-    },
+    renderEmpty: function() {},
 
     renderPlus: function() {
         addblock = new Villain.Plus(this.store);

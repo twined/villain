@@ -71,8 +71,7 @@ Villain.Blocks.Image = Villain.Block.extend({
                     customXhr.upload.addEventListener('progress', that.progressHandlingFunction, false);
                 }
                 return customXhr;
-            },
-            dataType: 'json'
+            }
         }).done($.proxy(function(data) {
             if (data.status == '200') {
                 // image uploaded successfully
@@ -278,6 +277,8 @@ Villain.Blocks.Image = Villain.Block.extend({
                 that.setDataProperty('credits', $(this).val());
             }, 700, false));
 
+            this.$setup.append($('<label>Størrelse</label>'));
+
             /* create sizes overview */
             for (var key in data.sizes) {
                 if (data.sizes.hasOwnProperty(key)) {
@@ -379,7 +380,7 @@ Villain.Blocks.Image = Villain.Block.extend({
 {
     /* static methods */
     getButton: function(afterId) {
-        blockType = 'image';
+        var blockType = 'image';
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-file-image-o"></i>',

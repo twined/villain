@@ -25,7 +25,6 @@ Villain.Editor = Backbone.View.extend({
         try {
             this.data = JSON.parse(this.$textArea.val());
         } catch (e) {
-            console.log('editor/init: No usable JSON found in textarea.');
             this.data = null;
         }
         // inject json to textarea before submitting.
