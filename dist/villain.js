@@ -1,6 +1,6 @@
 (function($, _) {
     var that = this,
-            Villain;
+               Villain;
     Villain = that.Villain = {};
     Villain.EventBus = Villain.EventBus || _.extend({}, Backbone.Events);
     Villain.Blocks = Villain.Blocks || {};
@@ -8,13 +8,14 @@
     Villain.options = Villain.options || [];
 
     Villain.defaults = {
-            browseURL: 'browse/',
-            textArea: '#textarea',
-            uploadURL: '/upload/post'
+        browseURL: 'browse/',
+        textArea: '#textarea',
+        uploadURL: '/upload/post',
+        imageseriesURL: 'imageseries/'
     };
 
     function $element(el) {
-            return el instanceof $ ? el : $(el);
+        return el instanceof $ ? el : $(el);
     }
 
     /* Mixins */
@@ -197,7 +198,6 @@
         textClass: 'loading-text',        // Class added to loading overlay spinner
         loadingText: ''            // Text within loading overlay
       };
-    
     }(jQuery));
 
     /* Plus */
@@ -264,10 +264,17 @@
             // iterate through block types in the block registry
             // and get buttons for each type.
             html = '';
-            for (var blockName in Villain.BlockRegistry.Map) {
+            for (i = 0; i < Villain.BlockRegistry.Map.length; ++i) {
+                blockName = Villain.BlockRegistry.Map[i];
                 b = Villain.BlockRegistry.getBlockClassByType(blockName);
+                if (_.isUndefined(b)) {
+                    console.error("Villain: Undefined block ", blockName);
+                    continue;
+                }
                 if (b.hasOwnProperty('getButton')) {
                     html += b.getButton(id);
+                } else {
+                    console.log("// No button found for " + blockName);
                 }
             }
             return html;
@@ -717,7 +724,7 @@
         },
     
         renderEmpty: function() {
-            blockTemplate = this.template({content: '', type: "paragraph"});
+            blockTemplate = this.template({content: 'Text', type: "paragraph"});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
@@ -778,6 +785,64 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-paragraph"></i>',
+                '<p>text</p>',
+                '</button>'].join('\n'));
+            return t({id: afterId, type: blockType});
+        }
+    });
+    Villain.Blocks.Blockquote = Villain.Block.extend({
+        type: 'blockquote',
+        template: _.template(
+            '<div class="villain-quote-block villain-content"><blockquote contenteditable="true"><%= content %></blockquote><cite contenteditable="true"><%= cite %></cite></div>'
+        ),
+    
+        renderEditorHtml: function() {
+            blockTemplate = this.renderContentBlockHtml();
+            actionsTemplate = this.actionsTemplate();
+            wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+            return wrapperTemplate;
+        },
+    
+        renderContentBlockHtml: function() {
+            text = this.getTextBlockInner() ? this.getTextBlockInner() : this.data.text;
+            return this.template({content: Villain.toHTML(text), cite: this.data.cite});
+        },
+    
+        renderEmpty: function() {
+            blockTemplate = this.template({content: 'quote', cite: 'author'});
+            actionsTemplate = this.actionsTemplate();
+            wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+            return wrapperTemplate;
+        },
+    
+        getJSON: function() {
+            quote = this.$content.find('blockquote')[0].outerHTML;
+            cite = $('cite', this.$content).html();
+            textNode = Villain.toMD(quote);
+            data = this.getData();
+            json = {
+                type: this.type,
+                data: {
+                    text: textNode,
+                    cite: cite
+                }
+            };
+            return json;
+        },
+    
+        getHTML: function() {
+            textNode = this.getTextBlock().html();
+            return markdown.toHTML(textNode);
+        }
+    },
+    {
+        /* static methods */
+        getButton: function(afterId) {
+            var blockType = 'blockquote';
+            t = _.template([
+                '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
+                '<i class="fa fa-quote-right"></i>',
+                '<p>quote</p>',
                 '</button>'].join('\n'));
             return t({id: afterId, type: blockType});
         }
@@ -821,6 +886,7 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-minus"></i>',
+                '<p>hr</p>',
                 '</button>'].join('\n'));
             return t({id: afterId, type: blockType});
         }
@@ -845,7 +911,7 @@
         },
     
         renderEmpty: function() {
-            blockTemplate = this.template({content: '', level: 1});
+            blockTemplate = this.template({content: 'Header', level: 1});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
@@ -886,7 +952,6 @@
         },
     
         getJSON: function() {
-            //textNode = Villain.toMD(this.getTextBlock().html()).trim();
             // strip newlines
             json = {
                 type: this.type,
@@ -907,6 +972,7 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-header"></i>',
+                '<p>h1-6</p>',
                 '</button>'].join('\n'));
             return t({
                 id: afterId,
@@ -922,6 +988,18 @@
             '</div>'].join('\n')
         ),
     
+        events: {
+            'keyup .villain-content': 'onKeyUp'
+        },
+    
+        onKeyUp: function(e) {
+            console.log(e.currentTarget.innerHTML);
+            if (e.currentTarget.innerText == "" || e.currentTarget.innerText == "\n") {
+                console.log("empty!");
+                e.currentTarget.innerHTML = "<ul><li><br></li></ul>";
+            }
+        },
+    
         renderEditorHtml: function() {
             blockTemplate = this.template({content: markdown.toHTML(this.data.text)});
             actionsTemplate = this.actionsTemplate();
@@ -930,7 +1008,7 @@
         },
     
         renderEmpty: function() {
-            blockTemplate = this.template({content: 'Liste'});
+            blockTemplate = this.template({content: '<ul><li>list</li></ul>'});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
             return wrapperTemplate;
@@ -977,6 +1055,7 @@
                 '        data-after-block-id="<%= id %>"',
                 '>',
                 '   <i class="fa fa-list-ul"></i>',
+                '<p>list</p>',
                 '</button>'].join('\n'));
             return t({
                 id: afterId,
@@ -1060,6 +1139,9 @@
                     return customXhr;
                 }
             }).done($.proxy(function(data) {
+                /**
+                 * Callback after confirming upload
+                 */
                 if (data.status == '200') {
                     // image uploaded successfully
                     this.$setup.append('<div class="villain-message success">Bildet er lastet opp</div>');
@@ -1142,6 +1224,7 @@
                                     json = that.getData();
                                     json.title = data.title;
                                     json.credits = data.credits;
+                                    json.link = "";
                                     that.setData(json);
                                     that.refreshContentBlock();
                                     that.hideSetup();
@@ -1221,7 +1304,8 @@
                     url: data.url,
                     sizes: data.sizes,
                     title: data.title || "",
-                    credits: data.credits || ""
+                    credits: data.credits || "",
+                    link: data.link || ""
                 }
             };
             return json;
@@ -1252,16 +1336,20 @@
             } else {
                 this.clearSetup();
                 data = this.getData();
-                $titleAndCredits = $([
+                $meta = $([
                     '<label for="title">Tittel</label><input value="' + data.title + '" type="text" name="title" />',
-                    '<label for="credits">Kreditering</label><input value="' + data.credits + '" type="text" name="credits" />'
+                    '<label for="credits">Kreditering</label><input value="' + data.credits + '" type="text" name="credits" />',
+                    '<label for="link">URL</label><input value="' + data.link + '" type="text" name="link" />'
                 ].join('\n'));
-                this.$setup.append($titleAndCredits);
+                this.$setup.append($meta);
                 this.$setup.find('input[name="title"]').on('keyup', _.debounce(function (e) {
                     that.setDataProperty('title', $(this).val());
                 }, 700, false));
                 this.$setup.find('input[name="credits"]').on('keyup', _.debounce(function (e) {
                     that.setDataProperty('credits', $(this).val());
+                }, 700, false));
+                this.$setup.find('input[name="link"]').on('keyup', _.debounce(function (e) {
+                    that.setDataProperty('link', $(this).val());
                 }, 700, false));
     
                 this.$setup.append($('<label>Størrelse</label>'));
@@ -1303,7 +1391,12 @@
                 processData: false,
                 dataType: 'json'
             }).done($.proxy(function(data) {
+                /**
+                 * Data returned from image browse.
+                 */
                 if (data.status != 200) {
+                    alert('Ingen bilder fantes.');
+                    this.done();
                     return false;
                 }
                 if (!data.hasOwnProperty('images')) {
@@ -1371,8 +1464,227 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-file-image-o"></i>',
+                '<p>img</p>',
                 '</button>'].join('\n'));
             return t({id: afterId, type: blockType});
+        }
+    });
+    Villain.Blocks.Slideshow = Villain.Block.extend({
+        type: 'slideshow',
+        template: _.template([
+            '<div class="villain-slideshow-block villain-content" contenteditable="false">',
+              '<h4>Slideshow</h4>',
+              '<%= content %>',
+            '</div>'
+        ].join('\n')),
+    
+        renderEditorHtml: function() {
+            blockTemplate = this.renderContentBlockHtml();
+            actionsTemplate = this.actionsTemplate();
+            wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+            return wrapperTemplate;
+        },
+    
+        renderContentBlockHtml: function() {
+            images = this.renderDataImages();
+            return this.template({content: images});
+        },
+    
+        renderDataImages: function() {
+            var data = this.getData();
+            if (_.isUndefined(data.images)) {
+                return "";
+            } else {
+                var html = "";
+                for (var i = 0; i < data.images.length; i++) {
+                    img = data.images[i];
+                    html += '<img src="' + data.media_url + '/' + img.sizes.thumb + '" />';
+                }
+                return html;
+            }
+        },
+    
+        renderEmpty: function() {
+            blockTemplate = this.template({content: '<i class="fa fa-th"></i>'});
+            actionsTemplate = this.actionsTemplate();
+            wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+            return wrapperTemplate;
+        },
+    
+        getAllImageseries: function() {
+            that = this;
+            $select = this.$setup.find('.imageserie-select');
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                accepts: {
+                    json: 'text/json'
+                },
+                url: this.addToPathName(Villain.options['imageseriesURL']),
+                cache: false,
+                contentType: false,
+                processData: false,
+                // Custom XMLHttpRequest
+                xhr: function() {
+                    var customXhr = $.ajaxSettings.xhr();
+                    // Check if upload property exists
+                    if (customXhr.upload) {
+                        customXhr.upload.addEventListener('progress', that.progressHandlingFunction, false);
+                    }
+                    return customXhr;
+                }
+            }).done($.proxy(function(data) {
+                /**
+                 * Callback after confirming upload
+                 */
+                if (data.status == '200') {
+                    $select.append(that.buildOptions(data.series, true));
+                    if (!_.isUndefined(that.data.imageseries)) {
+                        $select.val(that.data.imageseries).change();
+                    }
+                }
+            }));
+        },
+    
+        getImageseries: function(series) {
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                accepts: {json: 'text/json'},
+                url: this.addToPathName(Villain.options['imageseriesURL']),
+                data: {series: series},
+                cache: false,
+                contentType: false,
+                // Custom XMLHttpRequest
+                xhr: function() {
+                    var customXhr = $.ajaxSettings.xhr();
+                    // Check if upload property exists
+                    if (customXhr.upload) {
+                        customXhr.upload.addEventListener('progress', that.progressHandlingFunction, false);
+                    }
+                    return customXhr;
+                }
+            }).done($.proxy(function(data) {
+                /**
+                 * Callback after confirming upload
+                 */
+                if (data.status == '200') {
+                    var json = {};
+    
+                    json.imageseries = data.series;
+                    json.media_url = data.media_url;
+                    json.images = data.images;
+    
+                    if (that.$setup.find('.imageserie-size-select').length > 0) {
+                        // we already have the size select
+                    } else {
+                        // add size dropdown
+                        var sizeSelect = '<label for="imageserie-size">Str:</label>' +
+                                         '<select class="imageserie-size-select" ' +
+                                         '        name="imageserie-size"></select>';
+                        that.$setup.append(sizeSelect);
+                    }
+    
+                    var $sizeSelect = that.$setup.find('.imageserie-size-select');
+                    $sizeSelect.html('');
+                    $sizeSelect.append(that.buildOptions(data.sizes, true));
+                    if (!_.isUndefined(that.data.size)) {
+                        $sizeSelect.val(that.data.size).change();
+                    }
+                    $sizeSelect.on('change', function(e) {
+                        that.setDataProperty('size', $(this).val());
+                        that.hideSetup();
+                    });
+                    that.setData(json);
+                    that.refreshContentBlock();
+                }
+            }));
+        },
+    
+        buildOptions: function(values, placeholder) {
+            if (placeholder) {
+                html = '<option disabled="disabled" selected="selected">---</option>';
+            } else {
+                html = '';
+            }
+            for (var i = 0; i < values.length; i++) {
+                val = values[i];
+                html += '<option value="' + val + '">' + val + '</option>';
+            }
+            return html;
+        },
+    
+        setup: function() {
+            if (!this.hasData()) {
+                this.$content.hide();
+    
+                that = this;
+                data = this.getData();
+                //this.$setup.hide();
+                var select = '<select class="imageserie-select" name="imageserie"></select>';
+                this.$setup.append($([
+                    '<label for="imageserie">Bildeserie</label>',
+                    select
+                ].join('\n')));
+    
+                $select = this.$setup.find('.imageserie-select');
+                $select.on('change', function(e) {
+                    that.getImageseries($(this).val());
+                });
+    
+                this.getAllImageseries();
+            } else {
+                this.$setup.hide();
+                var select = '<select class="imageserie-select" name="imageserie"></select>';
+                this.$setup.append($([
+                    '<label for="imageserie">Bildeserie</label>',
+                    select
+                ].join('\n')));
+    
+                $select = this.$setup.find('.imageserie-select');
+                $select.on('change', function(e) {
+                    that.getImageseries($(this).val());
+                });
+                this.getAllImageseries();
+            }
+        },
+    
+        getData: function() {
+            data = this.data;
+            return data;
+        },
+    
+        getJSON: function() {
+            var data = this.getData();
+            // strip out images, we don't need to store them since they are
+            // already in the DB.
+            delete data.images;
+            delete data.media_url;
+            json = {
+                type: this.type,
+                data: data
+            };
+            return json;
+        },
+    
+        getHTML: function() {
+            textNode = this.getTextBlock().html();
+            return '<h3>' + markdown.toHTML(textNode) + '</h3>';
+        }
+    },
+    {
+        /* static methods */
+        getButton: function(afterId) {
+            var blockType = 'slideshow';
+            t = _.template([
+                '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
+                '<i class="fa fa-th"></i>',
+                '<p>slides</p>',
+                '</button>'].join('\n'));
+            return t({
+                id: afterId,
+                type: blockType
+            });
         }
     });
     Villain.Blocks.Video = Villain.Block.extend({
@@ -1510,6 +1822,7 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-video-camera"></i>',
+                '<p>video</p>',
                 '</button>'].join('\n'));
             return t({
                 id: afterId,
@@ -1736,6 +2049,7 @@
             t = _.template([
                 '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
                 '<i class="fa fa-columns"></i>',
+                '<p>cols</p>',
                 '</button>'
             ].join('\n'));
     
@@ -1781,6 +2095,8 @@
             // create a blockstore
             Villain.BlockStore.create('main');
             Villain.setOptions(options);
+            // initialize registry with optional extra blocks
+            Villain.BlockRegistry.initialize(options.extraBlocks);
             this.render();
         },
     
@@ -2068,6 +2384,10 @@
 
     Villain.toHTML = function toHTML(markdown, type) {
         // MD -> HTML
+        if (_.isUndefined(markdown)) {
+            return "";
+        }
+
         type = _.classify(type);
 
         var html = markdown,
@@ -2433,19 +2753,45 @@
     
     Villain.BlockRegistry = {};
     
-    Villain.BlockRegistry.Map = {
-        text: Villain.Blocks.Text,
-        header: Villain.Blocks.Header,
-        list: Villain.Blocks.List,
-        image: Villain.Blocks.Image,
-        video: Villain.Blocks.Video,
-        divider: Villain.Blocks.Divider,
-        columns: Villain.Blocks.Columns
+    Villain.BlockRegistry.initialize = function (extraBlocks) {
+        // add defaults
+        Villain.BlockRegistry.Map = [
+            "Text",
+            "Header",
+            "Blockquote",
+            "List",
+            "Image",
+            "Slideshow",
+            "Video",
+            "Divider",
+            "Columns",
+        ];
+        if (!_.isUndefined(extraBlocks)) {
+            Villain.BlockRegistry.addExtraBlocks(extraBlocks);
+        }
+        Villain.BlockRegistry.checkBlocks();
+    };
+    
+    Villain.BlockRegistry.addExtraBlocks = function(extraBlocks) {
+        Villain.BlockRegistry.Map = Villain.BlockRegistry.Map.concat(extraBlocks);
+    };
+    
+    Villain.BlockRegistry.add = function(block) {
+        Villain.BlockRegistry.Map.push(block);
+    };
+    
+    Villain.BlockRegistry.checkBlocks = function() {
+        for (i = 0; i < Villain.BlockRegistry.Map.length; ++i) {
+            type = Villain.BlockRegistry.Map[i];
+            if (_.isUndefined(Villain.Blocks[_(type).capitalize()])) {
+                console.error("Villain: Missing block source for " + type + "! Please ensure it is included.");
+            }
+        }
     };
     
     Villain.BlockRegistry.getBlockClassByType = function(type) {
-        if (Villain.BlockRegistry.Map.hasOwnProperty(type)) {
-            return Villain.BlockRegistry.Map[type];
+        if (Villain.BlockRegistry.Map.indexOf(_(type).capitalize()) !== -1) {
+            return Villain.Blocks[_(type).capitalize()];
         }
         return false;
     };

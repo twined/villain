@@ -177,5 +177,4 @@ $.fn.shake = function(shakes, distance, duration) {
     textClass: 'loading-text',        // Class added to loading overlay spinner
     loadingText: ''            // Text within loading overlay
   };
-
 }(jQuery));

@@ -89,7 +89,9 @@ html {
   border-left: 2px solid #DDD;
   color: #595959;
   margin: 1.5em 0;
-  padding-left: 0.75em; }
+  padding-left: 0.75em;
+  font-style: italic;
+  font-size: 2rem; }
 #villain cite {
   color: #737373;
   font-style: italic; }
@@ -133,6 +135,8 @@ html {
     content: "*"; }
   #villain label abbr {
     display: none; }
+#villain [contenteditable] {
+  min-height: 1rem; }
 #villain textarea,
 #villain input[type="email"], #villain input[type="number"], #villain input[type="password"], #villain input[type="search"], #villain input[type="tel"], #villain input[type="text"], #villain input[type="url"], #villain input[type="color"], #villain input[type="date"], #villain input[type="datetime"], #villain input[type="datetime-local"], #villain input[type="month"], #villain input[type="time"], #villain input[type="week"],
 #villain select[multiple=multiple] {
@@ -208,6 +212,31 @@ html {
   #villain .villain-message.error {
     background-color: #FFB0B0;
     border-bottom: 4px solid #DF9898; }
+#villain .villain-block-button {
+  background-color: #ef4f4f;
+  color: #fff;
+  border: 0;
+  height: 70px;
+  width: 73px;
+  margin: 0 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-name: fadeInDown;
+  -moz-animation-name: fadeInDown;
+  animation-name: fadeInDown; }
+  #villain .villain-block-button:hover {
+    background-color: #faacac; }
+  #villain .villain-block-button i {
+    font-size: 40px; }
+  #villain .villain-block-button p {
+    margin: 0;
+    padding-top: 5px; }
 
 .villain-setup-block {
   background-color: #F1F7EE;
@@ -276,6 +305,8 @@ html {
       left: 0;
       top: 0;
       position: absolute; }
+  .villain-block-inner .villain-slideshow-block h4 {
+    margin-bottom: 15px; }
   .villain-block-inner .villain-text-block {
     /* make space for the action buttons */
     padding-right: 30px; }
@@ -423,29 +454,6 @@ html {
     -o-transform: translateY(0);
     transform: translateY(0);
     opacity: 1; } }
-.villain-block-button {
-  background-color: #ef4f4f;
-  color: #fff;
-  border: 0;
-  height: 70px;
-  width: 73px;
-  margin: 0 5px;
-  font-size: 10px;
-  text-transform: uppercase;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-duration: 0.5s;
-  -moz-animation-duration: 0.5s;
-  animation-duration: 0.5s;
-  -webkit-animation-name: fadeInDown;
-  -moz-animation-name: fadeInDown;
-  animation-name: fadeInDown; }
-  .villain-block-button:hover {
-    background-color: #faacac; }
-  .villain-block-button i {
-    font-size: 40px; }
-
 .villain-text-block-header {
   font-size: 32px; }
 
@@ -605,14 +613,5 @@ html {
   border-right: 0.625em solid transparent;
   border-top: 0.625em solid #4d5358;
   margin-left: -0.625em; }
-
-/*
-@import "inputs.scss";
-
-@import "modal.scss";
-@import "tooltip.scss";
-
-@import "errors.scss";
-*/
 
 /*# sourceMappingURL=villain.css.map */

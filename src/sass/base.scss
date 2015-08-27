@@ -76,6 +76,8 @@
       color: lighten($base-font-color, 15);
       margin: $base-spacing 0;
       padding-left: $base-spacing / 2;
+      font-style: italic;
+      font-size: 2rem;
     }
 
     cite {
@@ -149,6 +151,10 @@
       abbr {
         display: none;
       }
+    }
+
+    [contenteditable] {
+      min-height: 1rem
     }
 
     textarea,
@@ -243,6 +249,32 @@
         border-bottom: 4px solid #DF9898;
       }
     }
+    .villain-block-button {
+        background-color: $base-villain-red-color;
+        color: #fff;
+        border: 0;
+        height: 70px;
+        width: 73px;
+        margin: 0 5px;
+        font-size: 10px;
+        text-transform: uppercase;
+        @include animation-fill-mode(both);
+        @include animation-duration(0.5s);
+        @include animation-name(fadeInDown);
+
+        &:hover {
+            background-color: $base-villain-lightred-color;
+        }
+
+        i {
+            font-size: 40px;
+        }
+
+        p {
+          margin: 0;
+          padding-top: 5px;
+        }
+    }
 }
 
 .villain-setup-block {
@@ -335,6 +367,12 @@
         }
     }
 
+    .villain-slideshow-block {
+        h4 {
+            margin-bottom: 15px;
+        }
+    }
+
     .villain-text-block {
         /* make space for the action buttons */
         padding-right: 30px;
@@ -423,28 +461,6 @@
     to {
         @include transform(translateY(0));
         opacity: 1;
-    }
-}
-
-.villain-block-button {
-    background-color: $base-villain-red-color;
-    color: #fff;
-    border: 0;
-    height: 70px;
-    width: 73px;
-    margin: 0 5px;
-    font-size: 10px;
-    text-transform: uppercase;
-    @include animation-fill-mode(both);
-    @include animation-duration(0.5s);
-    @include animation-name(fadeInDown);
-
-    &:hover {
-        background-color: $base-villain-lightred-color;
-    }
-
-    i {
-        font-size: 40px;
     }
 }
 

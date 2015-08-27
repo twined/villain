@@ -23,7 +23,18 @@ Add to your HTML:
     <div id="villain"></div>
     <script type="text/javascript">
         $(document).ready(function() {
-            v = new Villain.Editor({textArea: 'textarea[name="post[body]"]'});
+            v = new Villain.Editor({
+              textArea: 'textarea[name="post[data]"]',
+              browseURL: '/admin/news/villain/browse/post',
+              uploadURL: '/admin/news/villain/upload/post'
+            });
         });
     </script>
 ```
+
+## Options
+
+  * `textArea`: selector of source textarea.
+  * `browseUrl`: URL where we look for already uploaded images
+  * `uploadUrl`: URL where we POST uploaded images
+  * `extraBlocks`: List of extra blocks to add in. Capitalize each block. Ex: ["Myblock", "CustomVideo"] Filename should be `blocks.<block_name>.js`.

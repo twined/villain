@@ -2,19 +2,45 @@
 
 Villain.BlockRegistry = {};
 
-Villain.BlockRegistry.Map = {
-    text: Villain.Blocks.Text,
-    header: Villain.Blocks.Header,
-    list: Villain.Blocks.List,
-    image: Villain.Blocks.Image,
-    video: Villain.Blocks.Video,
-    divider: Villain.Blocks.Divider,
-    columns: Villain.Blocks.Columns
+Villain.BlockRegistry.initialize = function (extraBlocks) {
+    // add defaults
+    Villain.BlockRegistry.Map = [
+        "Text",
+        "Header",
+        "Blockquote",
+        "List",
+        "Image",
+        "Slideshow",
+        "Video",
+        "Divider",
+        "Columns",
+    ];
+    if (!_.isUndefined(extraBlocks)) {
+        Villain.BlockRegistry.addExtraBlocks(extraBlocks);
+    }
+    Villain.BlockRegistry.checkBlocks();
+};
+
+Villain.BlockRegistry.addExtraBlocks = function(extraBlocks) {
+    Villain.BlockRegistry.Map = Villain.BlockRegistry.Map.concat(extraBlocks);
+};
+
+Villain.BlockRegistry.add = function(block) {
+    Villain.BlockRegistry.Map.push(block);
+};
+
+Villain.BlockRegistry.checkBlocks = function() {
+    for (i = 0; i < Villain.BlockRegistry.Map.length; ++i) {
+        type = Villain.BlockRegistry.Map[i];
+        if (_.isUndefined(Villain.Blocks[_(type).capitalize()])) {
+            console.error("Villain: Missing block source for " + type + "! Please ensure it is included.");
+        }
+    }
 };
 
 Villain.BlockRegistry.getBlockClassByType = function(type) {
-    if (Villain.BlockRegistry.Map.hasOwnProperty(type)) {
-        return Villain.BlockRegistry.Map[type];
+    if (Villain.BlockRegistry.Map.indexOf(_(type).capitalize()) !== -1) {
+        return Villain.Blocks[_(type).capitalize()];
     }
     return false;
 };

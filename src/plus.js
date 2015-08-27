@@ -61,10 +61,17 @@ Villain.Plus = Backbone.View.extend({
         // iterate through block types in the block registry
         // and get buttons for each type.
         html = '';
-        for (var blockName in Villain.BlockRegistry.Map) {
+        for (i = 0; i < Villain.BlockRegistry.Map.length; ++i) {
+            blockName = Villain.BlockRegistry.Map[i];
             b = Villain.BlockRegistry.getBlockClassByType(blockName);
+            if (_.isUndefined(b)) {
+                console.error("Villain: Undefined block ", blockName);
+                continue;
+            }
             if (b.hasOwnProperty('getButton')) {
                 html += b.getButton(id);
+            } else {
+                console.log("// No button found for " + blockName);
             }
         }
         return html;

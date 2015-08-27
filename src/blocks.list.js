@@ -6,6 +6,18 @@ Villain.Blocks.List = Villain.Block.extend({
         '</div>'].join('\n')
     ),
 
+    events: {
+        'keyup .villain-content': 'onKeyUp'
+    },
+
+    onKeyUp: function(e) {
+        console.log(e.currentTarget.innerHTML);
+        if (e.currentTarget.innerText == "" || e.currentTarget.innerText == "\n") {
+            console.log("empty!");
+            e.currentTarget.innerHTML = "<ul><li><br></li></ul>";
+        }
+    },
+
     renderEditorHtml: function() {
         blockTemplate = this.template({content: markdown.toHTML(this.data.text)});
         actionsTemplate = this.actionsTemplate();
@@ -14,7 +26,7 @@ Villain.Blocks.List = Villain.Block.extend({
     },
 
     renderEmpty: function() {
-        blockTemplate = this.template({content: 'Liste'});
+        blockTemplate = this.template({content: '<ul><li>list</li></ul>'});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
         return wrapperTemplate;
@@ -61,6 +73,7 @@ Villain.Blocks.List = Villain.Block.extend({
             '        data-after-block-id="<%= id %>"',
             '>',
             '   <i class="fa fa-list-ul"></i>',
+            '<p>list</p>',
             '</button>'].join('\n'));
         return t({
             id: afterId,

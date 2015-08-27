@@ -1,6 +1,6 @@
 (function($, _) {
     var that = this,
-            Villain;
+               Villain;
     Villain = that.Villain = {};
     Villain.EventBus = Villain.EventBus || _.extend({}, Backbone.Events);
     Villain.Blocks = Villain.Blocks || {};
@@ -8,13 +8,14 @@
     Villain.options = Villain.options || [];
 
     Villain.defaults = {
-            browseURL: 'browse/',
-            textArea: '#textarea',
-            uploadURL: '/upload/post'
+        browseURL: 'browse/',
+        textArea: '#textarea',
+        uploadURL: '/upload/post',
+        imageseriesURL: 'imageseries/'
     };
 
     function $element(el) {
-            return el instanceof $ ? el : $(el);
+        return el instanceof $ ? el : $(el);
     }
 
     /* Mixins */
@@ -29,12 +30,14 @@
 
     /* Blocktypes */
     //= blocks.text.js
+    //= blocks.quote.js
 
     //= blocks.divider.js
     //= blocks.header.js
     //= blocks.list.js
 
     //= blocks.image.js
+    //= blocks.slideshow.js
     //= blocks.video.js
 
     //= blocks.columns.js
@@ -80,6 +83,10 @@
 
     Villain.toHTML = function toHTML(markdown, type) {
         // MD -> HTML
+        if (_.isUndefined(markdown)) {
+            return "";
+        }
+
         type = _.classify(type);
 
         var html = markdown,

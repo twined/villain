@@ -18,7 +18,7 @@ Villain.Blocks.Header = Villain.Block.extend({
     },
 
     renderEmpty: function() {
-        blockTemplate = this.template({content: '', level: 1});
+        blockTemplate = this.template({content: 'Header', level: 1});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
         return wrapperTemplate;
@@ -59,7 +59,6 @@ Villain.Blocks.Header = Villain.Block.extend({
     },
 
     getJSON: function() {
-        //textNode = Villain.toMD(this.getTextBlock().html()).trim();
         // strip newlines
         json = {
             type: this.type,
@@ -80,6 +79,7 @@ Villain.Blocks.Header = Villain.Block.extend({
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-header"></i>',
+            '<p>h1-6</p>',
             '</button>'].join('\n'));
         return t({
             id: afterId,

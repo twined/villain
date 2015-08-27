@@ -17,7 +17,7 @@ Villain.Blocks.Text = Villain.Block.extend({
     },
 
     renderEmpty: function() {
-        blockTemplate = this.template({content: '', type: "paragraph"});
+        blockTemplate = this.template({content: 'Text', type: "paragraph"});
         actionsTemplate = this.actionsTemplate();
         wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
         return wrapperTemplate;
@@ -78,6 +78,7 @@ Villain.Blocks.Text = Villain.Block.extend({
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-paragraph"></i>',
+            '<p>text</p>',
             '</button>'].join('\n'));
         return t({id: afterId, type: blockType});
     }

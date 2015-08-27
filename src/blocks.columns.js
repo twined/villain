@@ -216,6 +216,7 @@ Villain.Blocks.Columns = Villain.Block.extend({
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-columns"></i>',
+            '<p>cols</p>',
             '</button>'
         ].join('\n'));
 

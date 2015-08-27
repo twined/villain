@@ -34,6 +34,8 @@ Villain.Editor = Backbone.View.extend({
         // create a blockstore
         Villain.BlockStore.create('main');
         Villain.setOptions(options);
+        // initialize registry with optional extra blocks
+        Villain.BlockRegistry.initialize(options.extraBlocks);
         this.render();
     },
 

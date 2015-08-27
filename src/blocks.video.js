@@ -133,6 +133,7 @@ Villain.Blocks.Video = Villain.Block.extend({
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-video-camera"></i>',
+            '<p>video</p>',
             '</button>'].join('\n'));
         return t({
             id: afterId,

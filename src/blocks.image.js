@@ -73,6 +73,9 @@ Villain.Blocks.Image = Villain.Block.extend({
                 return customXhr;
             }
         }).done($.proxy(function(data) {
+            /**
+             * Callback after confirming upload
+             */
             if (data.status == '200') {
                 // image uploaded successfully
                 this.$setup.append('<div class="villain-message success">Bildet er lastet opp</div>');
@@ -155,6 +158,7 @@ Villain.Blocks.Image = Villain.Block.extend({
                                 json = that.getData();
                                 json.title = data.title;
                                 json.credits = data.credits;
+                                json.link = "";
                                 that.setData(json);
                                 that.refreshContentBlock();
                                 that.hideSetup();
@@ -234,7 +238,8 @@ Villain.Blocks.Image = Villain.Block.extend({
                 url: data.url,
                 sizes: data.sizes,
                 title: data.title || "",
-                credits: data.credits || ""
+                credits: data.credits || "",
+                link: data.link || ""
             }
         };
         return json;
@@ -265,16 +270,20 @@ Villain.Blocks.Image = Villain.Block.extend({
         } else {
             this.clearSetup();
             data = this.getData();
-            $titleAndCredits = $([
+            $meta = $([
                 '<label for="title">Tittel</label><input value="' + data.title + '" type="text" name="title" />',
-                '<label for="credits">Kreditering</label><input value="' + data.credits + '" type="text" name="credits" />'
+                '<label for="credits">Kreditering</label><input value="' + data.credits + '" type="text" name="credits" />',
+                '<label for="link">URL</label><input value="' + data.link + '" type="text" name="link" />'
             ].join('\n'));
-            this.$setup.append($titleAndCredits);
+            this.$setup.append($meta);
             this.$setup.find('input[name="title"]').on('keyup', _.debounce(function (e) {
                 that.setDataProperty('title', $(this).val());
             }, 700, false));
             this.$setup.find('input[name="credits"]').on('keyup', _.debounce(function (e) {
                 that.setDataProperty('credits', $(this).val());
+            }, 700, false));
+            this.$setup.find('input[name="link"]').on('keyup', _.debounce(function (e) {
+                that.setDataProperty('link', $(this).val());
             }, 700, false));
 
             this.$setup.append($('<label>Størrelse</label>'));
@@ -316,7 +325,12 @@ Villain.Blocks.Image = Villain.Block.extend({
             processData: false,
             dataType: 'json'
         }).done($.proxy(function(data) {
+            /**
+             * Data returned from image browse.
+             */
             if (data.status != 200) {
+                alert('Ingen bilder fantes.');
+                this.done();
                 return false;
             }
             if (!data.hasOwnProperty('images')) {
@@ -384,6 +398,7 @@ Villain.Blocks.Image = Villain.Block.extend({
         t = _.template([
             '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
             '<i class="fa fa-file-image-o"></i>',
+            '<p>img</p>',
             '</button>'].join('\n'));
         return t({id: afterId, type: blockType});
     }
