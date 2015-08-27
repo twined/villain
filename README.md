@@ -25,8 +25,8 @@ Add to your HTML:
         $(document).ready(function() {
             v = new Villain.Editor({
               textArea: 'textarea[name="post[data]"]',
-              browseURL: '/admin/news/villain/browse/post',
-              uploadURL: '/admin/news/villain/upload/post'
+              baseURL: '/admin/posts/',
+              imageSeries: 'post'
             });
         });
     </script>

@@ -8,10 +8,10 @@
     Villain.options = Villain.options || [];
 
     Villain.defaults = {
-        browseURL: 'browse/',
         textArea: '#textarea',
-        uploadURL: '/upload/post',
-        imageseriesURL: 'imageseries/'
+        browseURL: 'villain/browse/',
+        uploadURL: 'villain/upload/',
+        imageseriesURL: 'villain/imageseries/'
     };
 
     function $element(el) {
@@ -157,7 +157,14 @@
     };
 
     Villain.setOptions = function setOptions(options) {
+        if (_.isUndefined(options.imageSeries) || _.isUndefined(options.baseURL)) {
+            console.error("Villain: baseURL and imageSeries MUST be set on initialization.");
+        }
+        Villain.defaults.browseURL = options.baseURL + Villain.defaults.browseURL + options.imageSeries;
+        Villain.defaults.uploadURL = options.baseURL + Villain.defaults.uploadURL + options.imageSeries;
+        Villain.defaults.imageseriesURL = options.baseURL + Villain.defaults.imageseriesURL;
         Villain.options = $.extend({}, Villain.defaults, options);
+        console.log(Villain.options);
     };
 
     Villain.browser = function browser() {
