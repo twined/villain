@@ -2465,7 +2465,7 @@
         Villain.defaults.uploadURL = options.baseURL + Villain.defaults.uploadURL + options.imageSeries;
         Villain.defaults.imageseriesURL = options.baseURL + Villain.defaults.imageseriesURL;
         Villain.options = $.extend({}, Villain.defaults, options);
-        console.log(Villain.options);
+
     };
 
     Villain.browser = function browser() {
