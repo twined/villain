@@ -37,4 +37,4 @@ Add to your HTML:
   * `textArea`: selector of source textarea.
   * `browseUrl`: URL where we look for already uploaded images
   * `uploadUrl`: URL where we POST uploaded images
-  * `extraBlocks`: List of extra blocks to add in. Capitalize each block. Ex: ["Myblock", "CustomVideo"] Filename should be `blocks.<block_name>.js`.
+  * `extraBlocks`: List of extra blocks to add in. Capitalize each block. Ex: `["Myblock", "CustomVideo"]`. Filename should be `blocks.<block_name>.js`.
