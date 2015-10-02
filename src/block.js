@@ -35,6 +35,7 @@ Villain.Block = Backbone.View.extend({
         'mouseout .villain-block-inner': 'onMouseOut',
         'paste .villain-text-block': 'onPaste',
         'mouseup .villain-text-block': 'onMouseUp',
+        'keyup .villain-text-block': 'onKeyUp',
         'click .villain-text-block': 'onClick',
         'click .villain-action-button-setup': 'onSetupClick'
     },
@@ -86,6 +87,17 @@ Villain.Block = Backbone.View.extend({
         } else {
             $button.addClass('active');
             this.showSetup();
+        }
+    },
+
+    onKeyUp: function(e) {
+        // check if there's text selected
+        var text = this.getSelectedText();
+
+        if (text !== '') {
+            Villain.EventBus.trigger('formatpopup:show', this);
+        } else {
+            Villain.EventBus.trigger('formatpopup:hide');
         }
     },
 
