@@ -65,7 +65,7 @@ gulp.task('build-scripts', function() {
         .on('error', function(err) { console.log(err.message); })
         .pipe(gulp.dest('dist/'));
 
-    gulp.src(['./js/underscore.js', './js/backbone.js',
+    gulp.src(['./js/underscore.js', './js/backbone.js', './js/he.js',
               './js/to-markdown.js', './js/markdown.min.js'])
         .pipe(concat('villain.vendor.js'))
         .pipe(gulp.dest('dist/'))
