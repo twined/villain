@@ -2272,16 +2272,12 @@
     
         onClickLink: function(e) {
             e.preventDefault();
-            var link = prompt('Sett inn link:'),
-                link_regex = /((ftp|http|https):\/\/.)|mailto(?=\:[-\.\w]+@)/;
+            var link = prompt('Insert link:');
     
             if (link && link.length > 0) {
-                if (!link_regex.test(link)) {
-                    link = 'http://' + link;
-                }
                 document.execCommand('CreateLink', false, link);
+                this.activateButton('.villain-format-link');
             }
-            this.activateButton('.villain-format-link');
         },
     
         onClickUnlink: function(e) {
