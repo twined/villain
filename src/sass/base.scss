@@ -387,35 +387,41 @@
         max-width: none;
         margin-left: 20px;
         margin-right: 20px;
-        .one {
+        .one, col-md-1 {
             @include span-columns(1);
         }
-        .two {
+        .two, .col-md-2 {
             @include span-columns(2);
         }
-        .three {
+        .three, .col-md-3 {
             @include span-columns(3);
         }
-        .four {
+        .four, .col-md-4 {
             @include span-columns(4);
         }
-        .five {
+        .five, .col-md-5 {
             @include span-columns(5);
         }
-        .six {
+        .six, .col-md-6 {
             @include span-columns(6);
         }
-        .seven {
+        .seven, .col-md-7 {
             @include span-columns(7);
         }
-        .eight {
+        .eight, .col-md-8 {
             @include span-columns(8);
         }
-        .nine {
+        .nine, .col-md-9 {
             @include span-columns(9);
         }
-        .ten {
+        .ten, .col-md-10 {
             @include span-columns(10);
+        }
+        .eleven, .col-md-11 {
+            @include span-columns(11);
+        }
+        .twelve, .col-md-12 {
+            @include span-columns(12);
         }
     }
 }
