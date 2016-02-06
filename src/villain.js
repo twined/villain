@@ -1,4 +1,4 @@
-(function($, _) {
+
     var that = this,
                Villain;
     Villain = that.Villain = {};
@@ -455,5 +455,3 @@
     };
 
     //= blockregistry.js
-
-}(jQuery, _));

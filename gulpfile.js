@@ -3,7 +3,7 @@ var gulp = require('gulp');
 gulp.task('sass', function() {
     var sass = require('gulp-ruby-sass');
     gulp.src('src/sass/villain.scss')
-        .pipe(sass({sourcemap: true, sourcemapPath: 'src/sass/**/*.scss'}))
+        .pipe(sass({sourcemapPath: 'src/sass/**/*.scss'}))
         .on('error', function(err) { console.log(err.message); })
         .pipe(gulp.dest('dist/'));
 });
@@ -13,7 +13,7 @@ gulp.task('build-sass', function() {
     var rename = require('gulp-rename');
     var minify = require('gulp-minify-css');
     gulp.src('src/sass/villain.scss')
-        .pipe(sass({sourcemap: true, sourcemapPath: 'src/sass/**/*.scss'}))
+        .pipe(sass({sourcemapPath: 'src/sass/**/*.scss'}))
         .on('error', function(err) { console.log(err.message); })
         .pipe(gulp.dest('dist/'))
         .pipe(rename({suffix: '-min'}))
@@ -65,7 +65,7 @@ gulp.task('build-scripts', function() {
         .on('error', function(err) { console.log(err.message); })
         .pipe(gulp.dest('dist/'));
 
-    gulp.src(['./js/underscore.js', './js/backbone.js', './js/he.js',
+    gulp.src(['./js/jquery.min.js', './js/underscore.js', './js/backbone.js', './js/he.js',
               './js/to-markdown.js', './js/markdown.min.js'])
         .pipe(concat('villain.vendor.js'))
         .pipe(gulp.dest('dist/'))
@@ -73,12 +73,12 @@ gulp.task('build-scripts', function() {
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
 
-    gulp.src(['./dist/villain.vendor-min.js', './dist/villain-min.js'])
-        .pipe(concat('villain.all-min.js'))
-        .pipe(gulp.dest('dist/'));
-
     gulp.src(['./dist/villain.vendor.js', './dist/villain.js'])
         .pipe(concat('villain.all.js'))
+        .pipe(gulp.dest('dist/'));
+
+    gulp.src(['./dist/villain.vendor-min.js', './dist/villain-min.js'])
+        .pipe(concat('villain.all-min.js'))
         .pipe(gulp.dest('dist/'));
 });
 
