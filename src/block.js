@@ -349,12 +349,16 @@ Villain.Block = Backbone.View.extend({
 
     showSetup: function() {
         innerHeight = this.$inner.height();
+        innerWidth = this.$inner.width();
         this.$content.hide();
         $button = this.$('.villain-action-button-setup');
         $button.addClass('active');
         this.$setup.show();
         if (this.$setup.height() < innerHeight) {
             this.$setup.height(innerHeight);
+        }
+        if (innerWidth < 300) {
+            this.$el.width(300);
         }
     },
 
