@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+  <title>Villain</title>
+
+  <!-- stylesheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="villain.css">
+  <!-- javascripts -->
+  <script charset="utf-8" src="villain.all.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+  <textarea class="post" name="post[data]">[{"type":"markdown","data":{"text":"## Markdown\n\nTesting **markdown**\n\nIt drowns in small textareas.\n\nThis must be fixed somehow"}},{"type":"html","data":{"text":"<p>Text</p>\n\nIt drowns in small textareas.\n\nThis must be fixed somehow"}}]</textarea>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+      v = new Villain.Editor({
+        extraBlocks: [],
+        baseURL: '/admin/news/',
+        imageSeries: 'post',
+        textArea: 'textarea[name="post[data]"]'
+      });
+    });
+
+  </script>
+</body>

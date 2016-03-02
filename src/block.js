@@ -53,6 +53,10 @@ Villain.Block = Backbone.View.extend({
         this.id = 'villain-block-' + this.dataId;
         this.addToBlockStore(store);
         this.render();
+
+        if (this.afterRenderCallback) {
+            this.afterRenderCallback();
+        }
     },
 
     render: function() {
@@ -66,6 +70,7 @@ Villain.Block = Backbone.View.extend({
         this.el.innerHTML = html;
         this.setSections();
         this.addSetup();
+
         return this;
     },
 

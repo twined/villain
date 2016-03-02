@@ -13,6 +13,8 @@ Villain.BlockRegistry.initialize = function (extraBlocks) {
         "Slideshow",
         "Video",
         "Divider",
+        "Html",
+        "Markdown",
         "Columns",
     ];
     if (!_.isUndefined(extraBlocks)) {

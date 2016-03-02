@@ -40,6 +40,9 @@
     //= blocks.slideshow.js
     //= blocks.video.js
 
+    //= blocks.html.js
+    //= blocks.markdown.js
+
     //= blocks.columns.js
 
     var blocks = [];
