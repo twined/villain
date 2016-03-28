@@ -5654,7 +5654,7 @@ DEALINGS IN THE SOFTWARE.
     
         afterRenderCallback: function() {
             var that = this;
-            this.$('textarea').autogrow();
+            this.$('textarea').autogrow({onInitialize: true});
         },
     
         renderEditorHtml: function() {
