@@ -384,17 +384,21 @@
         font-family: monospace !important;
 
         &:focus {
-          background-color: #eee !important;
+            background-color: #eee !important;
         }
     }
 
-    .villain-md-block textarea {
-        border: 0 !important;
-        box-shadow: none !important;
-        font-family: monospace !important;
+    .villain-md-block {
+        position: relative;
 
-        &:focus {
-          background-color: #eee !important;
+        textarea {
+            border: 0 !important;
+            box-shadow: none !important;
+            font-family: monospace !important;
+
+            &:focus {
+                background-color: #eee !important;
+            }
         }
     }
 
