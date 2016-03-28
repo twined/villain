@@ -1860,10 +1860,6 @@
             '<div class="villain-html-block villain-content"><textarea><%= content %></textarea></div>'
         ),
     
-        events: {
-            'keyup textarea': '_growTextarea',
-        },
-    
         initialize: function(json, store) {
             Villain.Block.prototype.initialize.apply(this, [json, store]);
             _.extend(this.events, Villain.Block.prototype.events);
@@ -1877,18 +1873,11 @@
             console.log(e);
         },
     
-        _growTextarea: function(e) {
-            this.growTextarea(e.target);
-        },
-    
-        growTextarea: function(textarea) {
-            textarea.style.height = "5px";
-            textarea.style.height = (textarea.scrollHeight)+"px";
-        },
-    
         afterRenderCallback: function() {
-            var that = this;
-            setTimeout(function() {that.growTextarea(that.$('textarea')[0]);}, 1000);
+            this.$('textarea').autogrow({
+                onInitialize: true,
+                fixMinHeight: true
+            });
         },
     
         renderEditorHtml: function() {
@@ -1952,9 +1941,6 @@
         },
     
         afterRenderCallback: function() {
-            var that = this;
-            console.log('afterRender');
-            console.log(this.$('textarea').val());
             this.$('textarea').autogrow({
                 onInitialize: true,
                 fixMinHeight: true

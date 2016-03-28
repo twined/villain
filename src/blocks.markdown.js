@@ -10,9 +10,6 @@ Villain.Blocks.Markdown = Villain.Block.extend({
     },
 
     afterRenderCallback: function() {
-        var that = this;
-        console.log('afterRender');
-        console.log(this.$('textarea').val());
         this.$('textarea').autogrow({
             onInitialize: true,
             fixMinHeight: true
