@@ -66,7 +66,7 @@ gulp.task('build-scripts', function() {
         .pipe(gulp.dest('dist/'));
 
     gulp.src(['./js/jquery.min.js', './js/underscore.js', './js/backbone.js', './js/he.js',
-              './js/to-markdown.js', './js/markdown.min.js'])
+              './js/to-markdown.js', './js/markdown.min.js', './js/autogrow.min.js'])
         .pipe(concat('villain.vendor.js'))
         .pipe(gulp.dest('dist/'))
         .pipe(rename({suffix: '-min'}))
