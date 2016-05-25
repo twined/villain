@@ -6046,23 +6046,41 @@ if (typeof exports === 'object') {
             'dragenter .villain-droppable': 'onDragEnterDroppable',
             'dragleave .villain-droppable': 'onDragLeaveDroppable',
             'drop .villain-droppable': 'onDropDroppable',
-            'drop .villain-text-block': 'onDropTextblock'
+            'drop .villain-text-block': 'onDropTextblock',
+            'click .villain-toggle-source': 'onToggleSource'
         },
     
         initialize: function(options) {
             _this = this;
             this.$textArea = $(options.textArea) || this.textArea;
+            this.sourceMode = false;
+            this.$textArea.css({
+                'width': '100%',
+                'min-height': '250px',
+                'font-family': 'monospace',
+                'font-size': '12px'
+            });
+    
+            var $sourceView = $('<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
+            $sourceView.on('click', this.onToggleSource);
+            $sourceView.insertBefore(this.$textArea);
+    
+            Villain.EventBus.on('source:toggle', this.toggleSource, this);
+    
             $('<div id="villain"></div>').insertAfter(this.$textArea);
+    
             this.el = "#villain";
             this.$el = $(this.el);
     
             this.$textArea.hide();
             this.isDirty = false;
+    
             try {
                 this.data = JSON.parse(this.$textArea.val());
             } catch (e) {
                 this.data = null;
             }
+    
             // inject json to textarea before submitting.
             $('form').submit(function( event ) {
                 _this.$textArea.val(_this.getJSON());
@@ -6077,11 +6095,13 @@ if (typeof exports === 'object') {
     
         render: function() {
             // add + block
-            addblock = new Villain.Plus('main');
+            var addblock = new Villain.Plus('main');
             this.$el.append(addblock.$el);
+    
             // add format popup
             formatPopUp = new Villain.FormatPopUp();
             this.$el.append(formatPopUp.$el);
+    
             // parse json
             if (!this.data) {
                 return false;
@@ -6095,6 +6115,36 @@ if (typeof exports === 'object') {
                 } else {
                     console.error('Villain: No class found for type: ' + blockJson.type);
                 }
+            }
+        },
+    
+        onToggleSource: function() {
+            console.log("toggle");
+            Villain.EventBus.trigger('source:toggle');
+        },
+    
+        toggleSource: function(view) {
+            if (this.sourceMode) {
+                this.$textArea.hide();
+                this.$el.show();
+                this.sourceMode = false;
+    
+                try {
+                    this.data = JSON.parse(this.$textArea.val());
+                } catch (e) {
+                    this.data = null;
+                }
+    
+                // destroy stuff
+                this.$el.html('');
+    
+                // build it back up
+                this.render();
+            } else {
+                this.$textArea.val(this.getJSON());
+                this.$textArea.show();
+                this.$el.hide();
+                this.sourceMode = true;
             }
         },
     

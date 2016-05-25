@@ -38,6 +38,9 @@ html {
     cursor: not-allowed;
     opacity: 0.5; }
 
+.villain-toggle-source {
+  text-align: right; }
+
 #villain *:focus {
   outline: 0; }
 #villain h1,
