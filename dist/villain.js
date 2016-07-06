@@ -947,13 +947,17 @@
             this.$setup.hide();
             var radios = "";
             levels = [1, 2, 3, 4, 5];
+            
             for (i in levels) {
                 selected = "";
                 if (parseInt(level) === parseInt(levels[i])) {
                     selected = ' checked="checked"';
                 }
-                radios += '<label><input type="radio" name="header-size" value="' + levels[i] + '"' + selected + '>H' + levels[i] + '</label>';
+                radios += '<label><input type="radio" name="header-size-' +
+                          this.dataId + '" value="' + levels[i] + '"' +
+                          selected + '>H' + levels[i] + '</label>';
             }
+    
             this.$setup.append($([
                 '<label>Størrelse</label>',
                 radios
