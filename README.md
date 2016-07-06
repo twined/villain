@@ -36,4 +36,5 @@ Add to your HTML:
 
   * `textArea`: selector of source textarea.
   * `baseUrl`: Base URL to which we append `browse/`, `upload/` etc
+  * `defaultBlocks`: If you only want a subset of blocks to be enabled: Ex: `["Markdown"]`
   * `extraBlocks`: List of extra blocks to add in. Capitalize each block. Ex: `["Myblock", "CustomVideo"]`. Filename should be `blocks.<block_name>.js`.

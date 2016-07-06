@@ -2,21 +2,26 @@
 
 Villain.BlockRegistry = {};
 
-Villain.BlockRegistry.initialize = function (extraBlocks) {
+Villain.BlockRegistry.initialize = function (defaultBlocks, extraBlocks) {
     // add defaults
-    Villain.BlockRegistry.Map = [
-        "Text",
-        "Header",
-        "Blockquote",
-        "List",
-        "Image",
-        "Slideshow",
-        "Video",
-        "Divider",
-        "Html",
-        "Markdown",
-        "Columns",
-    ];
+    if (!_.isUndefined(defaultBlocks)) {
+        Villain.BlockRegistry.Map = defaultBlocks;
+    } else {
+        Villain.BlockRegistry.Map = [
+            "Text",
+            "Header",
+            "Blockquote",
+            "List",
+            "Image",
+            "Slideshow",
+            "Video",
+            "Divider",
+            "Html",
+            "Markdown",
+            "Columns",
+        ];
+    }
+
     if (!_.isUndefined(extraBlocks)) {
         Villain.BlockRegistry.addExtraBlocks(extraBlocks);
     }

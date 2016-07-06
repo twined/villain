@@ -6058,7 +6058,8 @@ if (typeof exports === 'object') {
                 'width': '100%',
                 'min-height': '250px',
                 'font-family': 'monospace',
-                'font-size': '12px'
+                'font-size': '12px',
+                'line-height': '20px'
             });
     
             var $sourceView = $('<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
@@ -6089,7 +6090,7 @@ if (typeof exports === 'object') {
             Villain.BlockStore.create('main');
             Villain.setOptions(options);
             // initialize registry with optional extra blocks
-            Villain.BlockRegistry.initialize(options.extraBlocks);
+            Villain.BlockRegistry.initialize(options.defaultBlocks, options.extraBlocks);
             this.render();
         },
     
@@ -6780,21 +6781,26 @@ if (typeof exports === 'object') {
     
     Villain.BlockRegistry = {};
     
-    Villain.BlockRegistry.initialize = function (extraBlocks) {
+    Villain.BlockRegistry.initialize = function (defaultBlocks, extraBlocks) {
         // add defaults
-        Villain.BlockRegistry.Map = [
-            "Text",
-            "Header",
-            "Blockquote",
-            "List",
-            "Image",
-            "Slideshow",
-            "Video",
-            "Divider",
-            "Html",
-            "Markdown",
-            "Columns",
-        ];
+        if (!_.isUndefined(defaultBlocks)) {
+            Villain.BlockRegistry.Map = defaultBlocks;
+        } else {
+            Villain.BlockRegistry.Map = [
+                "Text",
+                "Header",
+                "Blockquote",
+                "List",
+                "Image",
+                "Slideshow",
+                "Video",
+                "Divider",
+                "Html",
+                "Markdown",
+                "Columns",
+            ];
+        }
+    
         if (!_.isUndefined(extraBlocks)) {
             Villain.BlockRegistry.addExtraBlocks(extraBlocks);
         }
