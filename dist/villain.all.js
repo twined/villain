@@ -4753,10 +4753,15 @@ if (typeof exports === 'object') {
                 this.setDataProperty('level', 1);
             }
             level = data['level'];
+    
+            anchor = data['anchor'] || '';
+    
+            console.log(anchor);
+    
             this.$setup.hide();
             var radios = "";
             levels = [1, 2, 3, 4, 5];
-            
+    
             for (i in levels) {
                 selected = "";
                 if (parseInt(level) === parseInt(levels[i])) {
@@ -4771,6 +4776,15 @@ if (typeof exports === 'object') {
                 '<label>Størrelse</label>',
                 radios
             ].join('\n')));
+    
+            this.$setup.append($([
+                '<br /><label>Anker</label>',
+                '<input type="text" value="' + anchor + '" name="header-anchor-' + this.dataId + '" />'
+            ].join('\n')));
+    
+            this.$setup.find('input[type=text]').on('keyup', $.proxy(function(e) {
+                this.setDataProperty('anchor', $(e.target).val());
+            }, this));
     
             this.$setup.find('input[type=radio]').on('change', $.proxy(function(e) {
                 this.setDataProperty('level', $(e.target).val());
@@ -5757,7 +5771,7 @@ if (typeof exports === 'object') {
             blockTemplate = this.template({content: embedString});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
-            
+    
             return wrapperTemplate;
         },
     
