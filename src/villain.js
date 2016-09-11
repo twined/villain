@@ -39,6 +39,7 @@
     //= blocks.image.js
     //= blocks.slideshow.js
     //= blocks.video.js
+    //= blocks.map.js
 
     //= blocks.html.js
     //= blocks.markdown.js

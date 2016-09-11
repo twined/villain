@@ -15,6 +15,7 @@ Villain.BlockRegistry.initialize = function (defaultBlocks, extraBlocks) {
             "Image",
             "Slideshow",
             "Video",
+            "Map",
             "Divider",
             "Html",
             "Markdown",
