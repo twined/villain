@@ -5751,12 +5751,13 @@ if (typeof exports === 'object') {
     
             var embedString = this.providers[this.data.source].html
                 .replace('{{protocol}}', window.location.protocol)
-                .replace('{{remote_id}}', this.data.remote_id)
+                .replace('{{embed_url}}', this.data.embed_url)
                 .replace('{{width}}', '100%');
     
             blockTemplate = this.template({content: embedString});
             actionsTemplate = this.actionsTemplate();
             wrapperTemplate = this.wrapperTemplate({content: blockTemplate, actions: actionsTemplate});
+            
             return wrapperTemplate;
         },
     
