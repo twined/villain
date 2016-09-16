@@ -698,6 +698,9 @@ html {
 .villain-block-wrapper[data-block-type="divider"] .villain-block-inner {
   padding: 20px 12px; }
 
+.villain-block-wrapper[data-block-type=columns] > div {
+  background-color: rgba(202, 255, 0, 0.05); }
+
 .villain-format-popup {
   position: absolute;
   margin: -3em 0 0 0;
