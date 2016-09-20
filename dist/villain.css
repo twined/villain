@@ -495,7 +495,9 @@ html {
     .villain-block-inner .villain-md-block textarea {
       border: 0 !important;
       box-shadow: none !important;
-      font-family: monospace !important; }
+      font-family: monospace !important;
+      font-size: 15px !important;
+      line-height: 24px; }
       .villain-block-inner .villain-md-block textarea:focus {
         background-color: #eee !important; }
   .villain-block-inner .villain-slideshow-block h4 {
