@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import autosize from 'autosize';
 
 import '../utils/mixins.js';
 import Block from '../block';
@@ -9,17 +10,15 @@ const Markdown = Block.extend({
     '<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'
   ),
 
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
+  initialize(opts) {
+    Block.prototype.initialize.apply(this, [opts]);
     _.extend(this.events, Block.prototype.events);
   },
 
   afterRenderCallback() {
-    this.$('textarea')
-      .autogrow({
-        onInitialize: true,
-        fixMinHeight: true,
-      });
+    const textarea = this.$('.villain-md-block textarea');
+    autosize(textarea);
+    setTimeout(() => autosize.update(textarea), 1000);
   },
 
   renderEditorHtml() {
