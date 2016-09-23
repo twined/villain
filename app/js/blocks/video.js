@@ -53,7 +53,7 @@ const Video = Block.extend({
     let match;
     let data;
 
-    _.each(this.providers, function(provider, index) {
+    _.each(this.providers, (provider, index) => {
       match = provider.regex.exec(videoUrl);
 
       if (match !== null && !_.isUndefined(match[1])) {

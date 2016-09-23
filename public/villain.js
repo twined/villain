@@ -19461,14 +19461,35 @@ var Text = _block2.default.extend({
     var radios = '';
     var types = ['paragraph', 'lead'];
 
-    for (var i in types) {
-      var selected = '';
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-      if (type === types[i]) {
-        selected = ' checked="checked"';
+    try {
+      for (var _iterator = types[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var t = _step.value;
+
+        var selected = '';
+
+        if (t === type) {
+          selected = ' checked="checked"';
+        }
+
+        radios += '\n        <label>\n          <input type="radio" name="text-type" value="' + t + '"' + selected + '>' + t + '\n        </label>';
       }
-
-      radios += '\n        <label>\n          <input type="radio" name="text-type" value="' + types[i] + '"' + selected + '>' + types[i] + '\n        </label>';
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
     }
 
     this.$setup.append((0, _jquery2.default)('<label>Type</label>' + radios));

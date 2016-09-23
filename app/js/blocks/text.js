@@ -71,16 +71,16 @@ const Text = Block.extend({
     let radios = '';
     const types = ['paragraph', 'lead'];
 
-    for (const i in types) {
+    for (const t of types) {
       let selected = '';
 
-      if (type === types[i]) {
+      if (t === type) {
         selected = ' checked="checked"';
       }
 
       radios += `
         <label>
-          <input type="radio" name="text-type" value="${types[i]}"${selected}>${types[i]}
+          <input type="radio" name="text-type" value="${t}"${selected}>${t}
         </label>`;
     }
 

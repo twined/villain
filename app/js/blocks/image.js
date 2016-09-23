@@ -290,8 +290,7 @@ const Image = Block.extend({
   setup() {
     // check if this block has data. if not, show the setup div
     if (!this.hasData()) {
-      this.$('.villain-image-block')
-        .hide();
+      this.$('.villain-image-block').hide();
       const $imageDropper = $([
         '<div class="villain-image-dropper">',
         '  <i class="fa fa-image"></i>',
@@ -305,10 +304,12 @@ const Image = Block.extend({
 
       $imageDropper.find('.villain-image-browse-button')
         .on('click', $.proxy(this.onImageBrowseButton, this));
+
       this.$setup.append($imageDropper);
       this.$setup.show();
     } else {
       this.clearSetup();
+
       const data = this.getData();
       const $form = $(`<form name="image-meta-${this.dataId}">`);
       const $meta = $(`
@@ -319,48 +320,46 @@ const Image = Block.extend({
         <label for="link">URL</label>
         <input value="${data.link}" type="text" name="link" />
       `);
+
       $form.append($meta);
       $form.append($('<label>Størrelse</label>'));
 
       /* create sizes overview */
-      for (const key in data.sizes) {
-        if ({}.hasOwnProperty.call(data.sizes, key)) {
-          let checked = '';
-          if (data.sizes[key] === data.url) {
-            checked = ' checked="checked"';
-          }
-          const $radio = $(`
-            <label for="${key}">
-              <input type="radio"
-                     name="imagesize"
-                     value="${data.sizes[key]}"${checked} />
-              ${key}
-            </label>
-          `);
-          $form.append($radio);
+      Object.keys(data.sizes).forEach((key) => {
+        const size = data.sizes[key];
+        let checked = '';
+
+        if (size === data.url) {
+          checked = ' checked="checked"';
         }
-      }
+
+        const $radio = $(`
+          <label for="${key}">
+            <input type="radio"
+                   name="imagesize"
+                   value="${size}"${checked} />
+            ${key}
+          </label>
+        `);
+        $form.append($radio);
+      });
 
       this.$setup.append($form);
       this.$setup.find('input[name="title"]')
         .on('keyup', _.debounce($.proxy(function setTitle(e) {
-          this.setDataProperty('title', $(e.target)
-            .val());
+          this.setDataProperty('title', $(e.target).val());
         }, this), 700, false));
       this.$setup.find('input[name="credits"]')
         .on('keyup', _.debounce($.proxy(function setCredits(e) {
-          this.setDataProperty('credits', $(e.target)
-            .val());
+          this.setDataProperty('credits', $(e.target).val());
         }, this), 700, false));
       this.$setup.find('input[name="link"]')
         .on('keyup', _.debounce($.proxy(function setLink(e) {
-          this.setDataProperty('link', $(e.target)
-            .val());
+          this.setDataProperty('link', $(e.target).val());
         }, this), 700, false));
       this.$setup.find('input[type=radio]')
         .on('change', $.proxy(function setUrl(e) {
-          this.setUrl($(e.target)
-            .val());
+          this.setUrl($(e.target).val());
         }, this));
       this.hideSetup();
     }
