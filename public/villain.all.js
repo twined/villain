@@ -20015,6 +20015,10 @@ var _backbone = require('backbone');
 
 var _backbone2 = _interopRequireDefault(_backbone);
 
+var _uid = require('uid');
+
+var _uid2 = _interopRequireDefault(_uid);
+
 var _store = require('./stores/store');
 
 var _store2 = _interopRequireDefault(_store);
@@ -20034,7 +20038,6 @@ var _error2 = _interopRequireDefault(_error);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Editor = _backbone2.default.View.extend({
-  el: '#villain',
   textArea: '#id_body',
   data: {},
   blocks: {},
@@ -20051,6 +20054,7 @@ var Editor = _backbone2.default.View.extend({
   initialize: function initialize(options) {
     var self = this;
 
+    this.instanceId = (0, _uid2.default)();
     this.eventBus = _underscore2.default.extend({}, _backbone2.default.Events);
     // create a blockstore
     this.blockStore = new _store2.default();
@@ -20077,7 +20081,7 @@ var Editor = _backbone2.default.View.extend({
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
 
-    var $v = (0, _jquery2.default)('<div id="villain"></div>');
+    var $v = (0, _jquery2.default)('<div class="villain-editor" data-villain-instance="' + this.instanceId + '"></div>');
     $v.insertAfter(this.$textArea);
 
     this.setElement($v);
@@ -21254,81 +21258,16 @@ require.register("villain.js", function(exports, require, module) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Editor = exports.Blocks = undefined;
 
 var _editor = require('./editor');
 
 var _editor2 = _interopRequireDefault(_editor);
 
-var _text = require('./blocks/text');
-
-var _text2 = _interopRequireDefault(_text);
-
-var _header = require('./blocks/header');
-
-var _header2 = _interopRequireDefault(_header);
-
-var _blockquote = require('./blocks/blockquote');
-
-var _blockquote2 = _interopRequireDefault(_blockquote);
-
-var _list = require('./blocks/list');
-
-var _list2 = _interopRequireDefault(_list);
-
-var _image = require('./blocks/image');
-
-var _image2 = _interopRequireDefault(_image);
-
-var _slideshow = require('./blocks/slideshow');
-
-var _slideshow2 = _interopRequireDefault(_slideshow);
-
-var _video = require('./blocks/video');
-
-var _video2 = _interopRequireDefault(_video);
-
-var _gmap = require('./blocks/gmap');
-
-var _gmap2 = _interopRequireDefault(_gmap);
-
-var _divider = require('./blocks/divider');
-
-var _divider2 = _interopRequireDefault(_divider);
-
-var _html = require('./blocks/html');
-
-var _html2 = _interopRequireDefault(_html);
-
-var _markdown = require('./blocks/markdown');
-
-var _markdown2 = _interopRequireDefault(_markdown);
-
-var _columns = require('./blocks/columns');
-
-var _columns2 = _interopRequireDefault(_columns);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Blocks = {
-  Text: _text2.default,
-  Header: _header2.default,
-  Blockquote: _blockquote2.default,
-  List: _list2.default,
-  Image: _image2.default,
-  Slideshow: _slideshow2.default,
-  Video: _video2.default,
-  Gmap: _gmap2.default,
-  Divider: _divider2.default,
-  Html: _html2.default,
-  Markdown: _markdown2.default,
-  Columns: _columns2.default
-};
+window.Villain = { Editor: _editor2.default };
 
-window.Villain = { Editor: _editor2.default, Blocks: Blocks };
-
-exports.Blocks = Blocks;
-exports.Editor = _editor2.default;
+exports.default = _editor2.default;
 });
 
 require.alias("autosize/dist/autosize.js", "autosize");
