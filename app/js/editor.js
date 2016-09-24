@@ -4,7 +4,6 @@ import Backbone from 'backbone';
 
 import BlockStore from './stores/store';
 import BlockRegistry from './stores/registry';
-import FormatPopUp from './format_popup';
 import Plus from './plus';
 import VillainError from './errors/error';
 
@@ -96,13 +95,6 @@ const Editor = Backbone.View.extend({
     });
 
     this.$el.append(addblock.$el);
-
-    // add format popup
-    const formatPopUp = new FormatPopUp({
-      editor: this,
-    });
-
-    this.$el.append(formatPopUp.$el);
 
     // parse json
     if (!this.data) {

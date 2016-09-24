@@ -6,10 +6,35 @@ import Block from '../block';
 import Markup from '../utils/markup';
 
 const Text = Block.extend({
+  hasToolbar: true,
   type: 'text',
   template: _.template(
     '<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'
   ),
+
+  additionalEvents: {
+    'click .villain-format-bold': 'onClickBold',
+    'click .villain-format-italic': 'onClickItalic',
+    'click .villain-format-link': 'onClickLink',
+    'click .villain-format-unlink': 'onClickUnlink',
+  },
+
+  initialize(opts) {
+    Block.prototype.initialize.apply(this, [opts]);
+    this.editor.eventBus.on(`formattoolbar:${this.dataId}:show`, this.showToolbar, this);
+    this.editor.eventBus.on('formattoolbar:hide', this.hideToolbars, this);
+  },
+
+  renderToolbar() {
+    return `
+    <div class="villain-text-toolbar">
+      <button class="toolbar-button villain-format-bold"><i class="fa fa-bold"></i></button>
+      <button class="toolbar-button villain-format-italic"><i class="fa fa-italic"></i></button>
+      <button class="toolbar-button villain-format-link"><i class="fa fa-link"></i></button>
+      <button class="toolbar-button villain-format-unlink"><i class="fa fa-unlink"></i></button>
+    </div>
+    `;
+  },
 
   renderEditorHtml() {
     const blockTemplate = this.renderContentBlockHtml();
@@ -18,7 +43,7 @@ const Text = Block.extend({
       content: blockTemplate,
       actions: actionsTemplate,
     });
-    return wrapperTemplate;
+    return `${this.renderToolbar()}${wrapperTemplate}`;
   },
 
   renderContentBlockHtml() {
@@ -35,10 +60,53 @@ const Text = Block.extend({
       type: 'paragraph',
     });
     const actionsTemplate = this.actionsTemplate();
-    return this.wrapperTemplate({
+    const wrapperTemplate = this.wrapperTemplate({
       content: blockTemplate,
       actions: actionsTemplate,
     });
+
+    return `${this.renderToolbar()}${wrapperTemplate}`;
+  },
+
+  showToolbar() {
+    this.$('.villain-text-toolbar').slideDown();
+  },
+
+  hideToolbars() {
+    $('.villain-text-toolbar').slideUp();
+  },
+
+  onClickBold(e) {
+    e.preventDefault();
+    document.execCommand('bold', false, false);
+    this.activateToolbarButton('.villain-format-bold');
+  },
+
+  onClickItalic(e) {
+    e.preventDefault();
+    document.execCommand('italic', false, false);
+    this.activateToolbarButton('.villain-format-italic');
+  },
+
+  onClickLink(e) {
+    e.preventDefault();
+    const link = prompt('link');
+    document.execCommand('createLink', false, link);
+    this.activateToolbarButton('.villain-format-link');
+  },
+
+  onClickUnlink(e) {
+    e.preventDefault();
+    document.execCommand('unlink', false, false);
+  },
+
+  activateToolbarButton(className) {
+    this.$(className).addClass('active');
+  },
+
+  deactivateToolbarButtons() {
+    this.$('.toolbar-button')
+      .removeClass('active');
   },
 
   getJSON() {

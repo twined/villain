@@ -11,6 +11,7 @@ const Block = Backbone.View.extend({
   type: 'base',
   template: _.template('base'),
   resizeSetup: true,
+  hasToolbar: false,
   store: 'main',
 
   wrapperTemplate: _.template([
@@ -98,13 +99,6 @@ const Block = Backbone.View.extend({
     return this;
   },
 
-  onClick() {
-    const text = this.getSelectedText();
-    if (text === '') {
-      this.editor.eventBus.trigger('formatpopup:hide');
-    }
-  },
-
   onSetupClick(e) {
     e.stopPropagation();
     // is it active now?
@@ -120,24 +114,39 @@ const Block = Backbone.View.extend({
   },
 
   onKeyUp() {
-    // check if there's text selected
-    const text = this.getSelectedText();
+    if (this.hasToolbar) {
+      // check if there's text selected
+      const text = this.getSelectedText();
 
-    if (text !== '') {
-      this.editor.eventBus.trigger('formatpopup:show', this);
-    } else {
-      this.editor.eventBus.trigger('formatpopup:hide');
+      if (text !== '') {
+        this.editor.eventBus.trigger('formattoolbar:show', this);
+      } else {
+        this.editor.eventBus.trigger('formattoolbar:hide');
+      }
     }
   },
 
   onMouseUp() {
-    // check if there's text selected
-    const text = this.getSelectedText();
+    if (this.hasToolbar) {
+      // check if there's text selected
+      const text = this.getSelectedText();
 
-    if (text !== '') {
-      this.editor.eventBus.trigger('formatpopup:show', this);
-    } else {
-      this.editor.eventBus.trigger('formatpopup:hide');
+      if (text !== '') {
+        this.editor.eventBus.trigger(`formattoolbar:${this.dataId}:show`, this);
+      } else {
+        this.editor.eventBus.trigger('formattoolbar:hide');
+      }
+    }
+  },
+
+  onClick() {
+    if (this.hasToolbar) {
+      setTimeout(() => {
+        const text = this.getSelectedText();
+        if (text === '') {
+          this.editor.eventBus.trigger('formattoolbar:hide');
+        }
+      }, 1);
     }
   },
 

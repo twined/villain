@@ -1809,6 +1809,22 @@ html {
 .villain-block-wrapper[data-block-type=columns] > div {
   background-color: rgba(202, 255, 0, 0.05); }
 
+/* line 742, /Users/trond/dev/js/villain/app/styles/_base.scss */
+.villain-text-toolbar {
+  display: none;
+  padding-left: 10px; }
+  /* line 746, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  .villain-text-toolbar button {
+    background-color: #efefef;
+    border: 0;
+    font-size: 15px;
+    margin-right: 10px;
+    padding: 6px 10px;
+    width: 35px; }
+    /* line 754, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    .villain-text-toolbar button:hover {
+      cursor: pointer; }
+
 /* line 1, /Users/trond/dev/js/villain/app/styles/_formatpopup.scss */
 .villain-format-popup {
   position: absolute;

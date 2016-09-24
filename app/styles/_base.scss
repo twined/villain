@@ -740,3 +740,21 @@
 .villain-block-wrapper[data-block-type=columns] > div {
   background-color: rgba(202, 255, 0, 0.05);
 }
+
+.villain-text-toolbar {
+  display: none;
+  padding-left: 10px;
+
+  button {
+    background-color: #efefef;
+    border: 0;
+    font-size: 15px;
+    margin-right: 10px;
+    padding: 6px 10px;
+    width: 35px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

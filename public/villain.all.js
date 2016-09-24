@@ -17655,6 +17655,7 @@ var Block = _backbone2.default.View.extend({
   type: 'base',
   template: _underscore2.default.template('base'),
   resizeSetup: true,
+  hasToolbar: false,
   store: 'main',
 
   wrapperTemplate: _underscore2.default.template(['<div class="villain-block-inner"><%= content %><%= actions %></div>'].join('\n')),
@@ -17721,12 +17722,6 @@ var Block = _backbone2.default.View.extend({
 
     return this;
   },
-  onClick: function onClick() {
-    var text = this.getSelectedText();
-    if (text === '') {
-      this.editor.eventBus.trigger('formatpopup:hide');
-    }
-  },
   onSetupClick: function onSetupClick(e) {
     e.stopPropagation();
     // is it active now?
@@ -17741,23 +17736,39 @@ var Block = _backbone2.default.View.extend({
     }
   },
   onKeyUp: function onKeyUp() {
-    // check if there's text selected
-    var text = this.getSelectedText();
+    if (this.hasToolbar) {
+      // check if there's text selected
+      var text = this.getSelectedText();
 
-    if (text !== '') {
-      this.editor.eventBus.trigger('formatpopup:show', this);
-    } else {
-      this.editor.eventBus.trigger('formatpopup:hide');
+      if (text !== '') {
+        this.editor.eventBus.trigger('formattoolbar:show', this);
+      } else {
+        this.editor.eventBus.trigger('formattoolbar:hide');
+      }
     }
   },
   onMouseUp: function onMouseUp() {
-    // check if there's text selected
-    var text = this.getSelectedText();
+    if (this.hasToolbar) {
+      // check if there's text selected
+      var text = this.getSelectedText();
 
-    if (text !== '') {
-      this.editor.eventBus.trigger('formatpopup:show', this);
-    } else {
-      this.editor.eventBus.trigger('formatpopup:hide');
+      if (text !== '') {
+        this.editor.eventBus.trigger('formattoolbar:' + this.dataId + ':show', this);
+      } else {
+        this.editor.eventBus.trigger('formattoolbar:hide');
+      }
+    }
+  },
+  onClick: function onClick() {
+    var _this = this;
+
+    if (this.hasToolbar) {
+      setTimeout(function () {
+        var text = _this.getSelectedText();
+        if (text === '') {
+          _this.editor.eventBus.trigger('formattoolbar:hide');
+        }
+      }, 1);
     }
   },
   getSelectedText: function getSelectedText() {
@@ -19677,9 +19688,25 @@ var _markup2 = _interopRequireDefault(_markup);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Text = _block2.default.extend({
+  hasToolbar: true,
   type: 'text',
   template: _underscore2.default.template('<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'),
 
+  additionalEvents: {
+    'click .villain-format-bold': 'onClickBold',
+    'click .villain-format-italic': 'onClickItalic',
+    'click .villain-format-link': 'onClickLink',
+    'click .villain-format-unlink': 'onClickUnlink'
+  },
+
+  initialize: function initialize(opts) {
+    _block2.default.prototype.initialize.apply(this, [opts]);
+    this.editor.eventBus.on('formattoolbar:' + this.dataId + ':show', this.showToolbar, this);
+    this.editor.eventBus.on('formattoolbar:hide', this.hideToolbars, this);
+  },
+  renderToolbar: function renderToolbar() {
+    return '\n    <div class="villain-text-toolbar">\n      <button class="toolbar-button villain-format-bold"><i class="fa fa-bold"></i></button>\n      <button class="toolbar-button villain-format-italic"><i class="fa fa-italic"></i></button>\n      <button class="toolbar-button villain-format-link"><i class="fa fa-link"></i></button>\n      <button class="toolbar-button villain-format-unlink"><i class="fa fa-unlink"></i></button>\n    </div>\n    ';
+  },
   renderEditorHtml: function renderEditorHtml() {
     var blockTemplate = this.renderContentBlockHtml();
     var actionsTemplate = this.actionsTemplate();
@@ -19687,7 +19714,7 @@ var Text = _block2.default.extend({
       content: blockTemplate,
       actions: actionsTemplate
     });
-    return wrapperTemplate;
+    return '' + this.renderToolbar() + wrapperTemplate;
   },
   renderContentBlockHtml: function renderContentBlockHtml() {
     var text = this.getTextBlockInner() ? this.getTextBlockInner() : this.data.text;
@@ -19702,10 +19729,44 @@ var Text = _block2.default.extend({
       type: 'paragraph'
     });
     var actionsTemplate = this.actionsTemplate();
-    return this.wrapperTemplate({
+    var wrapperTemplate = this.wrapperTemplate({
       content: blockTemplate,
       actions: actionsTemplate
     });
+
+    return '' + this.renderToolbar() + wrapperTemplate;
+  },
+  showToolbar: function showToolbar() {
+    this.$('.villain-text-toolbar').slideDown();
+  },
+  hideToolbars: function hideToolbars() {
+    (0, _jquery2.default)('.villain-text-toolbar').slideUp();
+  },
+  onClickBold: function onClickBold(e) {
+    e.preventDefault();
+    document.execCommand('bold', false, false);
+    this.activateToolbarButton('.villain-format-bold');
+  },
+  onClickItalic: function onClickItalic(e) {
+    e.preventDefault();
+    document.execCommand('italic', false, false);
+    this.activateToolbarButton('.villain-format-italic');
+  },
+  onClickLink: function onClickLink(e) {
+    e.preventDefault();
+    var link = prompt('link');
+    document.execCommand('createLink', false, link);
+    this.activateToolbarButton('.villain-format-link');
+  },
+  onClickUnlink: function onClickUnlink(e) {
+    e.preventDefault();
+    document.execCommand('unlink', false, false);
+  },
+  activateToolbarButton: function activateToolbarButton(className) {
+    this.$(className).addClass('active');
+  },
+  deactivateToolbarButtons: function deactivateToolbarButtons() {
+    this.$('.toolbar-button').removeClass('active');
   },
   getJSON: function getJSON() {
     var textNode = _markup2.default.toMD(this.getTextBlockInner());
@@ -19962,10 +20023,6 @@ var _registry = require('./stores/registry');
 
 var _registry2 = _interopRequireDefault(_registry);
 
-var _format_popup = require('./format_popup');
-
-var _format_popup2 = _interopRequireDefault(_format_popup);
-
 var _plus = require('./plus');
 
 var _plus2 = _interopRequireDefault(_plus);
@@ -20062,13 +20119,6 @@ var Editor = _backbone2.default.View.extend({
     });
 
     this.$el.append(addblock.$el);
-
-    // add format popup
-    var formatPopUp = new _format_popup2.default({
-      editor: this
-    });
-
-    this.$el.append(formatPopUp.$el);
 
     // parse json
     if (!this.data) {
@@ -20485,124 +20535,6 @@ var VillainError = function (_ExtendableError) {
 }(ExtendableError);
 
 exports.default = VillainError;
-});
-
-require.register("format_popup.js", function(exports, require, module) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _backbone = require('backbone');
-
-var _backbone2 = _interopRequireDefault(_backbone);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FormatPopUp = _backbone2.default.View.extend({
-  tagName: 'div',
-  className: 'villain-format-popup',
-
-  events: {
-    'click .villain-format-bold': 'onClickBold',
-    'click .villain-format-italic': 'onClickItalic',
-    'click .villain-format-link': 'onClickLink',
-    'click .villain-format-unlink': 'onClickUnlink'
-  },
-
-  initialize: function initialize(options) {
-    this.editor = options.editor;
-
-    this.render();
-
-    // listen to events
-    this.editor.eventBus.on('formatpopup:show', this.showPopUp, this);
-    this.editor.eventBus.on('formatpopup:hide', this.hidePopUp, this);
-  },
-  onClickBold: function onClickBold(e) {
-    e.preventDefault();
-    document.execCommand('bold', false, false);
-    this.activateButton('.villain-format-bold');
-  },
-  onClickItalic: function onClickItalic(e) {
-    e.preventDefault();
-    document.execCommand('italic', false, false);
-    this.activateButton('.villain-format-italic');
-  },
-  onClickLink: function onClickLink(e) {
-    e.preventDefault();
-    var link = prompt('link');
-    document.execCommand('createLink', false, link);
-    this.activateButton('.villain-format-link');
-  },
-  onClickUnlink: function onClickUnlink(e) {
-    e.preventDefault();
-    document.execCommand('unlink', false, false);
-  },
-  render: function render() {
-    // add buttons
-    this.$el.html('\n        <button class="popup-button villain-format-bold"><i class="fa fa-bold"></i></button>\n        <button class="popup-button villain-format-italic"><i class="fa fa-italic"></i></button>\n        <button class="popup-button villain-format-link"><i class="fa fa-link"></i></button>\n        <button class="popup-button villain-format-unlink"><i class="fa fa-unlink"></i></button>\n      ');
-    return this;
-  },
-  showPopUp: function showPopUp(view) {
-    var $el = view.$el;
-    var selection = window.getSelection();
-    var range = selection.getRangeAt(0);
-    var boundary = range.getBoundingClientRect();
-    var offset = $el.offset();
-    var coords = {};
-    var mainContent = (0, _jquery2.default)('section#maincontent');
-
-    coords.top = boundary.top + mainContent.scrollTop();
-    // 12 is padding for text-block
-    coords.left = (boundary.left + boundary.right) / 2 - this.$el.width() / 2 - (offset.left + 12);
-
-    if (parseInt(coords.left, 10) < 0) {
-      coords.left = '0';
-    }
-    coords.left = coords.left + 'px';
-
-    this.deactivateButtons();
-    this.activeButtons();
-    this.$el.addClass('show-popup');
-    this.$el.css(coords);
-  },
-  hidePopUp: function hidePopUp() {
-    this.$el.removeClass('show-popup');
-  },
-  activeButtons: function activeButtons() {
-    var selection = window.getSelection();
-    var node = void 0;
-
-    if (selection.rangeCount > 0) {
-      node = selection.getRangeAt(0).startContainer.parentNode;
-    }
-
-    // link
-    if (node && node.nodeName === 'A') {
-      this.activateButton('.villain-format-link');
-    }
-    if (document.queryCommandState('bold')) {
-      this.activateButton('.villain-format-bold');
-    }
-    if (document.queryCommandState('italic')) {
-      this.activateButton('.villain-format-italic');
-    }
-  },
-  activateButton: function activateButton(className) {
-    this.$(className).addClass('active');
-  },
-  deactivateButtons: function deactivateButtons() {
-    this.$('.popup-button').removeClass('active');
-  }
-});
-
-exports.default = FormatPopUp;
 });
 
 require.register("plus.js", function(exports, require, module) {
