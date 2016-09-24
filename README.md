@@ -19,16 +19,16 @@ Include dependencies + `villain.js` and `villain.css` located in `dist/`.
 Add to your HTML:
 
 ```html
-    <textarea id="id_body"></textarea>
+    <textarea name="post[data]"></textarea>
     <div id="villain"></div>
     <script type="text/javascript">
-        $(document).ready(function() {
-            v = new Villain.Editor({
-              textArea: 'textarea[name="post[data]"]',
-              baseURL: '/admin/posts/',
-              imageSeries: 'post'
-            });
+      document.addEventListener("DOMContentLoaded", function(event) {
+        v = new Villain.Editor({
+          textArea: 'textarea[name="post[data]"]',
+          baseURL: '/admin/posts/',
+          imageSeries: 'post'
         });
+      });
     </script>
 ```
 
@@ -36,5 +36,26 @@ Add to your HTML:
 
   * `textArea`: selector of source textarea.
   * `baseUrl`: Base URL to which we append `browse/`, `upload/` etc
-  * `defaultBlocks`: If you only want a subset of blocks to be enabled: Ex: `["Markdown"]`
-  * `extraBlocks`: List of extra blocks to add in. Capitalize each block. Ex: `["Myblock", "CustomVideo"]`. Filename should be `blocks.<block_name>.js`.
+  * `defaultBlocks`: If you only want a subset of blocks to be enabled.
+
+```javascript
+document.addEventListener("DOMContentLoaded", function(event) {
+  v = new Villain.Editor({
+    extraBlocks: [],
+    defaultBlocks: [
+    {
+      name: 'Markdown',
+      cls: require('villain').Blocks.Markdown
+    },
+    {
+      name: 'Text',
+      cls: require('villain').Blocks.Text
+    }],
+    baseURL: '/admin/news/',
+    imageSeries: 'post',
+    textArea: 'textarea[name="post[data]"]'
+  });
+});
+```
+
+  * `extraBlocks`: List of extra blocks to add in.
