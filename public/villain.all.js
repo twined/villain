@@ -17711,7 +17711,7 @@ var Block = _backbone2.default.View.extend({
     }
 
     this.editor = options.editor;
-    this.data = options.data || [];
+    this.data = options.data || {};
     this.dataId = this.getIdFromBlockStore();
     this.id = 'villain-block-' + this.dataId;
 
@@ -17921,7 +17921,7 @@ var Block = _backbone2.default.View.extend({
     }, 300, 'linear');
   },
   getJSON: function getJSON() {
-    return [];
+    return {};
   },
   addToBlockStore: function addToBlockStore(store) {
     this.editor.blockStore.add(store || 'main', this.dataId, this);
@@ -18639,6 +18639,10 @@ var _block = require('../block');
 
 var _block2 = _interopRequireDefault(_block);
 
+var _html = require('../utils/html');
+
+var _html2 = _interopRequireDefault(_html);
+
 var _markup = require('../utils/markup');
 
 var _markup2 = _interopRequireDefault(_markup);
@@ -18690,29 +18694,25 @@ var Header = _block2.default.extend({
 
     var level = data.level;
     var anchor = data.anchor || '';
-    var levels = [1, 2, 3, 4, 5];
 
-    var radios = levels.map(function (l) {
-      var selected = '';
-      if (parseInt(level, 10) === parseInt(l, 10)) {
-        selected = ' checked="checked"';
+    var headerSizeRadios = _html2.default.createRadios('Størrelse på overskrift', 'header-size-' + this.dataId, [{ name: 'H1', val: 1 }, { name: 'H2', val: 2 }, { name: 'H3', val: 3 }, { name: 'H4', val: 4 }, { name: 'H5', val: 5 }, { name: 'H6', val: 6 }], level, [{
+      ev: 'change',
+      fn: function fn(e) {
+        _this.setDataProperty('level', parseInt((0, _jquery2.default)(e.target).val(), 10));
+        _this.refreshContentBlock();
+        _this.$content.attr('data-header-level', (0, _jquery2.default)(e.target).val());
       }
-      return '\n        <label>\n          <input type="radio"\n                 name="header-size-' + _this.dataId + '"\n                 value="' + l + '"' + selected + '>H' + l + '\n        </label>';
-    });
+    }]);
 
-    this.$setup.append((0, _jquery2.default)('\n      <label>Størrelse</label>\n      ' + radios.join('\n')));
+    var anchorInput = _html2.default.createInput('Anker', 'header-anchor-' + this.dataId, anchor, [{
+      ev: 'keyup',
+      fn: function fn(e) {
+        _this.setDataProperty('anchor', (0, _jquery2.default)(e.target).val());
+      }
+    }]);
 
-    this.$setup.append((0, _jquery2.default)('\n      <br />\n      <label>Anker</label>\n      <input type="text" value="' + anchor + '" name="header-anchor-' + this.dataId + '" />'));
-
-    this.$setup.find('input[type=text]').on('keyup', _jquery2.default.proxy(function setAnchorProperty(e) {
-      this.setDataProperty('anchor', (0, _jquery2.default)(e.target).val());
-    }, this));
-
-    this.$setup.find('input[type=radio]').on('change', _jquery2.default.proxy(function setLevelAndRefresh(e) {
-      this.setDataProperty('level', (0, _jquery2.default)(e.target).val());
-      this.refreshContentBlock();
-      this.$content.attr('data-header-level', (0, _jquery2.default)(e.target).val());
-    }, this));
+    this.$setup.append(headerSizeRadios);
+    this.$setup.append(anchorInput);
   },
   getData: function getData() {
     var data = this.data;
@@ -18720,10 +18720,13 @@ var Header = _block2.default.extend({
     return data;
   },
   getJSON: function getJSON() {
-    return {
-      type: this.type,
-      data: this.getData()
+    var data = this.getData();
+    var json = {
+      data: data,
+      type: this.type
     };
+
+    return json;
   },
   getHTML: function getHTML() {
     var textNode = this.getTextBlock().html();
@@ -19704,6 +19707,10 @@ var _block = require('../block');
 
 var _block2 = _interopRequireDefault(_block);
 
+var _html = require('../utils/html');
+
+var _html2 = _interopRequireDefault(_html);
+
 var _markup = require('../utils/markup');
 
 var _markup2 = _interopRequireDefault(_markup);
@@ -19818,47 +19825,16 @@ var Text = _block2.default.extend({
     var type = this.data.type;
     this.$setup.hide();
 
-    var radios = '';
-    var types = ['paragraph', 'lead'];
-
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = types[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var t = _step.value;
-
-        var selected = '';
-
-        if (t === type) {
-          selected = ' checked="checked"';
-        }
-
-        radios += '\n        <label>\n          <input type="radio" name="text-type" value="' + t + '"' + selected + '>' + t + '\n        </label>';
+    var radios = _html2.default.createRadios('Type', 'text-type-' + this.dataId, [{ name: 'Paragraf', val: 'paragraph' }, { name: 'Ingress', val: 'lead' }], type, [{
+      ev: 'change',
+      fn: function fn(e) {
+        _this.setDataProperty('type', (0, _jquery2.default)(e.target).val());
+        _this.refreshContentBlock();
+        _this.$content.attr('data-text-type', (0, _jquery2.default)(e.target).val());
       }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
+    }]);
 
-    this.$setup.append((0, _jquery2.default)('<label>Type</label>' + radios));
-
-    this.$setup.find('input[type=radio]').on('change', _jquery2.default.proxy(function (e) {
-      _this.setDataProperty('type', (0, _jquery2.default)(e.target).val());
-      _this.refreshContentBlock();
-      _this.$content.attr('data-text-type', (0, _jquery2.default)(e.target).val());
-    }, this));
+    this.$setup.append(radios);
   }
 }, {
   /* static methods */
@@ -20969,6 +20945,68 @@ var BlockStore = function () {
 }();
 
 exports.default = BlockStore;
+});
+
+require.register("utils/html.js", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HTMLUtils = function () {
+  function HTMLUtils() {
+    _classCallCheck(this, HTMLUtils);
+  }
+
+  _createClass(HTMLUtils, null, [{
+    key: 'createRadios',
+    value: function createRadios(labelName, inputName, choices, initialValue, events) {
+      var radios = choices.map(function (_ref) {
+        var choiceName = _ref.name;
+        var choiceValue = _ref.val;
+
+        var selected = '';
+        if (choiceValue === initialValue) {
+          selected = ' checked="checked"';
+        }
+        return '\n          <label>\n            <input type="radio"\n                   name="' + inputName + '"\n                   value="' + choiceValue + '"' + selected + '>' + choiceName + '\n          </label>';
+      });
+
+      var $radios = (0, _jquery2.default)('\n      <div class="villain-form-input-wrapper">\n        <label>' + labelName + '</label>\n        ' + radios.join('\n') + '\n      </div>\n    ');
+
+      if (events) {
+        events.forEach(function (_ref2) {
+          var ev = _ref2.ev;
+          var fn = _ref2.fn;
+
+          $radios.on(ev, fn);
+        });
+      }
+
+      return $radios;
+    }
+  }, {
+    key: 'createInput',
+    value: function createInput(labelName, inputName, initialValue) {
+      return '\n      <div class="villain-form-input-wrapper">\n        <label>' + labelName + '</label>\n        <input type="text" value="' + initialValue + '" name="' + inputName + '" />\n      </div>\n    ';
+    }
+  }]);
+
+  return HTMLUtils;
+}();
+
+exports.default = HTMLUtils;
 });
 
 require.register("utils/markup.js", function(exports, require, module) {

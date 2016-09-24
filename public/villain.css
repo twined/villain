@@ -1825,6 +1825,11 @@ html {
     .villain-text-toolbar button:hover {
       cursor: pointer; }
 
+/* line 760, /Users/trond/dev/js/villain/app/styles/_base.scss */
+.villain-form-input-wrapper {
+  margin-bottom: 15px;
+  margin-top: 15px; }
+
 /* line 1, /Users/trond/dev/js/villain/app/styles/_formatpopup.scss */
 .villain-format-popup {
   position: absolute;

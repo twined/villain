@@ -3,6 +3,7 @@ import marked from 'marked';
 import $ from 'jquery';
 
 import Block from '../block';
+import HTMLUtils from '../utils/html';
 import Markup from '../utils/markup';
 
 const Text = Block.extend({
@@ -136,29 +137,27 @@ const Text = Block.extend({
     const type = this.data.type;
     this.$setup.hide();
 
-    let radios = '';
-    const types = ['paragraph', 'lead'];
+    const radios = HTMLUtils.createRadios(
+      'Type',
+      `text-type-${this.dataId}`,
+      [
+        { name: 'Paragraf', val: 'paragraph' },
+        { name: 'Ingress', val: 'lead' },
+      ],
+      type,
+      [
+        {
+          ev: 'change',
+          fn: (e) => {
+            this.setDataProperty('type', $(e.target).val());
+            this.refreshContentBlock();
+            this.$content.attr('data-text-type', $(e.target).val());
+          },
+        },
+      ],
+    );
 
-    for (const t of types) {
-      let selected = '';
-
-      if (t === type) {
-        selected = ' checked="checked"';
-      }
-
-      radios += `
-        <label>
-          <input type="radio" name="text-type" value="${t}"${selected}>${t}
-        </label>`;
-    }
-
-    this.$setup.append($(`<label>Type</label>${radios}`));
-
-    this.$setup.find('input[type=radio]').on('change', $.proxy((e) => {
-      this.setDataProperty('type', $(e.target).val());
-      this.refreshContentBlock();
-      this.$content.attr('data-text-type', $(e.target).val());
-    }, this));
+    this.$setup.append(radios);
   },
 }, {
   /* static methods */

@@ -3,6 +3,7 @@ import $ from 'jquery';
 import marked from 'marked';
 
 import Block from '../block';
+import HTMLUtils from '../utils/html';
 import Markup from '../utils/markup';
 
 const Header = Block.extend({
@@ -56,41 +57,47 @@ const Header = Block.extend({
 
     const level = data.level;
     const anchor = data.anchor || '';
-    const levels = [1, 2, 3, 4, 5];
 
-    const radios = levels.map((l) => {
-      let selected = '';
-      if (parseInt(level, 10) === parseInt(l, 10)) {
-        selected = ' checked="checked"';
-      }
-      return `
-        <label>
-          <input type="radio"
-                 name="header-size-${this.dataId}"
-                 value="${l}"${selected}>H${l}
-        </label>`;
-    });
+    const headerSizeRadios = HTMLUtils.createRadios(
+      'Størrelse på overskrift',
+      `header-size-${this.dataId}`,
+      [
+        { name: 'H1', val: 1 },
+        { name: 'H2', val: 2 },
+        { name: 'H3', val: 3 },
+        { name: 'H4', val: 4 },
+        { name: 'H5', val: 5 },
+        { name: 'H6', val: 6 },
+      ],
+      level,
+      [
+        {
+          ev: 'change',
+          fn: (e) => {
+            this.setDataProperty('level', parseInt($(e.target).val(), 10));
+            this.refreshContentBlock();
+            this.$content.attr('data-header-level', $(e.target).val());
+          },
+        },
+      ]
+    );
 
-    this.$setup.append($(`
-      <label>Størrelse</label>
-      ${radios.join('\n')}`));
+    const anchorInput = HTMLUtils.createInput(
+      'Anker',
+      `header-anchor-${this.dataId}`,
+      anchor,
+      [
+        {
+          ev: 'keyup',
+          fn: (e) => {
+            this.setDataProperty('anchor', $(e.target).val());
+          },
+        },
+      ],
+    );
 
-    this.$setup.append($(`
-      <br />
-      <label>Anker</label>
-      <input type="text" value="${anchor}" name="header-anchor-${this.dataId}" />`));
-
-    this.$setup.find('input[type=text]')
-      .on('keyup', $.proxy(function setAnchorProperty(e) {
-        this.setDataProperty('anchor', $(e.target).val());
-      }, this));
-
-    this.$setup.find('input[type=radio]')
-      .on('change', $.proxy(function setLevelAndRefresh(e) {
-        this.setDataProperty('level', $(e.target).val());
-        this.refreshContentBlock();
-        this.$content.attr('data-header-level', $(e.target).val());
-      }, this));
+    this.$setup.append(headerSizeRadios);
+    this.$setup.append(anchorInput);
   },
 
   getData() {
@@ -100,10 +107,13 @@ const Header = Block.extend({
   },
 
   getJSON() {
-    return {
+    const data = this.getData();
+    const json = {
+      data,
       type: this.type,
-      data: this.getData(),
     };
+
+    return json;
   },
 
   getHTML() {
