@@ -2,7 +2,7 @@ module.exports = {
     files: {
         javascripts: {
             joinTo: {
-                'villain.js': /^(node_modules)|(app\/js)/
+                'villain.all.js': /^(node_modules)|(app\/js)/
             }
         },
         stylesheets: {
@@ -17,7 +17,7 @@ module.exports = {
 
     modules: {
         autoRequire: {
-            'villain.js': ["villain"]
+            'villain.all.js': ["villain"]
         },
 
         globals: {
