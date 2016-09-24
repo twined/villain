@@ -10,6 +10,7 @@ const Block = Backbone.View.extend({
   className: 'villain-block-wrapper',
   type: 'base',
   template: _.template('base'),
+  resizeSetup: true,
   store: 'main',
 
   wrapperTemplate: _.template([
@@ -390,12 +391,14 @@ const Block = Backbone.View.extend({
     this.$content.hide();
     this.$setup.show();
 
-    if (this.$setup.height() < iHeight) {
-      this.$setup.height(iHeight);
-    }
+    if (this.resizeSetup) {
+      if (this.$setup.height() < iHeight) {
+        this.$setup.height(iHeight);
+      }
 
-    if (iWidth < 300) {
-      this.$el.width(300);
+      if (iWidth < 300 && iWidth !== 0) {
+        this.$el.width(300);
+      }
     }
   },
 

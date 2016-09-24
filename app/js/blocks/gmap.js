@@ -6,6 +6,7 @@ import { alertError } from '../alerts';
 
 const Gmap = Block.extend({
   type: 'map',
+  resizeSetup: false,
 
   providers: {
     gmaps: {
@@ -122,21 +123,21 @@ const Gmap = Block.extend({
 
   setup() {
     // check if this block has data. if not, show the setup div
+    const mapSetup = $(`
+      <div class="villain-map-setup-icon">
+        <i class="fa fa-map-marker"></i>
+        <div>Lim inn embed-link fra Google Maps</div>
+      </div>
+      <div class="villain-map-setup-input-wrapper">
+        <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />
+      </div>
+      <div><hr></div>
+      <div style="text-align: center;"><button>Hent kart</button></div>`
+    );
+    this.$setup.append(mapSetup);
+
     if (!this.hasData()) {
-      this.$('.villain-map-block').hide();
-      const mapSetup = $(`
-        <div class="villain-map-setup-icon">
-          <i class="fa fa-map-marker"></i>
-          <div>Lim inn embed-link fra Google Maps</div>
-        </div>
-        <div class="villain-map-setup-input-wrapper">
-          <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />
-        </div>
-        <div><hr></div>
-        <div style="text-align: center;"><button>Hent kart</button></div>`
-      );
-      this.$setup.append(mapSetup);
-      this.$setup.show();
+      this.showSetup();
     } else {
       this.hideSetup();
     }

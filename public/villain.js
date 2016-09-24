@@ -17654,6 +17654,7 @@ var Block = _backbone2.default.View.extend({
   className: 'villain-block-wrapper',
   type: 'base',
   template: _underscore2.default.template('base'),
+  resizeSetup: true,
   store: 'main',
 
   wrapperTemplate: _underscore2.default.template(['<div class="villain-block-inner"><%= content %><%= actions %></div>'].join('\n')),
@@ -17968,12 +17969,14 @@ var Block = _backbone2.default.View.extend({
     this.$content.hide();
     this.$setup.show();
 
-    if (this.$setup.height() < iHeight) {
-      this.$setup.height(iHeight);
-    }
+    if (this.resizeSetup) {
+      if (this.$setup.height() < iHeight) {
+        this.$setup.height(iHeight);
+      }
 
-    if (iWidth < 300) {
-      this.$el.width(300);
+      if (iWidth < 300 && iWidth !== 0) {
+        this.$el.width(300);
+      }
     }
   },
   hideSetup: function hideSetup() {
@@ -18459,6 +18462,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Gmap = _block2.default.extend({
   type: 'map',
+  resizeSetup: false,
 
   providers: {
     gmaps: {
@@ -18554,11 +18558,11 @@ var Gmap = _block2.default.extend({
   },
   setup: function setup() {
     // check if this block has data. if not, show the setup div
+    var mapSetup = (0, _jquery2.default)('\n      <div class="villain-map-setup-icon">\n        <i class="fa fa-map-marker"></i>\n        <div>Lim inn embed-link fra Google Maps</div>\n      </div>\n      <div class="villain-map-setup-input-wrapper">\n        <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />\n      </div>\n      <div><hr></div>\n      <div style="text-align: center;"><button>Hent kart</button></div>');
+    this.$setup.append(mapSetup);
+
     if (!this.hasData()) {
-      this.$('.villain-map-block').hide();
-      var mapSetup = (0, _jquery2.default)('\n        <div class="villain-map-setup-icon">\n          <i class="fa fa-map-marker"></i>\n          <div>Lim inn embed-link fra Google Maps</div>\n        </div>\n        <div class="villain-map-setup-input-wrapper">\n          <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />\n        </div>\n        <div><hr></div>\n        <div style="text-align: center;"><button>Hent kart</button></div>');
-      this.$setup.append(mapSetup);
-      this.$setup.show();
+      this.showSetup();
     } else {
       this.hideSetup();
     }
@@ -19810,6 +19814,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Video = _block2.default.extend({
   type: 'video',
+  resizeSetup: false,
 
   providers: {
     vimeo: {
@@ -19906,11 +19911,13 @@ var Video = _block2.default.extend({
   },
   setup: function setup() {
     // check if this block has data, if not, show the setup div
+    var videoSetup = (0, _jquery2.default)(['<div class="villain-video-setup-icon">', '  <i class="fa fa-video-camera"></i>', '  <div>Lim inn link til youtube eller vimeo, f.eks http://www.youtube.com/watch?v=jlbunmCbTBA</div>', '</div>', '<div class="villain-video-setup-input-wrapper">', '  <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />', '</div>', '<div><hr></div>', '<div style="text-align: center;"><button>Hent video</button></div>'].join('\n'));
+    this.$setup.append(videoSetup);
+
     if (!this.hasData()) {
-      this.$('.villain-video-block').hide();
-      var videoSetup = (0, _jquery2.default)(['<div class="villain-video-setup-icon">', '  <i class="fa fa-video-camera"></i>', '  <div>Lim inn link til youtube eller vimeo, f.eks http://www.youtube.com/watch?v=jlbunmCbTBA</div>', '</div>', '<div class="villain-video-setup-input-wrapper">', '  <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />', '</div>', '<div><hr></div>', '<div style="text-align: center;"><button>Hent video</button></div>'].join('\n'));
-      this.$setup.append(videoSetup);
-      this.$setup.show();
+      this.showSetup();
+    } else {
+      this.$setup.hide();
     }
   }
 }, {

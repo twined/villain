@@ -5,6 +5,7 @@ import Block from '../block';
 
 const Video = Block.extend({
   type: 'video',
+  resizeSetup: false,
 
   providers: {
     vimeo: {
@@ -118,21 +119,23 @@ const Video = Block.extend({
 
   setup() {
     // check if this block has data, if not, show the setup div
+    const videoSetup = $([
+      '<div class="villain-video-setup-icon">',
+      '  <i class="fa fa-video-camera"></i>',
+      '  <div>Lim inn link til youtube eller vimeo, f.eks http://www.youtube.com/watch?v=jlbunmCbTBA</div>',
+      '</div>',
+      '<div class="villain-video-setup-input-wrapper">',
+      '  <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />',
+      '</div>',
+      '<div><hr></div>',
+      '<div style="text-align: center;"><button>Hent video</button></div>',
+    ].join('\n'));
+    this.$setup.append(videoSetup);
+
     if (!this.hasData()) {
-      this.$('.villain-video-block').hide();
-      const videoSetup = $([
-        '<div class="villain-video-setup-icon">',
-        '  <i class="fa fa-video-camera"></i>',
-        '  <div>Lim inn link til youtube eller vimeo, f.eks http://www.youtube.com/watch?v=jlbunmCbTBA</div>',
-        '</div>',
-        '<div class="villain-video-setup-input-wrapper">',
-        '  <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />',
-        '</div>',
-        '<div><hr></div>',
-        '<div style="text-align: center;"><button>Hent video</button></div>',
-      ].join('\n'));
-      this.$setup.append(videoSetup);
-      this.$setup.show();
+      this.showSetup();
+    } else {
+      this.$setup.hide();
     }
   },
 }, {
