@@ -15990,6 +15990,29 @@ module.exports = [
   })();
 });
 
+require.register("uid/index.js", function(exports, require, module) {
+  require = __makeRelativeRequire(require, {}, "uid");
+  (function() {
+    /**
+ * Export `uid`
+ */
+
+module.exports = uid;
+
+/**
+ * Create a `uid`
+ *
+ * @param {String} len
+ * @return {String} uid
+ */
+
+function uid(len) {
+  len = len || 7;
+  return Math.random().toString(35).substr(2, len);
+}
+  })();
+});
+
 require.register("underscore/underscore.js", function(exports, require, module) {
   require = __makeRelativeRequire(require, {}, "underscore");
   (function() {
@@ -20015,6 +20038,10 @@ var _backbone = require('backbone');
 
 var _backbone2 = _interopRequireDefault(_backbone);
 
+var _uid = require('uid');
+
+var _uid2 = _interopRequireDefault(_uid);
+
 var _store = require('./stores/store');
 
 var _store2 = _interopRequireDefault(_store);
@@ -20034,7 +20061,6 @@ var _error2 = _interopRequireDefault(_error);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Editor = _backbone2.default.View.extend({
-  el: '#villain',
   textArea: '#id_body',
   data: {},
   blocks: {},
@@ -20051,6 +20077,7 @@ var Editor = _backbone2.default.View.extend({
   initialize: function initialize(options) {
     var self = this;
 
+    this.instanceId = (0, _uid2.default)();
     this.eventBus = _underscore2.default.extend({}, _backbone2.default.Events);
     // create a blockstore
     this.blockStore = new _store2.default();
@@ -20077,7 +20104,7 @@ var Editor = _backbone2.default.View.extend({
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
 
-    var $v = (0, _jquery2.default)('<div id="villain"></div>');
+    var $v = (0, _jquery2.default)('<div class="villain-editor" data-villain-instance="' + this.instanceId + '"></div>');
     $v.insertAfter(this.$textArea);
 
     this.setElement($v);
