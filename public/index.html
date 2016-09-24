@@ -15,21 +15,12 @@
 
   <textarea class="post" name="post[data]">
     [
-      {
-        "type": "text",
-        "data": {
-          "text": "This is just some text. Ok?",
-          "type": "paragraph"
-        }
-      }
     ]
 </textarea>
   <!-- <textarea class="post" name="post[data]"></textarea> -->
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
       v = new Villain.Editor({
-        extraBlocks: [],
-        //defaultBlocks: ["Markdown"],
         baseURL: '/admin/news/',
         imageSeries: 'post',
         textArea: 'textarea[name="post[data]"]'
