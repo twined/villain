@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import Backbone from 'backbone';
+import uid from 'uid';
 
 import BlockStore from './stores/store';
 import BlockRegistry from './stores/registry';
@@ -8,7 +9,6 @@ import Plus from './plus';
 import VillainError from './errors/error';
 
 const Editor = Backbone.View.extend({
-  el: '#villain',
   textArea: '#id_body',
   data: {},
   blocks: {},
@@ -25,6 +25,7 @@ const Editor = Backbone.View.extend({
   initialize(options) {
     const self = this;
 
+    this.instanceId = uid();
     this.eventBus = _.extend({}, Backbone.Events);
     // create a blockstore
     this.blockStore = new BlockStore();
@@ -52,7 +53,7 @@ const Editor = Backbone.View.extend({
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
 
-    const $v = $('<div id="villain"></div>');
+    const $v = $(`<div class="villain-editor" data-villain-instance="${this.instanceId}"></div>`);
     $v.insertAfter(this.$textArea);
 
     this.setElement($v);
