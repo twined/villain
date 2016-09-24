@@ -10,13 +10,6 @@ const Columns = Block.extend({
   template: _.template('<div id="villain-column-row-<%= columnId %>" class="row"></div>'),
   columnTemplate: _.template('<div class="<%= columnClass %>"></div>'),
 
-  events: {},
-
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
-    _.extend(this.events, Block.prototype.events);
-  },
-
   deleteBlock() {
     // delete the store containing all the child blocks
     if ({}.hasOwnProperty.call(this.editor.blockStore, this.store)) {

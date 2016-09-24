@@ -10,17 +10,12 @@ const Image = Block.extend({
     '<div class="villain-image-block villain-content"><img class="img-responsive" src="<%= url %>" /></div>'
   ),
 
-  events: {
+  additionalEvents: {
     'drop .villain-image-dropper i': 'onDropImage',
     'dragenter .villain-image-dropper i': 'onDragEnter',
     'dragleave .villain-image-dropper i': 'onDragLeave',
     'dragover .villain-image-dropper i': 'onDragOver',
     'click .villain-image-dropper-upload': 'onUploadClickAfterDrop',
-  },
-
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
-    _.extend(this.events, Block.prototype.events);
   },
 
   renderEditorHtml() {

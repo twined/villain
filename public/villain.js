@@ -17662,7 +17662,9 @@ var Block = _backbone2.default.View.extend({
 
   setupTemplate: _underscore2.default.template('<div class="villain-setup-block" />'),
 
-  events: {
+  additionalEvents: {},
+
+  originalEvents: {
     'dragstart .villain-action-button-move': 'onDragStart',
     'click .villain-action-button-move': 'onClickMove',
     'click .villain-action-button-del': 'onClickDelete',
@@ -17675,6 +17677,9 @@ var Block = _backbone2.default.View.extend({
     'click .villain-action-button-setup': 'onSetupClick'
   },
 
+  events: function events() {
+    return _underscore2.default.extend({}, this.originalEvents, this.additionalEvents);
+  },
   initialize: function initialize(options) {
     if (options.store) {
       this.store = options.store;
@@ -18111,12 +18116,6 @@ var Columns = _block2.default.extend({
   template: _underscore2.default.template('<div id="villain-column-row-<%= columnId %>" class="row"></div>'),
   columnTemplate: _underscore2.default.template('<div class="<%= columnClass %>"></div>'),
 
-  events: {},
-
-  initialize: function initialize(editor, json, store) {
-    _block2.default.prototype.initialize.apply(this, [editor, json, store]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
-  },
   deleteBlock: function deleteBlock() {
     // delete the store containing all the child blocks
     if ({}.hasOwnProperty.call(this.editor.blockStore, this.store)) {
@@ -18470,11 +18469,11 @@ var Gmap = _block2.default.extend({
 
   template: _underscore2.default.template('<div class="villain-map-block villain-content"><%= content %></div>'),
 
-  events: {
-    'click .villain-setup-block button': 'onClick'
+  additionalEvents: {
+    'click .villain-setup-block button': 'onSetupBlockClick'
   },
 
-  onClick: function onClick(e) {
+  onSetupBlockClick: function onSetupBlockClick(e) {
     e.preventDefault();
     var mapUrl = this.$('.villain-map-setup-url').val();
     var embedString = this.buildString(mapUrl);
@@ -18513,18 +18512,16 @@ var Gmap = _block2.default.extend({
       return false;
     }
 
-    return this.providers[data.source].html.replace('{{protocol}}', window.location.protocol).replace('{{embed_url}}', data.embed_url).replace('{{width}}', '100%');
-  },
-  initialize: function initialize(editor, json, store) {
-    _block2.default.prototype.initialize.apply(this, [editor, json, store]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
+    return this.providers[data.source].html.replace('{{protocol}}', 'https:').replace('{{embed_url}}', data.embed_url).replace('{{width}}', '100%');
   },
   renderEditorHtml: function renderEditorHtml() {
     if (!{}.hasOwnProperty.call(this.providers, this.data.source)) {
       return false;
     }
 
-    var embedString = this.providers[this.data.source].html.replace('{{protocol}}', window.location.protocol).replace('{{embed_url}}', this.data.embed_url).replace('{{width}}', '100%');
+    // this.hideSetup();
+
+    var embedString = this.providers[this.data.source].html.replace('{{protocol}}', 'https:').replace('{{embed_url}}', this.data.embed_url).replace('{{width}}', '100%');
 
     var blockTemplate = this.template({ content: embedString });
     var actionsTemplate = this.actionsTemplate();
@@ -18556,13 +18553,14 @@ var Gmap = _block2.default.extend({
     return this.template({ url: url });
   },
   setup: function setup() {
-    // check if this block has data
-    // if not, show the setup div
+    // check if this block has data. if not, show the setup div
     if (!this.hasData()) {
       this.$('.villain-map-block').hide();
       var mapSetup = (0, _jquery2.default)('\n        <div class="villain-map-setup-icon">\n          <i class="fa fa-map-marker"></i>\n          <div>Lim inn embed-link fra Google Maps</div>\n        </div>\n        <div class="villain-map-setup-input-wrapper">\n          <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />\n        </div>\n        <div><hr></div>\n        <div style="text-align: center;"><button>Hent kart</button></div>');
       this.$setup.append(mapSetup);
       this.$setup.show();
+    } else {
+      this.hideSetup();
     }
   }
 }, {
@@ -18719,6 +18717,10 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
+var _autosize = require('autosize');
+
+var _autosize2 = _interopRequireDefault(_autosize);
+
 var _block = require('../block');
 
 var _block2 = _interopRequireDefault(_block);
@@ -18729,17 +18731,14 @@ var Html = _block2.default.extend({
   type: 'html',
   template: _underscore2.default.template('<div class="villain-html-block villain-content"><textarea><%= content %></textarea></div>'),
 
-  initialize: function initialize(editor, json, store) {
-    _block2.default.prototype.initialize.apply(this, [editor, json, store]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
-  },
   _propTextarea: function _propTextarea() {},
   _inputTextarea: function _inputTextarea() {},
   afterRenderCallback: function afterRenderCallback() {
-    this.$('textarea').autogrow({
-      onInitialize: true,
-      fixMinHeight: true
-    });
+    var textarea = this.$('.villain-html-block textarea');
+    (0, _autosize2.default)(textarea);
+    setTimeout(function () {
+      return _autosize2.default.update(textarea);
+    }, 1000);
   },
   renderEditorHtml: function renderEditorHtml() {
     var blockTemplate = this.renderContentBlockHtml();
@@ -18824,7 +18823,7 @@ var Image = _block2.default.extend({
   type: 'image',
   template: _underscore2.default.template('<div class="villain-image-block villain-content"><img class="img-responsive" src="<%= url %>" /></div>'),
 
-  events: {
+  additionalEvents: {
     'drop .villain-image-dropper i': 'onDropImage',
     'dragenter .villain-image-dropper i': 'onDragEnter',
     'dragleave .villain-image-dropper i': 'onDragLeave',
@@ -18832,10 +18831,6 @@ var Image = _block2.default.extend({
     'click .villain-image-dropper-upload': 'onUploadClickAfterDrop'
   },
 
-  initialize: function initialize(editor, json, store) {
-    _block2.default.prototype.initialize.apply(this, [editor, json, store]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
-  },
   renderEditorHtml: function renderEditorHtml() {
     var blockTemplate = this.renderContentBlockHtml();
     var actionsTemplate = this.actionsTemplate();
@@ -19251,11 +19246,11 @@ var List = _block2.default.extend({
   type: 'list',
   template: _underscore2.default.template(['<div class="villain-text-block villain-text-block-list villain-content" contenteditable="true">', '  <%= content %>', '</div>'].join('\n')),
 
-  events: {
-    'keyup .villain-content': 'onKeyUp'
+  additionalEvents: {
+    'keyup .villain-content': 'onListKeyUp'
   },
 
-  onKeyUp: function onKeyUp(e) {
+  onListKeyUp: function onListKeyUp(e) {
     var target = e.currentTarget;
     if (target.innerText === '' || target.innerText === '\n') {
       target.innerHTML = '<ul><li><br></li></ul>';
@@ -19341,10 +19336,6 @@ var Markdown = _block2.default.extend({
   type: 'markdown',
   template: _underscore2.default.template('<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'),
 
-  initialize: function initialize(opts) {
-    _block2.default.prototype.initialize.apply(this, [opts]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
-  },
   afterRenderCallback: function afterRenderCallback() {
     var textarea = this.$('.villain-md-block textarea');
     (0, _autosize2.default)(textarea);
@@ -19833,15 +19824,11 @@ var Video = _block2.default.extend({
 
   template: _underscore2.default.template('<div class="villain-video-block villain-content"><%= content %></div>'),
 
-  events: {
-    'click .villain-setup-block button': 'onClick'
+  additionalEvents: {
+    'click .villain-setup-block button': 'onVideoSetupClick'
   },
 
-  initialize: function initialize(editor, json, store) {
-    _block2.default.prototype.initialize.apply(this, [editor, json, store]);
-    _underscore2.default.extend(this.events, _block2.default.prototype.events);
-  },
-  onClick: function onClick(e) {
+  onVideoSetupClick: function onVideoSetupClick(e) {
     e.preventDefault();
     var videoUrl = this.$('.villain-video-setup-url').val();
 
@@ -20841,7 +20828,7 @@ var DEFAULT_BLOCKS = [{
   name: 'Video',
   cls: _video2.default
 }, {
-  name: 'Gmap',
+  name: 'Map',
   cls: _gmap2.default
 }, {
   name: 'Divider',
@@ -21318,129 +21305,6 @@ _jquery2.default.fn.shake = function (shakes, distance, duration) {
     iconClass: 'loading-icon fa fa-circle-o-notch fa-spin', // Class added to loading overlay spinner
     textClass: 'loading-text', // Class added to loading overlay spinner
     loadingText: '' // Text within loading overlay
-  };
-})(_jquery2.default);
-
-(function ($) {
-  //pass in just the context as a $(obj) or a settings JS object
-  $.fn.autogrow = function (opts) {
-    var that = $(this).css({ overflow: 'hidden', resize: 'none' }) //prevent scrollies
-    ,
-        selector = that.selector,
-        defaults = {
-      context: $(document) //what to wire events to
-      , animate: true //if you want the size change to animate
-      , speed: 200 //speed of animation
-      , fixMinHeight: true //if you don't want the box to shrink below its initial size
-      , cloneClass: 'autogrowclone' //helper CSS class for clone if you need to add special rules
-      , onInitialize: false //resizes the textareas when the plugin is initialized
-    };
-    opts = $.isPlainObject(opts) ? opts : { context: opts ? opts : $(document) };
-    opts = $.extend({}, defaults, opts);
-    that.each(function (i, elem) {
-      var min, clone;
-      elem = $(elem);
-      //if the element is "invisible", we get an incorrect height value
-      //to get correct value, clone and append to the body.
-      if (elem.is(':visible') || parseInt(elem.css('height'), 10) > 0) {
-        min = parseInt(elem.css('height'), 10) || elem.innerHeight();
-      } else {
-        clone = elem.clone().addClass(opts.cloneClass).val(elem.val()).css({
-          position: 'absolute',
-          visibility: 'hidden',
-          display: 'block'
-        });
-        $('body').append(clone);
-        min = clone.innerHeight();
-        clone.remove();
-      }
-      if (opts.fixMinHeight) {
-        elem.data('autogrow-start-height', min); //set min height
-      }
-      elem.css('height', min);
-
-      if (opts.onInitialize && elem.length) {
-        resize.call(elem[0]);
-        var ev = $.Event("keyup");
-        ev.which = 38;
-        ev.keyCode = 38;
-        setTimeout(function () {
-          elem.trigger(ev);
-        }, 1000);
-      }
-    });
-    opts.context.on('keyup paste', selector, resize);
-
-    function resize(e) {
-      var box = $(this),
-          oldHeight = box.innerHeight(),
-          newHeight = this.scrollHeight,
-          minHeight = box.data('autogrow-start-height') || 0,
-          clone;
-      if (oldHeight < newHeight) {
-        //user is typing
-        this.scrollTop = 0; //try to reduce the top of the content hiding for a second
-        if (opts.animate) {
-          box.stop().animate({ height: newHeight }, { duration: opts.speed, complete: notifyGrown });
-        } else {
-          box.innerHeight(newHeight);
-          notifyGrown();
-        }
-      } else if (!e || e.which == 8 || e.which == 46 || e.ctrlKey && e.which == 88) {
-        //user is deleting, backspacing, or cutting
-        if (oldHeight > minHeight) {
-          //shrink!
-          //this cloning part is not particularly necessary. however, it helps with animation
-          //since the only way to cleanly calculate where to shrink the box to is to incrementally
-          //reduce the height of the box until the $.innerHeight() and the scrollHeight differ.
-          //doing this on an exact clone to figure out the height first and then applying it to the
-          //actual box makes it look cleaner to the user
-          clone = box.clone()
-          //add clone class for extra css rules
-          .addClass(opts.cloneClass)
-          //make "invisible", remove height restriction potentially imposed by existing CSS
-          .css({ position: 'absolute', zIndex: -10, height: '' })
-          //populate with content for consistent measuring
-          .val(box.val());
-          box.after(clone); //append as close to the box as possible for best CSS matching for clone
-          do {
-            //reduce height until they don't match
-            newHeight = clone[0].scrollHeight - 1;
-            clone.innerHeight(newHeight);
-          } while (newHeight === clone[0].scrollHeight);
-          newHeight++; //adding one back eliminates a wiggle on deletion
-          clone.remove();
-          box.focus(); // Fix issue with Chrome losing focus from the textarea.
-
-          //if user selects all and deletes or holds down delete til beginning
-          //user could get here and shrink whole box
-          newHeight < minHeight && (newHeight = minHeight);
-          if (oldHeight > newHeight) {
-            if (opts.animate) {
-              box.stop().animate({ height: newHeight }, { duration: opts.speed, complete: notifyShrunk });
-            } else {
-              box.innerHeight(newHeight);
-              notifyShrunk();
-            }
-          }
-        } else {
-          //just set to the minHeight
-          box.innerHeight(minHeight);
-        }
-      }
-    }
-
-    // Trigger event to indicate a textarea has grown.
-    function notifyGrown() {
-      opts.context.trigger('autogrow:grow');
-    }
-
-    // Trigger event to indicate a textarea has shrunk.
-    function notifyShrunk() {
-      opts.context.trigger('autogrow:shrink');
-    }
-
-    return that;
   };
 })(_jquery2.default);
 });

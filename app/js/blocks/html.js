@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import autosize from 'autosize';
 
 import Block from '../block';
 
@@ -7,11 +8,6 @@ const Html = Block.extend({
   template: _.template(
     '<div class="villain-html-block villain-content"><textarea><%= content %></textarea></div>'
   ),
-
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
-    _.extend(this.events, Block.prototype.events);
-  },
 
   _propTextarea() {
 
@@ -22,11 +18,9 @@ const Html = Block.extend({
   },
 
   afterRenderCallback() {
-    this.$('textarea')
-      .autogrow({
-        onInitialize: true,
-        fixMinHeight: true,
-      });
+    const textarea = this.$('.villain-html-block textarea');
+    autosize(textarea);
+    setTimeout(() => autosize.update(textarea), 1000);
   },
 
   renderEditorHtml() {

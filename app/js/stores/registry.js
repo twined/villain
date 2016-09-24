@@ -40,7 +40,7 @@ const DEFAULT_BLOCKS = [{
   name: 'Video',
   cls: Video,
 }, {
-  name: 'Gmap',
+  name: 'Map',
   cls: Gmap,
 }, {
   name: 'Divider',

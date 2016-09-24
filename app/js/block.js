@@ -34,7 +34,11 @@ const Block = Backbone.View.extend({
     '<div class="villain-setup-block" />'
   ),
 
-  events: {
+  additionalEvents: {
+
+  },
+
+  originalEvents: {
     'dragstart .villain-action-button-move': 'onDragStart',
     'click .villain-action-button-move': 'onClickMove',
     'click .villain-action-button-del': 'onClickDelete',
@@ -45,6 +49,10 @@ const Block = Backbone.View.extend({
     'keyup .villain-text-block': 'onKeyUp',
     'click .villain-text-block': 'onClick',
     'click .villain-action-button-setup': 'onSetupClick',
+  },
+
+  events() {
+    return _.extend({}, this.originalEvents, this.additionalEvents);
   },
 
   initialize(options) {

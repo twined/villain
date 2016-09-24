@@ -24,11 +24,11 @@ const Gmap = Block.extend({
     '<div class="villain-map-block villain-content"><%= content %></div>'
   ),
 
-  events: {
-    'click .villain-setup-block button': 'onClick',
+  additionalEvents: {
+    'click .villain-setup-block button': 'onSetupBlockClick',
   },
 
-  onClick(e) {
+  onSetupBlockClick(e) {
     e.preventDefault();
     const mapUrl = this.$('.villain-map-setup-url').val();
     const embedString = this.buildString(mapUrl);
@@ -70,14 +70,9 @@ const Gmap = Block.extend({
     }
 
     return this.providers[data.source].html
-      .replace('{{protocol}}', window.location.protocol)
+      .replace('{{protocol}}', 'https:')
       .replace('{{embed_url}}', data.embed_url)
       .replace('{{width}}', '100%');
-  },
-
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
-    _.extend(this.events, Block.prototype.events);
   },
 
   renderEditorHtml() {
@@ -85,8 +80,10 @@ const Gmap = Block.extend({
       return false;
     }
 
+    // this.hideSetup();
+
     const embedString = this.providers[this.data.source].html
-      .replace('{{protocol}}', window.location.protocol)
+      .replace('{{protocol}}', 'https:')
       .replace('{{embed_url}}', this.data.embed_url)
       .replace('{{width}}', '100%');
 
@@ -124,11 +121,9 @@ const Gmap = Block.extend({
   },
 
   setup() {
-    // check if this block has data
-    // if not, show the setup div
+    // check if this block has data. if not, show the setup div
     if (!this.hasData()) {
-      this.$('.villain-map-block')
-        .hide();
+      this.$('.villain-map-block').hide();
       const mapSetup = $(`
         <div class="villain-map-setup-icon">
           <i class="fa fa-map-marker"></i>
@@ -142,6 +137,8 @@ const Gmap = Block.extend({
       );
       this.$setup.append(mapSetup);
       this.$setup.show();
+    } else {
+      this.hideSetup();
     }
   },
 }, {

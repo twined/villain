@@ -26,16 +26,11 @@ const Video = Block.extend({
     '<div class="villain-video-block villain-content"><%= content %></div>'
   ),
 
-  events: {
-    'click .villain-setup-block button': 'onClick',
+  additionalEvents: {
+    'click .villain-setup-block button': 'onVideoSetupClick',
   },
 
-  initialize(editor, json, store) {
-    Block.prototype.initialize.apply(this, [editor, json, store]);
-    _.extend(this.events, Block.prototype.events);
-  },
-
-  onClick(e) {
+  onVideoSetupClick(e) {
     e.preventDefault();
     const videoUrl = this.$('.villain-video-setup-url').val();
 

@@ -10,11 +10,6 @@ const Markdown = Block.extend({
     '<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'
   ),
 
-  initialize(opts) {
-    Block.prototype.initialize.apply(this, [opts]);
-    _.extend(this.events, Block.prototype.events);
-  },
-
   afterRenderCallback() {
     const textarea = this.$('.villain-md-block textarea');
     autosize(textarea);

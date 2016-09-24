@@ -11,11 +11,11 @@ const List = Block.extend({
     '</div>',
   ].join('\n')),
 
-  events: {
-    'keyup .villain-content': 'onKeyUp',
+  additionalEvents: {
+    'keyup .villain-content': 'onListKeyUp',
   },
 
-  onKeyUp(e) {
+  onListKeyUp(e) {
     const target = e.currentTarget;
     if (target.innerText === '' || target.innerText === '\n') {
       target.innerHTML = '<ul><li><br></li></ul>';
@@ -70,13 +70,6 @@ const List = Block.extend({
                    .replace(/<\/?[^>]+(>|$)/g, '')
                    .replace(/^(.+)$/mg, ' - $1');
   },
-
-  /*
-  onBlockRender() {
-    this.checkForList = _.bind(this.checkForList, this);
-    this.getTextBlock().on('click keyup', this.checkForList);
-  },
-  */
 
 }, {
   /* static methods */
