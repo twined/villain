@@ -1867,10 +1867,13 @@ html {
 /* line 802, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-form-label-wrapper {
   background-color: #333;
-  color: #fff;
   display: inline-block;
   margin-bottom: 8px;
   padding: 4px 6px 0; }
+  /* line 808, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  .villain-form-label-wrapper label {
+    color: #fff !important;
+    font-size: 11px !important; }
 
 /* line 1, /Users/trond/dev/js/villain/app/styles/_formatpopup.scss */
 .villain-format-popup {

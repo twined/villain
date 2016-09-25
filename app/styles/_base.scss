@@ -803,8 +803,12 @@
 
 .villain-form-label-wrapper {
   background-color: #333;
-  color: #fff;
   display: inline-block;
   margin-bottom: 8px;
   padding: 4px 6px 0;
+
+  label {
+    color: #fff !important;
+    font-size: 11px !important;
+  }
 }
