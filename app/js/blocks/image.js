@@ -242,19 +242,6 @@ const Image = Block.extend({
           src: urlAPI.createObjectURL(file),
         }));
 
-      // const $form = $(`
-      //   <form enctype="multipart/form-data"
-      //         encoding="multipart/form-data"
-      //         action="upload/image"
-      //         method="post"
-      //         id="villain-upload-form-${this.dataId}">
-      //     <input id="villain-upload-file-${this.dataId}"
-      //            type="file"
-      //            name="villain-upload-file-${this.dataId}"
-      //            accept="image/*">
-      //   </form>`
-      // );
-
       this.$setup.append('<hr>');
       this.$setup.append(
         '<button class="villain-image-dropper-upload">Last opp og lagre</button>'

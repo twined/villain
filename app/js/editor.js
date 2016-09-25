@@ -111,6 +111,7 @@ const Editor = Backbone.View.extend({
           data: blockJson.data,
           store: 'main',
         });
+
         this.$el.append(block.$el);
         this.$el.append(block.renderPlus().$el);
       } else {

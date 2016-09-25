@@ -111,7 +111,10 @@ const Columns = Block.extend({
 
   createColumns($row, data, store) {
     for (let i = 0; i <= data.length - 1; i += 1) {
-      let addblock = new Plus(this.editor, store);
+      let addblock = new Plus({
+        store,
+        editor: this.editor,
+      });
       const columnClass = data[i].class;
       const columnData = data[i].data;
       let $column = $(`<div class="${columnClass}"></div>`);
@@ -124,8 +127,8 @@ const Columns = Block.extend({
         const BlockClass = this.editor.blockRegistry.getBlockClassByType(columnData[j].type);
         if ((BlockClass) !== false) {
           const block = new BlockClass({
-            data,
             store,
+            data: columnData[j].data,
             editor: this.editor,
           });
           $column.append(block.$el);

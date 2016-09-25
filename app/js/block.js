@@ -64,6 +64,7 @@ const Block = Backbone.View.extend({
 
     this.editor = options.editor;
     this.data = options.data || {};
+
     this.dataId = this.getIdFromBlockStore();
     this.id = `villain-block-${this.dataId}`;
 

@@ -17712,6 +17712,7 @@ var Block = _backbone2.default.View.extend({
 
     this.editor = options.editor;
     this.data = options.data || {};
+
     this.dataId = this.getIdFromBlockStore();
     this.id = 'villain-block-' + this.dataId;
 
@@ -18242,7 +18243,10 @@ var Columns = _block2.default.extend({
   },
   createColumns: function createColumns($row, data, store) {
     for (var i = 0; i <= data.length - 1; i += 1) {
-      var addblock = new _plus2.default(this.editor, store);
+      var addblock = new _plus2.default({
+        store: store,
+        editor: this.editor
+      });
       var columnClass = data[i].class;
       var columnData = data[i].data;
       var $column = (0, _jquery2.default)('<div class="' + columnClass + '"></div>');
@@ -18255,8 +18259,8 @@ var Columns = _block2.default.extend({
         var BlockClass = this.editor.blockRegistry.getBlockClassByType(columnData[j].type);
         if (BlockClass !== false) {
           var block = new BlockClass({
-            data: data,
             store: store,
+            data: columnData[j].data,
             editor: this.editor
           });
           $column.append(block.$el);
@@ -19070,19 +19074,6 @@ var Image = _block2.default.extend({
       this.$('.villain-image-dropper').html((0, _jquery2.default)('<img>', {
         src: urlAPI.createObjectURL(file)
       }));
-
-      // const $form = $(`
-      //   <form enctype="multipart/form-data"
-      //         encoding="multipart/form-data"
-      //         action="upload/image"
-      //         method="post"
-      //         id="villain-upload-form-${this.dataId}">
-      //     <input id="villain-upload-file-${this.dataId}"
-      //            type="file"
-      //            name="villain-upload-file-${this.dataId}"
-      //            accept="image/*">
-      //   </form>`
-      // );
 
       this.$setup.append('<hr>');
       this.$setup.append('<button class="villain-image-dropper-upload">Last opp og lagre</button>');
@@ -20137,6 +20128,7 @@ var Editor = _backbone2.default.View.extend({
           data: blockJson.data,
           store: 'main'
         });
+
         this.$el.append(block.$el);
         this.$el.append(block.renderPlus().$el);
       } else {
