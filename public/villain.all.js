@@ -17874,10 +17874,10 @@ var Block = _backbone2.default.View.extend({
       var clipboardHTML = void 0;
       if (/text\/html/.test(types)) {
         // HTML.
-        clipboardHTML = e.originalEvent.clipboardData.getData('text/html');
+        clipboardHTML = e.originalEvent.clipboardData.getData('text/plain'); // text/html
       } else if (/text\/rtf/.test(types) && this.editor.browser.safari) {
         // Safari HTML.
-        clipboardHTML = e.originalEvent.clipboardData.getData('text/rtf');
+        clipboardHTML = e.originalEvent.clipboardData.getData('text/plain'); // text/rtf
       } else if (/text\/plain/.test(types) && !this.editor.browser.mozilla) {
         clipboardHTML = e.originalEvent.clipboardData.getData('text/plain').replace(/\n/g, '<br/>');
       }
@@ -19712,6 +19712,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Text = _block2.default.extend({
   hasToolbar: true,
+  resizeSetup: false,
   type: 'text',
   template: _underscore2.default.template('<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'),
 
