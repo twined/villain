@@ -17683,7 +17683,7 @@ var Block = _backbone2.default.View.extend({
 
   wrapperTemplate: _underscore2.default.template(['<div class="villain-block-inner"><%= content %><%= actions %></div>'].join('\n')),
 
-  actionsTemplate: _underscore2.default.template(['<div class="villain-actions">', '  <div class="villain-action-button villain-action-button-setup">', '    <i class="fa fa-cogs"></i>', '  </div>', '  <div class="villain-action-button villain-action-button-del">', '    <i class="fa fa-trash"></i>', '  </div>', '  <div class="villain-action-button villain-action-button-move" draggable="true">', '    <i class="fa fa-arrows-alt"></i>', '  </div>', '</div>'].join('\n')),
+  actionsTemplate: _underscore2.default.template(['<div class="villain-actions">', '  <div class="villain-action-button villain-action-button-setup">', '    <i class="fa fa-wrench fa-fw"></i>', '  </div>', '  <div class="villain-action-button villain-action-button-del">', '    <i class="fa fa-close fa-fw"></i>', '  </div>', '  <div class="villain-action-button villain-action-button-move" draggable="true">', '    <i class="fa fa-arrows-alt fa-fw"></i>', '  </div>', '</div>'].join('\n')),
 
   setupTemplate: _underscore2.default.template('<div class="villain-setup-block" />'),
 
@@ -20569,10 +20569,11 @@ var Plus = _backbone2.default.View.extend({
   el: null,
   tagName: 'div',
   className: 'villain-add-block villain-droppable',
-  blockSelectionTemplate: _underscore2.default.template('<div class="villain-block-selection"><%= content %></div>'),
+  blockSelectionTemplate: _underscore2.default.template('<div class="villain-block-selection"><%= content %><button class="villain-close-picker">×</button></div>'),
   events: {
     'click .villain-add-block-button': 'onClickAddBlock',
-    'click .villain-block-button': 'onClickBlockButton'
+    'click .villain-block-button': 'onClickBlockButton',
+    'click .villain-close-picker': 'onClickCloseButton'
   },
 
   initialize: function initialize(options) {
@@ -20615,7 +20616,7 @@ var Plus = _backbone2.default.View.extend({
     block.scrollTo();
 
     // show the plus
-    $button.parent().prev().show();
+    $button.parent().prev().fadeIn();
 
     // hide the buttons
     $button.parent().remove();
@@ -20633,6 +20634,13 @@ var Plus = _backbone2.default.View.extend({
     });
 
     $addBlockButton.parent().append(blockSelection);
+  },
+  onClickCloseButton: function onClickCloseButton(e) {
+    var $button = (0, _jquery2.default)(e.currentTarget);
+    // show the plus
+    $button.parent().prev().fadeIn();
+    // hide the buttons
+    $button.parent().remove();
   },
   getButtons: function getButtons(id) {
     // iterate through block types in the block registry

@@ -34,7 +34,7 @@
   }
 
   .villain-block-button {
-    background-color: $base-villain-red-color;
+    background-color: transparent;
     border: 0;
     color: #fff;
     font-size: 10px;
@@ -42,16 +42,16 @@
     margin: 0 5px;
     text-transform: uppercase;
     width: 73px;
-    @include animation-duration(0.5s);
+    @include animation-duration(0.1s);
     @include animation-fill-mode(both);
     @include animation-name(fadeInDown);
 
     &:hover {
-      background-color: $base-villain-lightred-color;
+      background-color: $base-villain-light-color;
     }
 
     i {
-      font-size: 40px;
+      font-size: 30px;
     }
 
     p {
@@ -372,7 +372,7 @@
   border: 2px solid #fff;
   color: #333;
   margin: 5px 0;
-  padding: 30px 12px;
+  padding: 38px 12px;
   position: relative;
 
   .row {
@@ -540,7 +540,7 @@
 }
 
 .villain-block-inner.hover {
-  border: 2px solid $base-villain-lightred-color;
+  border: 2px solid $base-villain-hover-color;
 }
 
 .villain-add-block {
@@ -551,7 +551,7 @@
   background-color: #fff;
   border: 0;
   border-radius: 0;
-  color: $base-villain-lightred-color;
+  color: $base-villain-light-color;
   display: block;
   font-family: "Helvetica";
   font-size: 35px;
@@ -561,7 +561,7 @@
 }
 
 .villain-add-block-button:hover {
-  background-color: $base-villain-red-color;
+  background-color: $base-villain-strong-color;
   color: #ffffff;
 }
 
@@ -571,9 +571,22 @@
 }
 
 .villain-block-selection {
-  background-color: $base-villain-red-color;
-  padding: 20px 15px;
+  background-color: $base-villain-strong-color;
+  padding: 5px 15px;
+  position: relative;
   text-align: center;
+
+  button.villain-close-picker {
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
 }
 @include keyframes(fadeInDown) {
   from {
@@ -640,7 +653,7 @@
     background: #ffffff;
     border-bottom: 0;
     border-right: 0;
-    color: $base-villain-red-color;
+    color: $base-villain-light-color;
     cursor: pointer;
     display: block;
     font-size: 17px;
@@ -653,8 +666,8 @@
     width: 30px;
 
     &:hover {
-      background: $base-villain-red-color;
-      color: #ffffff;
+      background: #ffffff;
+      color: $base-villain-strong-color;
     }
   }
 }

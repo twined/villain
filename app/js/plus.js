@@ -9,11 +9,12 @@ const Plus = Backbone.View.extend({
   tagName: 'div',
   className: 'villain-add-block villain-droppable',
   blockSelectionTemplate: _.template(
-    '<div class="villain-block-selection"><%= content %></div>'
+    '<div class="villain-block-selection"><%= content %><button class="villain-close-picker">×</button></div>'
   ),
   events: {
     'click .villain-add-block-button': 'onClickAddBlock',
     'click .villain-block-button': 'onClickBlockButton',
+    'click .villain-close-picker': 'onClickCloseButton',
   },
 
   initialize(options) {
@@ -58,7 +59,7 @@ const Plus = Backbone.View.extend({
     block.scrollTo();
 
     // show the plus
-    $button.parent().prev().show();
+    $button.parent().prev().fadeIn();
 
     // hide the buttons
     $button.parent().remove();
@@ -77,6 +78,14 @@ const Plus = Backbone.View.extend({
     });
 
     $addBlockButton.parent().append(blockSelection);
+  },
+
+  onClickCloseButton(e) {
+    const $button = $(e.currentTarget);
+    // show the plus
+    $button.parent().prev().fadeIn();
+    // hide the buttons
+    $button.parent().remove();
   },
 
   getButtons(id) {
