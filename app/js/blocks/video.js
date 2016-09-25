@@ -3,20 +3,25 @@ import $ from 'jquery';
 
 import Block from '../block';
 
+const VIMEO_REGEX =
+  /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/;
+const YOUTUBE_REGEX =
+  /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/;
+
 const Video = Block.extend({
   type: 'video',
   resizeSetup: false,
 
   providers: {
     vimeo: {
-      regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/,
+      regex: VIMEO_REGEX,
       html: [
         '<iframe src="{{protocol}}//player.vimeo.com/video/{{remote_id}}?title=0&byline=0" ',
         'width="580" height="320" frameborder="0"></iframe>',
       ].join('\n'),
     },
     youtube: {
-      regex: /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/,
+      regex: YOUTUBE_REGEX,
       html: ['<iframe src="{{protocol}}//www.youtube.com/embed/{{remote_id}}" ',
         'width="580" height="320" frameborder="0" allowfullscreen></iframe>',
       ].join('\n'),

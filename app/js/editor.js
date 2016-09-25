@@ -544,17 +544,16 @@ const Editor = Backbone.View.extend({
         range = sel.getRangeAt(0);
         range.deleteContents();
 
-        // Range.createContextualFragment() would be useful here but is
-        // only relatively recently standardized and is not supported in
-        // some browsers (IE9, for one)
         const el = document.createElement('div');
         el.innerHTML = html;
         const frag = document.createDocumentFragment();
 
-        let node;
+        let node = el.firstChild;
         let lastNode;
-        while ((node = el.firstChild)) {
+
+        while (node != null) {
           lastNode = frag.appendChild(node);
+          node = el.firstChild;
         }
 
         range.insertNode(frag);
@@ -570,8 +569,7 @@ const Editor = Backbone.View.extend({
       }
     } else if (document.selection && document.selection.type !== 'Control') {
       // IE < 9
-      document.selection.createRange()
-        .pasteHTML(html);
+      document.selection.createRange().pasteHTML(html);
     }
   },
 

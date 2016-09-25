@@ -17889,10 +17889,10 @@ var Block = _backbone2.default.View.extend({
       }
 
       if (clipboard) {
-        var cleanHtml = this.processPaste(clipboardHTML);
+        var cleanHtml = this.editor.processPaste(clipboardHTML);
         e.stopPropagation();
         e.preventDefault();
-        this.pasteHtmlAtCaret(cleanHtml);
+        this.editor.pasteHtmlAtCaret(cleanHtml);
 
         return false;
       }
@@ -19870,17 +19870,20 @@ var _block2 = _interopRequireDefault(_block);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var VIMEO_REGEX = /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/;
+var YOUTUBE_REGEX = /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/;
+
 var Video = _block2.default.extend({
   type: 'video',
   resizeSetup: false,
 
   providers: {
     vimeo: {
-      regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/,
+      regex: VIMEO_REGEX,
       html: ['<iframe src="{{protocol}}//player.vimeo.com/video/{{remote_id}}?title=0&byline=0" ', 'width="580" height="320" frameborder="0"></iframe>'].join('\n')
     },
     youtube: {
-      regex: /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/,
+      regex: YOUTUBE_REGEX,
       html: ['<iframe src="{{protocol}}//www.youtube.com/embed/{{remote_id}}" ', 'width="580" height="320" frameborder="0" allowfullscreen></iframe>'].join('\n')
     }
   },
@@ -20451,17 +20454,16 @@ var Editor = _backbone2.default.View.extend({
         range = sel.getRangeAt(0);
         range.deleteContents();
 
-        // Range.createContextualFragment() would be useful here but is
-        // only relatively recently standardized and is not supported in
-        // some browsers (IE9, for one)
         var el = document.createElement('div');
         el.innerHTML = html;
         var frag = document.createDocumentFragment();
 
-        var node = void 0;
+        var node = el.firstChild;
         var lastNode = void 0;
-        while (node = el.firstChild) {
+
+        while (node != null) {
           lastNode = frag.appendChild(node);
+          node = el.firstChild;
         }
 
         range.insertNode(frag);

@@ -260,10 +260,10 @@ const Block = Backbone.View.extend({
       }
 
       if (clipboard) {
-        const cleanHtml = this.processPaste(clipboardHTML);
+        const cleanHtml = this.editor.processPaste(clipboardHTML);
         e.stopPropagation();
         e.preventDefault();
-        this.pasteHtmlAtCaret(cleanHtml);
+        this.editor.pasteHtmlAtCaret(cleanHtml);
 
         return false;
       }
