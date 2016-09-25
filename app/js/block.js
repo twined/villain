@@ -244,10 +244,10 @@ const Block = Backbone.View.extend({
       let clipboardHTML;
       if (/text\/html/.test(types)) {
         // HTML.
-        clipboardHTML = e.originalEvent.clipboardData.getData('text/html');
+        clipboardHTML = e.originalEvent.clipboardData.getData('text/plain'); // text/html
       } else if (/text\/rtf/.test(types) && this.editor.browser.safari) {
         // Safari HTML.
-        clipboardHTML = e.originalEvent.clipboardData.getData('text/rtf');
+        clipboardHTML = e.originalEvent.clipboardData.getData('text/plain'); // text/rtf
       } else if (/text\/plain/.test(types) && !this.editor.browser.mozilla) {
         clipboardHTML = e.originalEvent.clipboardData.getData('text/plain')
           .replace(/\n/g, '<br/>');
