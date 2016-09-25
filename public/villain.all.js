@@ -18860,6 +18860,10 @@ var _block = require('../block');
 
 var _block2 = _interopRequireDefault(_block);
 
+var _html = require('../utils/html');
+
+var _html2 = _interopRequireDefault(_html);
+
 var _alerts = require('../alerts');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -19115,37 +19119,47 @@ var Image = _block2.default.extend({
 
         var data = _this2.getData();
         var $form = (0, _jquery2.default)('<form name="image-meta-' + _this2.dataId + '">');
-        var $meta = (0, _jquery2.default)('\n        <label for="title">Tittel</label>\n        <input value="' + data.title + '" type="text" name="title" />\n        <label for="credits">Kreditering</label>\n        <input value="' + data.credits + '" type="text" name="credits" />\n        <label for="link">URL</label>\n        <input value="' + data.link + '" type="text" name="link" />\n      ');
 
-        $form.append($meta);
-        $form.append((0, _jquery2.default)('<label>Størrelse</label>'));
+        var titleInput = _html2.default.createInput('Tittel', 'title', data.title, [{
+          ev: 'keyup',
+          fn: _underscore2.default.debounce(function (e) {
+            _this2.setDataProperty('title', (0, _jquery2.default)(e.target).val());
+          })
+        }]);
+        var creditsInput = _html2.default.createInput('Kreditering', 'credits', data.credits, [{
+          ev: 'keyup',
+          fn: _underscore2.default.debounce(function (e) {
+            _this2.setDataProperty('credits', (0, _jquery2.default)(e.target).val());
+          })
+        }]);
+        var URLInput = _html2.default.createInput('URL/link', 'link', data.link, [{
+          ev: 'keyup',
+          fn: _underscore2.default.debounce(function (e) {
+            _this2.setDataProperty('link', (0, _jquery2.default)(e.target).val());
+          })
+        }]);
+
+        $form.append(titleInput);
+        $form.append(creditsInput);
+        $form.append(URLInput);
 
         /* create sizes overview */
+        var sizes = [];
+
         Object.keys(data.sizes).forEach(function (key) {
-          var size = data.sizes[key];
-          var checked = '';
-
-          if (size === data.url) {
-            checked = ' checked="checked"';
-          }
-
-          var $radio = (0, _jquery2.default)('\n          <label for="' + key + '">\n            <input type="radio"\n                   name="imagesize"\n                   value="' + size + '"' + checked + ' />\n            ' + key + '\n          </label>\n        ');
-          $form.append($radio);
+          sizes.push({ name: key, val: data.sizes[key] });
         });
 
+        var $radios = _html2.default.createRadios('Størrelse', 'imagesize', sizes, data.url, [{
+          ev: 'change',
+          fn: function fn(e) {
+            _this2.setUrl((0, _jquery2.default)(e.target).val());
+          }
+        }]);
+
+        $form.append($radios);
         _this2.$setup.append($form);
-        _this2.$setup.find('input[name="title"]').on('keyup', _underscore2.default.debounce(_jquery2.default.proxy(function setTitle(e) {
-          this.setDataProperty('title', (0, _jquery2.default)(e.target).val());
-        }, _this2), 700, false));
-        _this2.$setup.find('input[name="credits"]').on('keyup', _underscore2.default.debounce(_jquery2.default.proxy(function setCredits(e) {
-          this.setDataProperty('credits', (0, _jquery2.default)(e.target).val());
-        }, _this2), 700, false));
-        _this2.$setup.find('input[name="link"]').on('keyup', _underscore2.default.debounce(_jquery2.default.proxy(function setLink(e) {
-          this.setDataProperty('link', (0, _jquery2.default)(e.target).val());
-        }, _this2), 700, false));
-        _this2.$setup.find('input[type=radio]').on('change', _jquery2.default.proxy(function setUrl(e) {
-          this.setUrl((0, _jquery2.default)(e.target).val());
-        }, _this2));
+
         _this2.hideSetup();
       })();
     }
@@ -20599,6 +20613,7 @@ var Plus = _backbone2.default.View.extend({
   el: null,
   tagName: 'div',
   className: 'villain-add-block villain-droppable',
+  template: _underscore2.default.template('<button class="villain-add-block-button">+</button>'),
   blockSelectionTemplate: _underscore2.default.template('<div class="villain-block-selection"><%= content %><button class="villain-close-picker">×</button></div>'),
   events: {
     'click .villain-add-block-button': 'onClickAddBlock',
@@ -20615,7 +20630,7 @@ var Plus = _backbone2.default.View.extend({
     this.render();
   },
   render: function render() {
-    this.$el.append('<button class="villain-add-block-button">+</button>');
+    this.$el.html(this.template());
     return this;
   },
   onClickBlockButton: function onClickBlockButton(e) {
@@ -21021,7 +21036,7 @@ var HTMLUtils = function () {
         return '\n          <label>\n            <input type="radio"\n                   name="' + inputName + '"\n                   value="' + choiceValue + '"' + selected + '>' + choiceName + '\n          </label>';
       });
 
-      var $radios = (0, _jquery2.default)('\n      <div class="villain-form-input-wrapper">\n        <label>' + labelName + '</label>\n        ' + radios.join('\n') + '\n      </div>\n    ');
+      var $radios = (0, _jquery2.default)('\n      <div class="villain-form-input-wrapper">\n        <div class="villain-form-label-wrapper">\n          <label>\n            ' + labelName + '\n          </label>\n        </div>\n        ' + radios.join('\n') + '\n      </div>\n    ');
 
       if (events) {
         events.forEach(function (_ref2) {
@@ -21037,7 +21052,7 @@ var HTMLUtils = function () {
   }, {
     key: 'createInput',
     value: function createInput(labelName, inputName, initialValue) {
-      return '\n      <div class="villain-form-input-wrapper">\n        <label>' + labelName + '</label>\n        <input type="text" value="' + initialValue + '" name="' + inputName + '" />\n      </div>\n    ';
+      return '\n      <div class="villain-form-input-wrapper">\n        <div class="villain-form-label-wrapper">\n          <label>' + labelName + '</label>\n        </div>\n        <input type="text" value="' + initialValue + '" name="' + inputName + '" />\n      </div>\n    ';
     }
   }]);
 

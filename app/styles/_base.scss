@@ -7,9 +7,9 @@
   select[multiple=multiple],
   textarea {
     background-color: white;
-    border: 1px solid $form-border-color;
-    border-radius: $form-border-radius;
-    box-shadow: $form-box-shadow;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
     font-family: $form-font-family;
     font-size: $form-font-size;
     margin-bottom: $base-spacing / 2;
@@ -19,8 +19,8 @@
     @include transition(border-color);
 
     &:focus {
-      border-color: $form-border-color-focus;
-      box-shadow: $form-box-shadow-focus;
+      border-color: $base-villain-strong-color;
+      box-shadow: none;
       outline: none;
     }
 
@@ -47,7 +47,9 @@
     @include animation-name(fadeInDown);
 
     &:hover {
-      background-color: $base-villain-light-color;
+      // background-color: $base-villain-light-color;
+      background-color: #fff;
+      color: $base-villain-strong-color;
     }
 
     i {
@@ -209,9 +211,9 @@
   }
 
   label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 0.5px;
     margin-bottom: 0.375em;
     margin-bottom: $base-spacing / 4;
     text-transform: uppercase;
@@ -284,15 +286,33 @@
   }
 }
 
+.villain-block-wrapper[data-block-type="header"] .villain-setup-block,
+.villain-block-wrapper[data-block-type="image"] .villain-setup-block,
+.villain-block-wrapper[data-block-type="text"] .villain-setup-block {
+  max-width: 300px;
+}
+
+.villain-block-wrapper[data-block-type="map"] .villain-setup-block,
+.villain-block-wrapper[data-block-type="slideshow"] .villain-setup-block,
+.villain-block-wrapper[data-block-type="video"] .villain-setup-block {
+  max-width: 600px;
+}
+
 .villain-setup-block {
   background-color: #F1F7EE;
+  margin: 0 auto;
   padding: 20px 15px;
 
   &:before {
-    content: "// Blokkoppsett";
+    border-bottom: 2px solid;
+    content: "Blokkoppsett";
     display: block;
+    font-family: $form-font-family;
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 15px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
   }
 
   .center-cropped {
@@ -779,4 +799,12 @@
 .villain-form-input-wrapper {
   margin-bottom: 15px;
   margin-top: 15px;
+}
+
+.villain-form-label-wrapper {
+  background-color: #333;
+  color: #fff;
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 6px 0;
 }

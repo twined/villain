@@ -22,7 +22,11 @@ class HTMLUtils {
 
     const $radios = $(`
       <div class="villain-form-input-wrapper">
-        <label>${labelName}</label>
+        <div class="villain-form-label-wrapper">
+          <label>
+            ${labelName}
+          </label>
+        </div>
         ${radios.join('\n')}
       </div>
     `);
@@ -39,7 +43,9 @@ class HTMLUtils {
   static createInput(labelName, inputName, initialValue) {
     return `
       <div class="villain-form-input-wrapper">
-        <label>${labelName}</label>
+        <div class="villain-form-label-wrapper">
+          <label>${labelName}</label>
+        </div>
         <input type="text" value="${initialValue}" name="${inputName}" />
       </div>
     `;

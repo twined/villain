@@ -2,6 +2,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 
 import Block from '../block';
+import HTMLUtils from '../utils/html';
 import { alertError } from '../alerts';
 
 const Image = Block.extend({
@@ -294,55 +295,76 @@ const Image = Block.extend({
 
       const data = this.getData();
       const $form = $(`<form name="image-meta-${this.dataId}">`);
-      const $meta = $(`
-        <label for="title">Tittel</label>
-        <input value="${data.title}" type="text" name="title" />
-        <label for="credits">Kreditering</label>
-        <input value="${data.credits}" type="text" name="credits" />
-        <label for="link">URL</label>
-        <input value="${data.link}" type="text" name="link" />
-      `);
 
-      $form.append($meta);
-      $form.append($('<label>Størrelse</label>'));
+      const titleInput = HTMLUtils.createInput(
+        'Tittel',
+        'title',
+        data.title,
+        [
+          {
+            ev: 'keyup',
+            fn: _.debounce((e) => {
+              this.setDataProperty('title', $(e.target).val());
+            }),
+          },
+        ],
+      );
+      const creditsInput = HTMLUtils.createInput(
+        'Kreditering',
+        'credits',
+        data.credits,
+        [
+          {
+            ev: 'keyup',
+            fn: _.debounce((e) => {
+              this.setDataProperty('credits', $(e.target).val());
+            }),
+          },
+        ],
+      );
+      const URLInput = HTMLUtils.createInput(
+        'URL/link',
+        'link',
+        data.link,
+        [
+          {
+            ev: 'keyup',
+            fn: _.debounce((e) => {
+              this.setDataProperty('link', $(e.target).val());
+            }),
+          },
+        ],
+      );
+
+      $form.append(titleInput);
+      $form.append(creditsInput);
+      $form.append(URLInput);
 
       /* create sizes overview */
+      const sizes = [];
+
       Object.keys(data.sizes).forEach((key) => {
-        const size = data.sizes[key];
-        let checked = '';
-
-        if (size === data.url) {
-          checked = ' checked="checked"';
-        }
-
-        const $radio = $(`
-          <label for="${key}">
-            <input type="radio"
-                   name="imagesize"
-                   value="${size}"${checked} />
-            ${key}
-          </label>
-        `);
-        $form.append($radio);
+        sizes.push({ name: key, val: data.sizes[key] });
       });
 
+      const $radios = HTMLUtils.createRadios(
+        'Størrelse',
+        'imagesize',
+        sizes,
+        data.url,
+        [
+          {
+            ev: 'change',
+            fn: (e) => {
+              this.setUrl($(e.target).val());
+            },
+          },
+        ],
+      );
+
+      $form.append($radios);
       this.$setup.append($form);
-      this.$setup.find('input[name="title"]')
-        .on('keyup', _.debounce($.proxy(function setTitle(e) {
-          this.setDataProperty('title', $(e.target).val());
-        }, this), 700, false));
-      this.$setup.find('input[name="credits"]')
-        .on('keyup', _.debounce($.proxy(function setCredits(e) {
-          this.setDataProperty('credits', $(e.target).val());
-        }, this), 700, false));
-      this.$setup.find('input[name="link"]')
-        .on('keyup', _.debounce($.proxy(function setLink(e) {
-          this.setDataProperty('link', $(e.target).val());
-        }, this), 700, false));
-      this.$setup.find('input[type=radio]')
-        .on('change', $.proxy(function setUrl(e) {
-          this.setUrl($(e.target).val());
-        }, this));
+
       this.hideSetup();
     }
   },

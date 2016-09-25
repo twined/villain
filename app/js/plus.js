@@ -8,6 +8,9 @@ const Plus = Backbone.View.extend({
   el: null,
   tagName: 'div',
   className: 'villain-add-block villain-droppable',
+  template: _.template(
+    '<button class="villain-add-block-button">+</button>'
+  ),
   blockSelectionTemplate: _.template(
     '<div class="villain-block-selection"><%= content %><button class="villain-close-picker">×</button></div>'
   ),
@@ -27,7 +30,7 @@ const Plus = Backbone.View.extend({
   },
 
   render() {
-    this.$el.append('<button class="villain-add-block-button">+</button>');
+    this.$el.html(this.template());
     return this;
   },
 
