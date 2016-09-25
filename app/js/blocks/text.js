@@ -10,6 +10,7 @@ import { alertPrompt } from '../alerts';
 
 const Text = Block.extend({
   hasToolbar: true,
+  resizeSetup: false,
   type: 'text',
   template: _.template(
     '<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'
