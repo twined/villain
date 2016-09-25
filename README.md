@@ -1,3 +1,5 @@
+![Villain mask](https://raw.githubusercontent.com/twined/villain/master/design/mask.svg)
+
 Villain
 =======
 
@@ -5,7 +7,7 @@ Villain
 
 ## Usage:
 
-Include dependencies + `villain.all.js` and `villain.css` located in `public/`.
+Include `villain.all.js` and `villain.css` located in `public/`.
 
 Add to your HTML:
 
