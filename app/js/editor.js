@@ -47,13 +47,15 @@ const Editor = Backbone.View.extend({
       'line-height': '20px',
     });
 
-    const $sourceView = $('<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
+    const $sourceView = $(
+      '<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
     $sourceView.on('click', $.proxy(this.onToggleSource, this));
     $sourceView.insertBefore(this.$textArea);
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
 
-    const $v = $(`<div class="villain-editor" data-villain-instance="${this.instanceId}"></div>`);
+    const $v = $(
+      `<div class="villain-editor" data-villain-instance="${this.instanceId}"></div>`);
     $v.insertAfter(this.$textArea);
 
     this.setElement($v);
@@ -68,7 +70,10 @@ const Editor = Backbone.View.extend({
     }
 
     // inject json to textarea before submitting.
-    $('form').submit(() => { self.$textArea.val(self.getJSON()); });
+    $('form')
+      .submit(() => {
+        self.$textArea.val(self.getJSON());
+      });
 
     this.render();
   },
@@ -113,7 +118,8 @@ const Editor = Backbone.View.extend({
         });
 
         this.$el.append(block.$el);
-        this.$el.append(block.renderPlus().$el);
+        this.$el.append(block.renderPlus()
+          .$el);
       } else {
         throw new VillainError(
           `Villain: No class found for type: ${blockJson.type}`
@@ -152,10 +158,43 @@ const Editor = Backbone.View.extend({
     }
   },
 
+  saveSelection() {
+    if (window.getSelection) {
+      const sel = window.getSelection();
+      if (sel.getRangeAt && sel.rangeCount) {
+        const ranges = [];
+        for (let i = 0, len = sel.rangeCount; i < len; i += 1) {
+          ranges.push(sel.getRangeAt(i));
+        }
+        return ranges;
+      }
+    } else if (document.selection && document.selection.createRange) {
+      return document.selection.createRange();
+    }
+    return null;
+  },
+
+  restoreSelection(savedSel) {
+    if (savedSel) {
+      if (window.getSelection) {
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        for (let i = 0, len = savedSel.length; i < len; i += 1) {
+          sel.addRange(savedSel[i]);
+        }
+      } else if (document.selection && savedSel.select) {
+        savedSel.select();
+      }
+    }
+  },
+
   organizeMode() {
-    $('.villain-block-wrapper').toggleClass('organize');
-    $('.villain-block-wrapper[data-block-type="columns"]').removeClass('organize');
-    $('.organize .villain-content').hide();
+    $('.villain-block-wrapper')
+      .toggleClass('organize');
+    $('.villain-block-wrapper[data-block-type="columns"]')
+      .removeClass('organize');
+    $('.organize .villain-content')
+      .hide();
   },
 
   getJSON() {
@@ -166,7 +205,8 @@ const Editor = Backbone.View.extend({
       .each(function pushEachBlockWrapper() {
         // check the main block store for the id. if it's not there
         // it probably belongs to a superblock
-        const block = self.blockStore.getBlockById('main', $(this).data('block-id'));
+        const block = self.blockStore.getBlockById('main', $(this)
+          .data('block-id'));
         if (block !== false) {
           const blockJson = block.getJSON();
           json.push(blockJson);
@@ -179,13 +219,15 @@ const Editor = Backbone.View.extend({
   },
 
   onDragEnterDroppable(e) {
-    $('.villain-add-block-button', e.currentTarget).addClass('drop-hover');
+    $('.villain-add-block-button', e.currentTarget)
+      .addClass('drop-hover');
     e.preventDefault();
     e.stopPropagation();
   },
 
   onDragLeaveDroppable(e) {
-    $('.villain-add-block-button', e.currentTarget).removeClass('drop-hover');
+    $('.villain-add-block-button', e.currentTarget)
+      .removeClass('drop-hover');
     e.preventDefault();
     e.stopPropagation();
   },
@@ -197,7 +239,8 @@ const Editor = Backbone.View.extend({
 
   onDropDroppable(e) {
     const target = e.currentTarget;
-    if ($(target).hasClass('villain-droppable') !== true) {
+    if ($(target)
+      .hasClass('villain-droppable') !== true) {
       e.preventDefault();
       e.stopPropagation();
       return false;
@@ -207,7 +250,8 @@ const Editor = Backbone.View.extend({
     const $source = $(`[data-block-id=${sourceId}]`);
     const $sourceAdd = $source.next();
 
-    $('.villain-add-block-button', target).removeClass('drop-hover');
+    $('.villain-add-block-button', target)
+      .removeClass('drop-hover');
 
     if ($sourceAdd[0] === target) {
       e.preventDefault();
@@ -222,7 +266,8 @@ const Editor = Backbone.View.extend({
     // and adding it to the new blockstore
     $source.insertAfter($(target));
     const oldBlockStore = $source.attr('data-blockstore');
-    const newBlockStore = $(target).attr('data-blockstore');
+    const newBlockStore = $(target)
+      .attr('data-blockstore');
 
     // get the block from old blockstore
     const block = this.blockStore.getBlockById(oldBlockStore, sourceId);
@@ -307,7 +352,8 @@ const Editor = Backbone.View.extend({
       '<span><span');
 
     // Webkit clean list bullets.
-    cleanedHtml = cleanedHtml.replace(/<!--\[if !supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, '');
+    cleanedHtml = cleanedHtml.replace(
+      /<!--\[if !supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, '');
 
     // Remove mso classes.
     cleanedHtml = cleanedHtml.replace(/(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/gi, ' ');
@@ -316,7 +362,8 @@ const Editor = Backbone.View.extend({
     cleanedHtml = cleanedHtml.replace(/<!--[\s\S]*?-->/gi, '');
 
     // Remove tags but keep content.
-    cleanedHtml = cleanedHtml.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, '');
+    cleanedHtml = cleanedHtml.replace(
+      /<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, '');
 
     // Remove no needed tags.
     const wordTags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
@@ -388,7 +435,8 @@ const Editor = Backbone.View.extend({
     ];
 
     // Remove script tag.
-    let cleanedHtml = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    let cleanedHtml = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+      '');
 
     // Remove all tags not in allowed tags.
     const atReg = new RegExp(`<\\/?((?!(?:${allowedTags.join('|')}))\\w+)[^>]*?>`, 'gi');
@@ -410,9 +458,13 @@ const Editor = Backbone.View.extend({
     cleanedHtml = cleanedHtml.replace(styleReg, '');
 
     // Remove the class.
-    const $div = $('<div>').append(cleanedHtml);
+    const $div = $('<div>')
+      .append(cleanedHtml);
     $div.find('[class]:not([class^="fr-"])')
-      .each((index, el) => { $(el).removeAttr('class'); });
+      .each((index, el) => {
+        $(el)
+          .removeAttr('class');
+      });
 
     cleanedHtml = $div.html();
 
@@ -420,24 +472,33 @@ const Editor = Backbone.View.extend({
   },
 
   plainPasteClean(html) {
-    const $div = $('<div>').html(html);
+    const $div = $('<div>')
+      .html(html);
 
     $div.find('h1, h2, h3, h4, h5, h6, pre, blockquote')
-      .each((i, el) => { $(el).replaceWith(`<p>${$(el).html()}</p>`); });
+      .each((i, el) => {
+        $(el)
+          .replaceWith(`<p>${$(el).html()}</p>`);
+      });
 
     const replacePlain = function replacePlain(i, el) {
-      $(el).replaceWith($(el).html());
+      $(el)
+        .replaceWith($(el)
+          .html());
     };
 
-    while ($div.find('strong, em, strike, b, u, i, sup, sub, span, a').length) {
-      $div.find('strong, em, strike, b, u, i, sup, sub, span, a').each(replacePlain);
+    while ($div.find('strong, em, strike, b, u, i, sup, sub, span, a')
+      .length) {
+      $div.find('strong, em, strike, b, u, i, sup, sub, span, a')
+        .each(replacePlain);
     }
 
     return $div.html();
   },
 
   removeEmptyTags(html) {
-    const $div = $('<div>').html(html);
+    const $div = $('<div>')
+      .html(html);
     let emptyTags = $div.find('*:empty:not(br, img, td, th)');
 
     while (emptyTags.length) {
@@ -452,7 +513,8 @@ const Editor = Backbone.View.extend({
     // Workaround for Notepad paste.
     $div.find('> div')
       .each((i, div) => {
-        $(div).replaceWith(`${$(div).html()}<br />`);
+        $(div)
+          .replaceWith(`${$(div).html()}<br />`);
       });
 
     // Remove divs.
@@ -460,7 +522,9 @@ const Editor = Backbone.View.extend({
     while (divs.length) {
       for (let i = 0; i < divs.length; i += 1) {
         const $el = $(divs[i]);
-        const text = $el.html().replace(/\u0009/gi, '').trim();
+        const text = $el.html()
+          .replace(/\u0009/gi, '')
+          .trim();
 
         $el.replaceWith(text);
       }

@@ -6,6 +6,8 @@ import Block from '../block';
 import HTMLUtils from '../utils/html';
 import Markup from '../utils/markup';
 
+import { alertPrompt } from '../alerts';
+
 const Text = Block.extend({
   hasToolbar: true,
   type: 'text',
@@ -91,9 +93,12 @@ const Text = Block.extend({
 
   onClickLink(e) {
     e.preventDefault();
-    const link = prompt('link');
-    document.execCommand('createLink', false, link);
-    this.activateToolbarButton('.villain-format-link');
+    const sel = this.editor.saveSelection();
+    alertPrompt('URL/adresse:', (link) => {
+      this.editor.restoreSelection(sel);
+      document.execCommand('createLink', false, link);
+      this.activateToolbarButton('.villain-format-link');
+    });
   },
 
   onClickUnlink(e) {

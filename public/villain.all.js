@@ -19706,6 +19706,8 @@ var _markup = require('../utils/markup');
 
 var _markup2 = _interopRequireDefault(_markup);
 
+var _alerts = require('../alerts');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Text = _block2.default.extend({
@@ -19774,10 +19776,15 @@ var Text = _block2.default.extend({
     this.activateToolbarButton('.villain-format-italic');
   },
   onClickLink: function onClickLink(e) {
+    var _this = this;
+
     e.preventDefault();
-    var link = prompt('link');
-    document.execCommand('createLink', false, link);
-    this.activateToolbarButton('.villain-format-link');
+    var sel = this.editor.saveSelection();
+    (0, _alerts.alertPrompt)('URL/adresse:', function (link) {
+      _this.editor.restoreSelection(sel);
+      document.execCommand('createLink', false, link);
+      _this.activateToolbarButton('.villain-format-link');
+    });
   },
   onClickUnlink: function onClickUnlink(e) {
     e.preventDefault();
@@ -19806,7 +19813,7 @@ var Text = _block2.default.extend({
     return _marked2.default.toHTML(textNode);
   },
   setup: function setup() {
-    var _this = this;
+    var _this2 = this;
 
     var data = this.getData();
     if (!{}.hasOwnProperty.call(data, 'type')) {
@@ -19819,9 +19826,9 @@ var Text = _block2.default.extend({
     var radios = _html2.default.createRadios('Type', 'text-type-' + this.dataId, [{ name: 'Paragraf', val: 'paragraph' }, { name: 'Ingress', val: 'lead' }], type, [{
       ev: 'change',
       fn: function fn(e) {
-        _this.setDataProperty('type', (0, _jquery2.default)(e.target).val());
-        _this.refreshContentBlock();
-        _this.$content.attr('data-text-type', (0, _jquery2.default)(e.target).val());
+        _this2.setDataProperty('type', (0, _jquery2.default)(e.target).val());
+        _this2.refreshContentBlock();
+        _this2.$content.attr('data-text-type', (0, _jquery2.default)(e.target).val());
       }
     }]);
 
@@ -20162,6 +20169,34 @@ var Editor = _backbone2.default.View.extend({
       this.$textArea.show();
       this.$el.hide();
       this.sourceMode = true;
+    }
+  },
+  saveSelection: function saveSelection() {
+    if (window.getSelection) {
+      var sel = window.getSelection();
+      if (sel.getRangeAt && sel.rangeCount) {
+        var ranges = [];
+        for (var i = 0, len = sel.rangeCount; i < len; i += 1) {
+          ranges.push(sel.getRangeAt(i));
+        }
+        return ranges;
+      }
+    } else if (document.selection && document.selection.createRange) {
+      return document.selection.createRange();
+    }
+    return null;
+  },
+  restoreSelection: function restoreSelection(savedSel) {
+    if (savedSel) {
+      if (window.getSelection) {
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        for (var i = 0, len = savedSel.length; i < len; i += 1) {
+          sel.addRange(savedSel[i]);
+        }
+      } else if (document.selection && savedSel.select) {
+        savedSel.select();
+      }
     }
   },
   organizeMode: function organizeMode() {
