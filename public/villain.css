@@ -1823,7 +1823,7 @@ html {
 
 /* line 788, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type=columns] > div {
-  background-color: rgba(202, 255, 0, 0.05); }
+  background-color: rgba(0, 255, 198, 0.05); }
 
 /* line 792, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-toolbar {
