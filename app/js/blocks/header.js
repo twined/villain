@@ -8,6 +8,8 @@ import Markup from '../utils/markup';
 
 const Header = Block.extend({
   type: 'header',
+  blockName: 'h1-6',
+  blockIcon: 'fa-header',
   template: _.template(`
     <div class="villain-text-block villain-text-block-header villain-content"
          data-header-level="<%= level %>" contenteditable="true">
@@ -119,21 +121,6 @@ const Header = Block.extend({
   getHTML() {
     const textNode = this.getTextBlock().html();
     return `<h3>${marked.toHTML(textNode)}</h3>`;
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'header';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-header"></i>',
-      '<p>h1-6</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

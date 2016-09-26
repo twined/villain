@@ -3,6 +3,9 @@
 }
 
 .villain-editor {
+  background-image: linear-gradient( to right top, transparent 33%, #abdac5 33%, #abdac5 66%, transparent 66% );
+  background-size: 3px 3px;
+
   #{$all-text-inputs},
   select[multiple=multiple],
   textarea {
@@ -286,6 +289,7 @@
   }
 }
 
+.villain-block-wrapper[data-block-type="columns"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="header"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="text"] .villain-setup-block {
@@ -398,7 +402,7 @@
   .row {
     margin-left: 20px;
     margin-right: 20px;
-    max-width: none;
+    max-width: none !important;
     @include outer-container;
 
     .col-lg-1,
@@ -483,6 +487,10 @@
     .col-sm-9,
     .nine {
       @include span-columns(9);
+    }
+
+    .villain-block-wrapper {
+      margin: 0;
     }
   }
 
@@ -714,6 +722,7 @@
 }
 
 .villain-block-wrapper {
+  margin: 0 15px;
   @include animation-duration(0.5s);
   @include animation-fill-mode(both);
   @include animation-name(fadeInDown);
@@ -772,6 +781,10 @@
   .villain-block-inner {
     padding: 20px 12px;
   }
+}
+
+.villain-block-wrapper[data-block-type=columns] > .villain-block-inner {
+  padding: 12px;
 }
 
 .villain-block-wrapper[data-block-type=columns] > div {

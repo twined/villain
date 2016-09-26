@@ -10,6 +10,8 @@ const YOUTUBE_REGEX =
 
 const Video = Block.extend({
   type: 'video',
+  blockName: 'video',
+  blockIcon: 'fa-video-camera',
   resizeSetup: false,
 
   providers: {
@@ -142,21 +144,6 @@ const Video = Block.extend({
     } else {
       this.$setup.hide();
     }
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'video';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-video-camera"></i>',
-      '<p>video</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

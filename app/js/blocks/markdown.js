@@ -1,11 +1,13 @@
 import _ from 'underscore';
 import autosize from 'autosize';
 
-import '../utils/mixins.js';
+import '../utils/mixins';
 import Block from '../block';
 
 const Markdown = Block.extend({
   type: 'markdown',
+  blockName: 'markdown',
+  blockIcon: 'fa-code',
   template: _.template(
     '<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'
   ),
@@ -60,21 +62,6 @@ const Markdown = Block.extend({
   getHTML() {
     const textNode = this.$('textarea').val();
     return textNode;
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'markdown';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-code"></i>',
-      '<p>markdown</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

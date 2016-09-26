@@ -5,6 +5,8 @@ import Block from '../block';
 
 const List = Block.extend({
   type: 'list',
+  blockName: 'list',
+  blockIcon: 'fa-list-ul',
   template: _.template([
     '<div class="villain-text-block villain-text-block-list villain-content" contenteditable="true">',
     '  <%= content %>',
@@ -69,24 +71,6 @@ const List = Block.extend({
     return markdown.replace(/<\/li>/mg, '\n')
                    .replace(/<\/?[^>]+(>|$)/g, '')
                    .replace(/^(.+)$/mg, ' - $1');
-  },
-
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'list';
-    const t = _.template([
-      '<button class="villain-block-button" ',
-      '        data-type="<%= type %>" ',
-      '        data-after-block-id="<%= id %>">',
-      '  <i class="fa fa-list-ul"></i>',
-      '  <p>list</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

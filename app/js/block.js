@@ -309,6 +309,10 @@ const Block = Backbone.View.extend({
     this.editor.blockStore.add(store || 'main', this.dataId, this);
   },
 
+  hasData() {
+    return this.data ? !_.isEmpty(this.data) : false;
+  },
+
   setData(json) {
     this.data = json;
   },
@@ -323,14 +327,11 @@ const Block = Backbone.View.extend({
     this.setData(data);
   },
 
-  hasData() {
-    return this.data ? !_.isEmpty(this.data) : false;
-  },
-
   refreshBlock() {
     const html = this.renderEditorHtml();
     this.el.innerHTML = html;
     this.addSetup();
+
     return this;
   },
 
@@ -348,10 +349,10 @@ const Block = Backbone.View.extend({
 
   addSetup() {
     if (this.setup) {
-      // the block has a setup method - add the setupTemplate
-      // and call setup()
+      // the block has a setup method - add the setupTemplate and call setup()
       this.$inner.prepend(this.setupTemplate());
       this.$setup = this.$('.villain-setup-block');
+
       // show the setup button
       this.$('.villain-action-button-setup').show();
       this.setup();
@@ -413,11 +414,24 @@ const Block = Backbone.View.extend({
   },
 
   hideSetup() {
-    this.$setup.hide();
-    this.$setup.height('');
     const $button = this.$('.villain-action-button-setup');
     $button.removeClass('active');
+
+    this.$setup.hide();
+    this.$setup.height('');
+
     this.$content.show();
+  },
+}, {
+  getButton(cls, afterId) {
+    return `
+      <button class="villain-block-button"
+              data-type="${cls.prototype.type}"
+              data-after-block-id="${afterId}">
+        <i class="fa ${cls.prototype.blockIcon}"></i>
+        <p>${cls.prototype.blockName}</p>
+      </button>
+    `;
   },
 });
 

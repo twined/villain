@@ -6,6 +6,8 @@ import Block from '../block';
 
 const Slideshow = Block.extend({
   type: 'slideshow',
+  blockName: 'slides',
+  blockIcon: 'fa-th',
   template: _.template([
     '<div class="villain-slideshow-block villain-content" contenteditable="false">',
     '  <h4>Slideshow</h4>',
@@ -221,21 +223,6 @@ const Slideshow = Block.extend({
   getHTML() {
     const textNode = this.getTextBlock().html();
     return `<h3>${marked(textNode)}</h3>`;
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'slideshow';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-th"></i>',
-      '<p>slides</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

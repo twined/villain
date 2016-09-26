@@ -6,6 +6,8 @@ import { alertError } from '../alerts';
 
 const Gmap = Block.extend({
   type: 'map',
+  blockName: 'map',
+  blockIcon: 'fa-map-marker',
   resizeSetup: false,
 
   providers: {
@@ -141,21 +143,6 @@ const Gmap = Block.extend({
     } else {
       this.hideSetup();
     }
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'map';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-map-marker"></i>',
-      '<p>map</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

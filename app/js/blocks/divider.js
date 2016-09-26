@@ -4,6 +4,8 @@ import Block from '../block';
 
 const Divider = Block.extend({
   type: 'divider',
+  blockName: 'hr',
+  blockIcon: 'fa-minus',
   template: _.template('<div class="villain-divider-block villain-content"><hr></div>'),
 
   renderEditorHtml() {
@@ -37,21 +39,6 @@ const Divider = Block.extend({
 
   getHTML() {
     return '<hr>';
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'divider';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-minus"></i>',
-      '<p>hr</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

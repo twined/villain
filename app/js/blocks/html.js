@@ -5,6 +5,8 @@ import Block from '../block';
 
 const Html = Block.extend({
   type: 'html',
+  blockName: 'html',
+  blockIcon: 'fa-code',
   template: _.template(
     '<div class="villain-html-block villain-content"><textarea><%= content %></textarea></div>'
   ),
@@ -67,21 +69,6 @@ const Html = Block.extend({
   getHTML() {
     const textNode = this.$('textarea').val();
     return textNode;
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'html';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-code"></i>',
-      '<p>html</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

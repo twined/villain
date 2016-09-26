@@ -17927,6 +17927,9 @@ var Block = _backbone2.default.View.extend({
   addToBlockStore: function addToBlockStore(store) {
     this.editor.blockStore.add(store || 'main', this.dataId, this);
   },
+  hasData: function hasData() {
+    return this.data ? !_underscore2.default.isEmpty(this.data) : false;
+  },
   setData: function setData(json) {
     this.data = json;
   },
@@ -17938,13 +17941,11 @@ var Block = _backbone2.default.View.extend({
     data[prop] = value;
     this.setData(data);
   },
-  hasData: function hasData() {
-    return this.data ? !_underscore2.default.isEmpty(this.data) : false;
-  },
   refreshBlock: function refreshBlock() {
     var html = this.renderEditorHtml();
     this.el.innerHTML = html;
     this.addSetup();
+
     return this;
   },
   refreshContentBlock: function refreshContentBlock() {
@@ -17959,10 +17960,10 @@ var Block = _backbone2.default.View.extend({
   },
   addSetup: function addSetup() {
     if (this.setup) {
-      // the block has a setup method - add the setupTemplate
-      // and call setup()
+      // the block has a setup method - add the setupTemplate and call setup()
       this.$inner.prepend(this.setupTemplate());
       this.$setup = this.$('.villain-setup-block');
+
       // show the setup button
       this.$('.villain-action-button-setup').show();
       this.setup();
@@ -18015,11 +18016,17 @@ var Block = _backbone2.default.View.extend({
     }
   },
   hideSetup: function hideSetup() {
-    this.$setup.hide();
-    this.$setup.height('');
     var $button = this.$('.villain-action-button-setup');
     $button.removeClass('active');
+
+    this.$setup.hide();
+    this.$setup.height('');
+
     this.$content.show();
+  }
+}, {
+  getButton: function getButton(cls, afterId) {
+    return '\n      <button class="villain-block-button"\n              data-type="' + cls.prototype.type + '"\n              data-after-block-id="' + afterId + '">\n        <i class="fa ' + cls.prototype.blockIcon + '"></i>\n        <p>' + cls.prototype.blockName + '</p>\n      </button>\n    ';
   }
 });
 
@@ -18057,6 +18064,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Blockquote = _block2.default.extend({
   type: 'blockquote',
+  blockName: 'quote',
+  blockIcon: 'fa-quote-right',
   template: _underscore2.default.template('<div class="villain-quote-block villain-content"><blockquote contenteditable="true"><%= content %></blockquote><cite contenteditable="true"><%= cite %></cite></div>'),
 
   renderEditorHtml: function renderEditorHtml() {
@@ -18108,16 +18117,6 @@ var Blockquote = _block2.default.extend({
     var textNode = this.getTextBlock().html();
     return _marked2.default.toHTML(textNode);
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'blockquote';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-quote-right"></i>', '<p>quote</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Blockquote;
@@ -18151,6 +18150,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* Columns */
 var Columns = _block2.default.extend({
   type: 'columns',
+  blockName: 'cols',
+  blockIcon: 'fa-columns',
   template: _underscore2.default.template('<div id="villain-column-row-<%= columnId %>" class="row"></div>'),
   columnTemplate: _underscore2.default.template('<div class="<%= columnClass %>"></div>'),
 
@@ -18347,7 +18348,7 @@ var Columns = _block2.default.extend({
     var columnCountWrapper = (0, _jquery2.default)('<div class="villain-column-widths" />');
 
     for (var i = 1; i < parseInt(columnCount, 10) + 1; i += 1) {
-      columnCountWrapper.append('<label for="villain-column-width-' + i + '">\n           Kolonne ' + i + ' klassenavn (one, two, three ...)\n         </label>\n         <input type="text" name="villain-column-width-' + i + '" class="villain-column-width" />');
+      columnCountWrapper.append('<label for="villain-column-width-' + i + '">\n           Kolonne ' + i + ' klassenavn (col-md-6...)\n         </label>\n         <input type="text" name="villain-column-width-' + i + '" class="villain-column-width" />');
     }
     columnCountWrapper.append('<button id="villain-columns-apply-' + this.dataId + '" class="villain-columns-apply">\n         Sett opp kolonner\n      </button>');
     this.$setup.append(columnCountWrapper);
@@ -18394,17 +18395,6 @@ var Columns = _block2.default.extend({
 
     return addblock;
   }
-}, {
-  /* Static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'columns';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-columns"></i>', '<p>cols</p>', '</button>'].join('\n'));
-
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Columns;
@@ -18429,6 +18419,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Divider = _block2.default.extend({
   type: 'divider',
+  blockName: 'hr',
+  blockIcon: 'fa-minus',
   template: _underscore2.default.template('<div class="villain-divider-block villain-content"><hr></div>'),
 
   renderEditorHtml: function renderEditorHtml() {
@@ -18460,16 +18452,6 @@ var Divider = _block2.default.extend({
   getHTML: function getHTML() {
     return '<hr>';
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'divider';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-minus"></i>', '<p>hr</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Divider;
@@ -18500,6 +18482,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Gmap = _block2.default.extend({
   type: 'map',
+  blockName: 'map',
+  blockIcon: 'fa-map-marker',
   resizeSetup: false,
 
   providers: {
@@ -18605,16 +18589,6 @@ var Gmap = _block2.default.extend({
       this.hideSetup();
     }
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'map';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-map-marker"></i>', '<p>map</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Gmap;
@@ -18655,6 +18629,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Header = _block2.default.extend({
   type: 'header',
+  blockName: 'h1-6',
+  blockIcon: 'fa-header',
   template: _underscore2.default.template('\n    <div class="villain-text-block villain-text-block-header villain-content"\n         data-header-level="<%= level %>" contenteditable="true">\n    <%= content %>\n    </div>'),
 
   renderEditorHtml: function renderEditorHtml() {
@@ -18736,16 +18712,6 @@ var Header = _block2.default.extend({
     var textNode = this.getTextBlock().html();
     return '<h3>' + _marked2.default.toHTML(textNode) + '</h3>';
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'header';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-header"></i>', '<p>h1-6</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Header;
@@ -18774,6 +18740,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Html = _block2.default.extend({
   type: 'html',
+  blockName: 'html',
+  blockIcon: 'fa-code',
   template: _underscore2.default.template('<div class="villain-html-block villain-content"><textarea><%= content %></textarea></div>'),
 
   _propTextarea: function _propTextarea() {},
@@ -18826,16 +18794,6 @@ var Html = _block2.default.extend({
     var textNode = this.$('textarea').val();
     return textNode;
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'html';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-code"></i>', '<p>html</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Html;
@@ -18870,6 +18828,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Image = _block2.default.extend({
   type: 'image',
+  blockName: 'image',
+  blockIcon: 'fa-file-image-o',
   template: _underscore2.default.template('<div class="villain-image-block villain-content"><img class="img-responsive" src="<%= url %>" /></div>'),
 
   additionalEvents: {
@@ -19252,16 +19212,6 @@ var Image = _block2.default.extend({
     listHTML += '</div></div>';
     this.$setup.append(listHTML);
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'image';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-file-image-o"></i>', '<p>img</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Image;
@@ -19290,6 +19240,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var List = _block2.default.extend({
   type: 'list',
+  blockName: 'list',
+  blockIcon: 'fa-list-ul',
   template: _underscore2.default.template(['<div class="villain-text-block villain-text-block-list villain-content" contenteditable="true">', '  <%= content %>', '</div>'].join('\n')),
 
   additionalEvents: {
@@ -19340,16 +19292,6 @@ var List = _block2.default.extend({
   toMarkdown: function toMarkdown(markdown) {
     return markdown.replace(/<\/li>/mg, '\n').replace(/<\/?[^>]+(>|$)/g, '').replace(/^(.+)$/mg, ' - $1');
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'list';
-    var t = _underscore2.default.template(['<button class="villain-block-button" ', '        data-type="<%= type %>" ', '        data-after-block-id="<%= id %>">', '  <i class="fa fa-list-ul"></i>', '  <p>list</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = List;
@@ -19370,7 +19312,7 @@ var _autosize = require('autosize');
 
 var _autosize2 = _interopRequireDefault(_autosize);
 
-require('../utils/mixins.js');
+require('../utils/mixins');
 
 var _block = require('../block');
 
@@ -19380,6 +19322,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Markdown = _block2.default.extend({
   type: 'markdown',
+  blockName: 'markdown',
+  blockIcon: 'fa-code',
   template: _underscore2.default.template('<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'),
 
   afterRenderCallback: function afterRenderCallback() {
@@ -19430,16 +19374,6 @@ var Markdown = _block2.default.extend({
     var textNode = this.$('textarea').val();
     return textNode;
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'markdown';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-code"></i>', '<p>markdown</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Markdown;
@@ -19472,6 +19406,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Slideshow = _block2.default.extend({
   type: 'slideshow',
+  blockName: 'slides',
+  blockIcon: 'fa-th',
   template: _underscore2.default.template(['<div class="villain-slideshow-block villain-content" contenteditable="false">', '  <h4>Slideshow</h4>', '  <%= content %>', '</div>'].join('\n')),
 
   renderEditorHtml: function renderEditorHtml() {
@@ -19674,16 +19610,6 @@ var Slideshow = _block2.default.extend({
     var textNode = this.getTextBlock().html();
     return '<h3>' + (0, _marked2.default)(textNode) + '</h3>';
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'slideshow';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-th"></i>', '<p>slides</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Slideshow;
@@ -19728,6 +19654,8 @@ var Text = _block2.default.extend({
   hasToolbar: true,
   resizeSetup: false,
   type: 'text',
+  blockName: 'text',
+  blockIcon: 'fa-paragraph',
   template: _underscore2.default.template('<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'),
 
   additionalEvents: {
@@ -19849,16 +19777,6 @@ var Text = _block2.default.extend({
 
     this.$setup.append(radios);
   }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'text';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '  <i class="fa fa-paragraph"></i>', '  <p>text</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
-  }
 });
 
 exports.default = Text;
@@ -19890,6 +19808,8 @@ var YOUTUBE_REGEX = /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)
 
 var Video = _block2.default.extend({
   type: 'video',
+  blockName: 'video',
+  blockIcon: 'fa-video-camera',
   resizeSetup: false,
 
   providers: {
@@ -19995,16 +19915,6 @@ var Video = _block2.default.extend({
     } else {
       this.$setup.hide();
     }
-  }
-}, {
-  /* static methods */
-  getButton: function getButton(afterId) {
-    var blockType = 'video';
-    var t = _underscore2.default.template(['<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">', '<i class="fa fa-video-camera"></i>', '<p>video</p>', '</button>'].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType
-    });
   }
 });
 
@@ -20703,7 +20613,7 @@ var Plus = _backbone2.default.View.extend({
         var cls = _step$value.cls;
 
         if ({}.hasOwnProperty.call(cls, 'getButton')) {
-          html += cls.getButton(id);
+          html += cls.getButton(cls, id);
         } else {
           throw new _error2.default('No button found for ' + name);
         }

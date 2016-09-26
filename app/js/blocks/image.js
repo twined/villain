@@ -7,6 +7,8 @@ import { alertError } from '../alerts';
 
 const Image = Block.extend({
   type: 'image',
+  blockName: 'image',
+  blockIcon: 'fa-file-image-o',
   template: _.template(
     '<div class="villain-image-block villain-content"><img class="img-responsive" src="<%= url %>" /></div>'
   ),
@@ -472,21 +474,6 @@ const Image = Block.extend({
     }
     listHTML += '</div></div>';
     this.$setup.append(listHTML);
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'image';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-file-image-o"></i>',
-      '<p>img</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

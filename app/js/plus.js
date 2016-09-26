@@ -98,7 +98,7 @@ const Plus = Backbone.View.extend({
 
     for (const { name, cls } of this.editor.blockRegistry.registry) {
       if ({}.hasOwnProperty.call(cls, 'getButton')) {
-        html += cls.getButton(id);
+        html += cls.getButton(cls, id);
       } else {
         throw new VillainError(`No button found for ${name}`);
       }

@@ -12,6 +12,8 @@ const Text = Block.extend({
   hasToolbar: true,
   resizeSetup: false,
   type: 'text',
+  blockName: 'text',
+  blockIcon: 'fa-paragraph',
   template: _.template(
     '<div class="villain-text-block villain-content" contenteditable="true" data-text-type="<%= type %>"><%= content %></div>'
   ),
@@ -164,21 +166,6 @@ const Text = Block.extend({
     );
 
     this.$setup.append(radios);
-  },
-}, {
-  /* static methods */
-  getButton(afterId) {
-    const blockType = 'text';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '  <i class="fa fa-paragraph"></i>',
-      '  <p>text</p>',
-      '</button>',
-    ].join('\n'));
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 

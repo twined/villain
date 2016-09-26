@@ -7,6 +7,8 @@ import Plus from '../plus';
 
 const Columns = Block.extend({
   type: 'columns',
+  blockName: 'cols',
+  blockIcon: 'fa-columns',
   template: _.template('<div id="villain-column-row-<%= columnId %>" class="row"></div>'),
   columnTemplate: _.template('<div class="<%= columnClass %>"></div>'),
 
@@ -229,7 +231,7 @@ const Columns = Block.extend({
     for (let i = 1; i < (parseInt(columnCount, 10) + 1); i += 1) {
       columnCountWrapper.append(
         `<label for="villain-column-width-${i}">
-           Kolonne ${i} klassenavn (one, two, three ...)
+           Kolonne ${i} klassenavn (col-md-6...)
          </label>
          <input type="text" name="villain-column-width-${i}" class="villain-column-width" />`
       );
@@ -285,22 +287,6 @@ const Columns = Block.extend({
     });
 
     return addblock;
-  },
-}, {
-  /* Static methods */
-  getButton(afterId) {
-    const blockType = 'columns';
-    const t = _.template([
-      '<button class="villain-block-button" data-type="<%= type %>" data-after-block-id="<%= id %>">',
-      '<i class="fa fa-columns"></i>',
-      '<p>cols</p>',
-      '</button>',
-    ].join('\n'));
-
-    return t({
-      id: afterId,
-      type: blockType,
-    });
   },
 });
 
