@@ -7,7 +7,7 @@ import Block from '../block';
 const Markdown = Block.extend({
   type: 'markdown',
   blockName: 'markdown',
-  blockIcon: 'fa-code',
+  blockIcon: 'fa-caret-square-o-down',
   template: _.template(
     '<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'
   ),
