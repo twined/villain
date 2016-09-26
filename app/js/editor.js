@@ -8,10 +8,13 @@ import BlockRegistry from './stores/registry';
 import Plus from './plus';
 import VillainError from './errors/error';
 
+const VILLAIN_VERSION = '0.1.0';
+
 const Editor = Backbone.View.extend({
   textArea: '#id_body',
   data: {},
   blocks: {},
+  version: VILLAIN_VERSION,
 
   events: {
     'submit form': 'clickSubmit',
@@ -47,9 +50,17 @@ const Editor = Backbone.View.extend({
       'line-height': '20px',
     });
 
-    const $sourceView = $(
-      '<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
-    $sourceView.on('click', $.proxy(this.onToggleSource, this));
+    const $sourceView = $(`
+      <div data-editor="${this.instanceId}"
+           class="villain-toggle-source">
+        <i class="fa villain-mask-icon"></i>
+        <div class="villain-toggle-menu" style="display: none;">
+          Version: ${this.version}
+        </div>
+      </div>
+    `);
+
+    $sourceView.on('click', 'i', $.proxy(this.onToggleMask, this));
     $sourceView.insertBefore(this.$textArea);
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
@@ -129,7 +140,8 @@ const Editor = Backbone.View.extend({
     return this;
   },
 
-  onToggleSource() {
+  onToggleMask() {
+    $(`.villain-toggle-source[data-editor="${this.instanceId}"] .villain-toggle-menu`).toggle();
     this.eventBus.trigger('source:toggle');
   },
 

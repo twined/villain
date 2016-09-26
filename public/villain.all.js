@@ -19323,7 +19323,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Markdown = _block2.default.extend({
   type: 'markdown',
   blockName: 'markdown',
-  blockIcon: 'fa-code',
+  blockIcon: 'fa-caret-square-o-down',
   template: _underscore2.default.template('<div class="villain-md-block villain-content"><textarea><%= content %></textarea></div>'),
 
   afterRenderCallback: function afterRenderCallback() {
@@ -19962,10 +19962,13 @@ var _error2 = _interopRequireDefault(_error);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var VILLAIN_VERSION = '0.1.0';
+
 var Editor = _backbone2.default.View.extend({
   textArea: '#id_body',
   data: {},
   blocks: {},
+  version: VILLAIN_VERSION,
 
   events: {
     'submit form': 'clickSubmit',
@@ -20000,8 +20003,9 @@ var Editor = _backbone2.default.View.extend({
       'line-height': '20px'
     });
 
-    var $sourceView = (0, _jquery2.default)('<div class="villain-toggle-source"><i class="fa fa-code"></i></div>');
-    $sourceView.on('click', _jquery2.default.proxy(this.onToggleSource, this));
+    var $sourceView = (0, _jquery2.default)('\n      <div data-editor="' + this.instanceId + '"\n           class="villain-toggle-source">\n        <i class="fa villain-mask-icon"></i>\n        <div class="villain-toggle-menu" style="display: none;">\n          Version: ' + this.version + '\n        </div>\n      </div>\n    ');
+
+    $sourceView.on('click', 'i', _jquery2.default.proxy(this.onToggleMask, this));
     $sourceView.insertBefore(this.$textArea);
 
     this.eventBus.on('source:toggle', this.toggleSource, this);
@@ -20072,7 +20076,8 @@ var Editor = _backbone2.default.View.extend({
     }
     return this;
   },
-  onToggleSource: function onToggleSource() {
+  onToggleMask: function onToggleMask() {
+    (0, _jquery2.default)('.villain-toggle-source[data-editor="' + this.instanceId + '"] .villain-toggle-menu').toggle();
     this.eventBus.trigger('source:toggle');
   },
   toggleSource: function toggleSource() {

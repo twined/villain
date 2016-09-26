@@ -1,5 +1,29 @@
+.villain-mask-icon {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAMCAYAAACJOyb4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3JpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphNjRmZDk0Ny1mMjJjLTRjNmMtYTliNi0xM2RkMDhiOWI4MjQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MDM2QjU0ODQ3QzEyMTFFNkI1QUVCRjQ3ODU4QzA5N0IiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDM2QjU0ODM3QzEyMTFFNkI1QUVCRjQ3ODU4QzA5N0IiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgSWxsdXN0cmF0b3IgQ0MgMjAxNCAoTWFjaW50b3NoKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQyMjdERTgzN0IyRTExRTY4MEI3RTcxODExRkQ5MzIzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjQyMjdERTg0N0IyRTExRTY4MEI3RTcxODExRkQ5MzIzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+HCWYSQAAAVdJREFUeNq01M0rRFEYx/Ezc0d5ywJlko0oopQFKws7sSB/gKIsZGFha2FjT7GwsGApG0mZBVlIUrJghRpFY4HyEiPk5Xvqd3M7HTOlPPWZ5s55njP3OfPciRljEhhBKRZwa36iEj3oRxPK8YI01rGG00h+HAOow7zRxl9yiQl0YRKZyJpPFkvKH8RuZG3Vbr6VZ4O/SsfVwn9ESUJnbeMRc3rfgs7IWr7YwQEeMIwaBHbhQm1knIJajOMQ7562zzGDdqcuPPdro2J78YnuX+7syNn4Dc2ePDtNN+FwBBq1BsTQgRN8oAKNGEOvxiwMW1eloyyw54t6TKNVOVf2ZcrT8rPm2f38Xl/sdvHkyd2zd7Ptaa8YhZHrY/SpkzasRNbCO3dj3+g4FnPMq52EMk/xbI6aMyQDJW6gCNVqO6undRmjuPNsntJfRVK/wavyNjFkp/BbgAEAhWiI3BX1FUYAAAAASUVORK5CYII=");
+  background-repeat: no-repeat;
+  cursor: pointer;
+  height: 12px;
+  width: 23px;
+}
+
+.villain-toggle-menu {
+  float: right;
+  font-family: $base-villain-fonts;
+  font-size: 12px;
+  margin-left: 15px;
+  text-transform: uppercase;
+}
+
 .villain-toggle-source {
+  background-image: linear-gradient( to right top, transparent 33%, #abdac5 33%, #abdac5 66%, transparent 66% );
+  background-size: 3px 3px;
+  padding: 5px 15px;
   text-align: right;
+
+  i {
+    background-color: #fff;
+    padding: 5px;
+  }
 }
 
 .villain-editor {
@@ -40,6 +64,7 @@
     background-color: transparent;
     border: 0;
     color: #fff;
+    font-family: $base-villain-fonts;
     font-size: 10px;
     height: 70px;
     margin: 0 5px;
@@ -577,6 +602,10 @@
 
 .villain-add-block {
   margin: 17px 0;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
 }
 
 .villain-add-block-button {
@@ -585,7 +614,7 @@
   border-radius: 0;
   color: $base-villain-light-color;
   display: block;
-  font-family: "Helvetica";
+  font-family: $base-villain-fonts;
   font-size: 35px;
   font-weight: 700;
   padding: 0 0 5px;
