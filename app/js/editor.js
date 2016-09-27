@@ -2,11 +2,15 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Backbone from 'backbone';
 import uid from 'uid';
+import i18n from 'i18next';
 
 import BlockStore from './stores/store';
 import BlockRegistry from './stores/registry';
 import Plus from './plus';
 import VillainError from './errors/error';
+
+import LOCALE_NB from './locales/nb';
+import LOCALE_EN from './locales/en';
 
 const VILLAIN_VERSION = '0.1.0';
 
@@ -34,6 +38,14 @@ const Editor = Backbone.View.extend({
     this.blockStore = new BlockStore();
     this.blockStore.create('main');
     this.setOptions(options);
+
+    this.i18n = i18n.init({
+      lng: this.options.language,
+      resources: {
+        nb: LOCALE_NB,
+        en: LOCALE_EN,
+      },
+    });
 
     // initialize registry with optional extra blocks
     this.blockRegistry = new BlockRegistry(this, options.defaultBlocks || [], options.extraBlocks ||
@@ -95,13 +107,13 @@ const Editor = Backbone.View.extend({
         'Villain: baseURL and imageSeries MUST be set on initialization.');
     }
 
-    const newOpts = {
+    const newOpts = _.extend(options, {
       browseURL: options.baseURL + Editor.defaults.browseURL + options.imageSeries,
       uploadURL: options.baseURL + Editor.defaults.uploadURL + options.imageSeries,
       imageseriesURL: options.baseURL + Editor.defaults.imageseriesURL,
-    };
+    });
 
-    this.options = _.extend({}, newOpts); // FIXME: might be $.extend!
+    this.options = _.extend(Editor.defaults, newOpts);
   },
 
   render() {
@@ -622,6 +634,7 @@ Editor.defaults = {
   browseURL: 'villain/browse/',
   uploadURL: 'villain/upload/',
   imageseriesURL: 'villain/imageseries/',
+  language: 'nb',
 };
 
 export default Editor;

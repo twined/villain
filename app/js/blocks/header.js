@@ -61,7 +61,7 @@ const Header = Block.extend({
     const anchor = data.anchor || '';
 
     const headerSizeRadios = HTMLUtils.createRadios(
-      'Størrelse på overskrift',
+      this.editor.i18n.t('header:header_size'),
       `header-size-${this.dataId}`,
       [
         { name: 'H1', val: 1 },
@@ -85,7 +85,7 @@ const Header = Block.extend({
     );
 
     const anchorInput = HTMLUtils.createInput(
-      'Anker',
+      this.editor.i18n.t('header:anchor'),
       `header-anchor-${this.dataId}`,
       anchor,
       [

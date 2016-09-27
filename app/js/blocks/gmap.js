@@ -128,7 +128,7 @@ const Gmap = Block.extend({
     const mapSetup = $(`
       <div class="villain-map-setup-icon">
         <i class="fa fa-map-marker"></i>
-        <div>Lim inn embed-link fra Google Maps</div>
+        <div>${this.editor.i18n.t('map:setup_instructions')}</div>
       </div>
       <div class="villain-map-setup-input-wrapper">
         <input type="text" name="villain-map-setup-url" class="villain-map-setup-url" />

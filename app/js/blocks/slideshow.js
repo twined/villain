@@ -183,7 +183,12 @@ const Slideshow = Block.extend({
 
       this.$content.hide();
       const select = '<select class="imageserie-select" name="imageserie"></select>';
-      this.$setup.append($(`<label for="imageserie">Bildeserie</label>${select}`));
+      this.$setup.append($(`
+        <label for="imageserie">
+          ${this.editor.i18n.t('slides:imageserie')}
+        </label>
+        ${select}
+      `));
 
       const $select = this.$setup.find('.imageserie-select');
       $select.on('change', function imageSeriesSelectChangeCallback() {
@@ -195,7 +200,12 @@ const Slideshow = Block.extend({
       this.$setup.hide();
 
       const select = '<select class="imageserie-select" name="imageserie"></select>';
-      this.$setup.append($(`<label for="imageserie">Bildeserie</label>${select}`));
+      this.$setup.append($(`
+        <label for="imageserie">
+          ${this.editor.i18n.t('slides:imageserie')}
+        </label>
+        ${select}
+      `));
 
       const $select = this.$setup.find('.imageserie-select');
       $select.on('change', function imageSeriesSelectChangeCallbackWithData() {
