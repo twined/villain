@@ -28,6 +28,7 @@ Add to your HTML:
 ## Options
 
   * `textArea`: selector of source textarea.
+  * `language`: `en` or `nb` for now, `nb` is default.
   * `baseUrl`: Base URL to which we append `browse/`, `upload/` etc
   * `defaultBlocks`: If you only want a subset of blocks to be enabled.
 
