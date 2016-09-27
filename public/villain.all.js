@@ -22304,7 +22304,7 @@ var Video = _block2.default.extend({
   },
   setup: function setup() {
     // check if this block has data, if not, show the setup div
-    var videoSetup = (0, _jquery2.default)('\n      <div class="villain-video-setup-icon">\n        <i class="fa fa-video-camera"></i>\n        <div>' + this.editor.i18n.t('video:setup_instructions') + ' http://www.youtube.com/watch?v=jlbunmCbTBA</div>\n      </div>\n      <div class="villain-video-setup-input-wrapper">\n        <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />\n      </div>\n      <div><hr></div>\n      <div style="text-align: center;"><button>OK</button></div>\n    ');
+    var videoSetup = (0, _jquery2.default)('\n      <div class="villain-video-setup-icon">\n        <i class="fa fa-video-camera"></i>\n        <div>' + this.editor.i18n.t('video:setup_instructions') + '<br/>http://www.youtube.com/watch?v=jlbunmCbTBA</div>\n      </div>\n      <div class="villain-video-setup-input-wrapper">\n        <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />\n      </div>\n      <div><hr></div>\n      <div style="text-align: center;"><button>OK</button></div>\n    ');
     this.$setup.append(videoSetup);
 
     if (!this.hasData()) {

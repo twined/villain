@@ -129,7 +129,7 @@ const Video = Block.extend({
     const videoSetup = $(`
       <div class="villain-video-setup-icon">
         <i class="fa fa-video-camera"></i>
-        <div>${this.editor.i18n.t('video:setup_instructions')} http://www.youtube.com/watch?v=jlbunmCbTBA</div>
+        <div>${this.editor.i18n.t('video:setup_instructions')}<br/>http://www.youtube.com/watch?v=jlbunmCbTBA</div>
       </div>
       <div class="villain-video-setup-input-wrapper">
         <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />

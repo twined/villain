@@ -15,7 +15,7 @@
 }
 
 .villain-toggle-source {
-  background-image: linear-gradient( to right top, transparent 33%, #abdac5 33%, #abdac5 66%, transparent 66% );
+  background-image: linear-gradient(to right top, transparent 33%, $base-villain-lighter-color 33%, $base-villain-lighter-color 66%, transparent 66%);
   background-size: 3px 3px;
   padding: 5px 15px;
   text-align: right;
@@ -27,7 +27,7 @@
 }
 
 .villain-editor {
-  background-image: linear-gradient( to right top, transparent 33%, #abdac5 33%, #abdac5 66%, transparent 66% );
+  background-image: linear-gradient(to right top, transparent 33%, $base-villain-lighter-color 33%, $base-villain-lighter-color 66%, transparent 66%);
   background-size: 3px 3px;
 
   #{$all-text-inputs},
@@ -401,6 +401,7 @@
 
   button,
   input[type="submit"] {
+    background-color: $base-villain-strong-color;
     border: none;
     cursor: pointer;
     user-select: none;
@@ -408,6 +409,10 @@
     white-space: nowrap;
     @extend %button;
     @include appearance(none);
+
+    &:hover {
+      background-color: black;
+    }
   }
 
   hr {
@@ -816,7 +821,7 @@
 }
 
 .villain-block-wrapper[data-block-type=columns] > div {
-  background-color: rgba(0, 255, 198, 0.05);
+  background-color: rgba(71, 146, 112, 0.08);
 }
 
 .villain-text-toolbar {
