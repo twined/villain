@@ -22365,6 +22365,10 @@ var _nb = require('./locales/nb');
 
 var _nb2 = _interopRequireDefault(_nb);
 
+var _en = require('./locales/en');
+
+var _en2 = _interopRequireDefault(_en);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var VILLAIN_VERSION = '0.1.0';
@@ -22397,7 +22401,8 @@ var Editor = _backbone2.default.View.extend({
     this.i18n = _i18next2.default.init({
       lng: this.options.language,
       resources: {
-        nb: _nb2.default
+        nb: _nb2.default,
+        en: _en2.default
       }
     });
 
@@ -22448,11 +22453,11 @@ var Editor = _backbone2.default.View.extend({
       throw new _error2.default('Villain: baseURL and imageSeries MUST be set on initialization.');
     }
 
-    var newOpts = {
+    var newOpts = _underscore2.default.extend(options, {
       browseURL: options.baseURL + Editor.defaults.browseURL + options.imageSeries,
       uploadURL: options.baseURL + Editor.defaults.uploadURL + options.imageSeries,
       imageseriesURL: options.baseURL + Editor.defaults.imageseriesURL
-    };
+    });
 
     this.options = _underscore2.default.extend(Editor.defaults, newOpts);
   },
@@ -22910,6 +22915,65 @@ var VillainError = function (_ExtendableError) {
 }(ExtendableError);
 
 exports.default = VillainError;
+});
+
+require.register("locales/en.js", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var LOCALE_EN = {
+  errors: {
+    image_server_connection_failed: 'Could not connect to image server',
+    upload_failed: 'Upload failed',
+    no_images_found: 'No images found',
+    image_server_error: 'Error from image server during upload'
+  },
+
+  columns: {
+    number_of_columns: 'Number of columns',
+    setup_class_name: 'Column {{columnNumber}} class name (col-md-6...)',
+    setup_columns: 'Setup columns'
+  },
+
+  header: {
+    size: 'Header size',
+    anchor: 'Anchor'
+  },
+
+  map: {
+    setup_instructions: 'Paste embed-link from Google Maps'
+  },
+
+  slides: {
+    imageserie: 'Image series'
+  },
+
+  text: {
+    paragraph: 'Paragraph',
+    lead: 'Lead',
+    type: 'Type'
+  },
+
+  video: {
+    setup_instructions: 'Paste YouTube or Vimeo URL, i.e. '
+  },
+
+  images: {
+    click_image_to_insert: 'Click image to insert',
+    pull_in_image_to_upload: 'Drag and drop image to upload here',
+    browse_server_for_images: 'Load image from server',
+    upload_and_save: 'Upload and store',
+    upload_success: 'Image has been stored',
+    size: 'Size',
+    title: 'Title',
+    credits: 'Credits',
+    url: 'URL/link'
+  }
+};
+
+exports.default = LOCALE_EN;
 });
 
 require.register("locales/nb.js", function(exports, require, module) {

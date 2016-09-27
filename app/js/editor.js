@@ -10,6 +10,7 @@ import Plus from './plus';
 import VillainError from './errors/error';
 
 import LOCALE_NB from './locales/nb';
+import LOCALE_EN from './locales/en';
 
 const VILLAIN_VERSION = '0.1.0';
 
@@ -42,6 +43,7 @@ const Editor = Backbone.View.extend({
       lng: this.options.language,
       resources: {
         nb: LOCALE_NB,
+        en: LOCALE_EN,
       },
     });
 
@@ -105,11 +107,11 @@ const Editor = Backbone.View.extend({
         'Villain: baseURL and imageSeries MUST be set on initialization.');
     }
 
-    const newOpts = {
+    const newOpts = _.extend(options, {
       browseURL: options.baseURL + Editor.defaults.browseURL + options.imageSeries,
       uploadURL: options.baseURL + Editor.defaults.uploadURL + options.imageSeries,
       imageseriesURL: options.baseURL + Editor.defaults.imageseriesURL,
-    };
+    });
 
     this.options = _.extend(Editor.defaults, newOpts);
   },

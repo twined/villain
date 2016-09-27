@@ -333,14 +333,13 @@
   padding: 20px 15px;
 
   &:before {
-    border-bottom: 2px solid;
-    content: "Blokkoppsett";
+    border-bottom: 2px solid $base-villain-light-color;
+    content: "\f0ad";
     display: block;
-    font-family: $form-font-family;
-    font-size: 14px;
-    font-weight: bold;
+    font: normal normal normal 14px/1 FontAwesome;
     margin-bottom: 15px;
     padding-bottom: 10px;
+    text-align: center;
     text-transform: uppercase;
   }
 
