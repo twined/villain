@@ -1261,11 +1261,11 @@ html {
 /* line 315, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type="columns"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="header"] .villain-setup-block,
-.villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="text"] .villain-setup-block {
   max-width: 300px; }
 
-/* line 322, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 321, /Users/trond/dev/js/villain/app/styles/_base.scss */
+.villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="map"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="slideshow"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="video"] .villain-setup-block {

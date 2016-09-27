@@ -2,25 +2,25 @@ import swal from 'sweetalert';
 
 function alertError(text) {
   swal({
-    text, type: 'error', title: 'Feil',
+    text, type: 'error', title: '',
   });
 }
 
 function alertInfo(text) {
   swal({
-    text, type: 'info', title: 'Info',
+    text, type: 'info', title: '',
   });
 }
 
 function alertSuccess(text) {
   swal({
-    text, type: 'success', title: 'Suksess',
+    text, type: 'success', title: '',
   });
 }
 
 function alertWarning(text) {
   swal({
-    text, type: 'warning', title: 'Advarsel',
+    text, type: 'warning', title: '',
   });
 }
 

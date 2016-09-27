@@ -146,11 +146,11 @@ const Text = Block.extend({
     this.$setup.hide();
 
     const radios = HTMLUtils.createRadios(
-      'Type',
+      this.editor.i18n.t('text:type'),
       `text-type-${this.dataId}`,
       [
-        { name: 'Paragraf', val: 'paragraph' },
-        { name: 'Ingress', val: 'lead' },
+        { name: this.editor.i18n.t('text:paragraph'), val: 'paragraph' },
+        { name: this.editor.i18n.t('text:lead'), val: 'lead' },
       ],
       type,
       [

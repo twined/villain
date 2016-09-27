@@ -126,17 +126,17 @@ const Video = Block.extend({
 
   setup() {
     // check if this block has data, if not, show the setup div
-    const videoSetup = $([
-      '<div class="villain-video-setup-icon">',
-      '  <i class="fa fa-video-camera"></i>',
-      '  <div>Lim inn link til youtube eller vimeo, f.eks http://www.youtube.com/watch?v=jlbunmCbTBA</div>',
-      '</div>',
-      '<div class="villain-video-setup-input-wrapper">',
-      '  <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />',
-      '</div>',
-      '<div><hr></div>',
-      '<div style="text-align: center;"><button>Hent video</button></div>',
-    ].join('\n'));
+    const videoSetup = $(`
+      <div class="villain-video-setup-icon">
+        <i class="fa fa-video-camera"></i>
+        <div>${this.editor.i18n.t('video:setup_instructions')} http://www.youtube.com/watch?v=jlbunmCbTBA</div>
+      </div>
+      <div class="villain-video-setup-input-wrapper">
+        <input type="text" name="villain-video-setup-url" class="villain-video-setup-url" />
+      </div>
+      <div><hr></div>
+      <div style="text-align: center;"><button>OK</button></div>
+    `);
     this.$setup.append(videoSetup);
 
     if (!this.hasData()) {

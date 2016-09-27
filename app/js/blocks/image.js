@@ -92,7 +92,7 @@ const Image = Block.extend({
        */
       if (retData.status === '200') {
         // image uploaded successfully
-        this.$setup.append('<div class="villain-message success">Bildet er lastet opp</div>');
+        this.$setup.append(`<div class="villain-message success">${this.editor.i18n.t('images:upload_success')}</div>`);
         // remove upload button
         this.$setup.find('.villain-image-dropper-upload').remove();
         this.$setup.find('.villain-image-dropper').remove();
@@ -150,7 +150,7 @@ const Image = Block.extend({
             inputs: inputsHtml,
           });
           const $form = $(form);
-          const $submitButton = $(`<input type="submit" name="${retData.form.name}-submit" value="Lagre" />`);
+          const $submitButton = $(`<input type="submit" name="${retData.form.name}-submit" value="OK" />`);
 
           $submitButton.on('click', function submitClicked(ev) {
             ev.preventDefault();
@@ -190,7 +190,7 @@ const Image = Block.extend({
     }, this))
     .fail($.proxy(() => {
       // Failed during upload.
-      alertError('Feil fra server under opplasting.');
+      alertError(this.editor.i18n.t('errors:image_server_error'));
     }, this))
     .always($.proxy(() => {
 
@@ -246,9 +246,9 @@ const Image = Block.extend({
         }));
 
       this.$setup.append('<hr>');
-      this.$setup.append(
-        '<button class="villain-image-dropper-upload">Last opp og lagre</button>'
-      );
+      this.$setup.append(`
+        <button class="villain-image-dropper-upload">${this.editor.i18n.t('images:upload_and_save')}</button>
+      `);
       this.file = file;
     }
   },
@@ -276,16 +276,16 @@ const Image = Block.extend({
     // check if this block has data. if not, show the setup div
     if (!this.hasData()) {
       this.$('.villain-image-block').hide();
-      const $imageDropper = $([
-        '<div class="villain-image-dropper">',
-        '  <i class="fa fa-image"></i>',
-        '  <div>Dra bildet du vil laste opp hit</div>',
-        '  <div><hr></div>',
-        '  <div>',
-        '    <button class="villain-image-browse-button">Hent bilde fra server</button>',
-        '  </div>',
-        '</div>',
-      ].join('\n'));
+      const $imageDropper = $(`
+        <div class="villain-image-dropper">
+          <i class="fa fa-image"></i>
+          <div>${this.editor.i18n.t('images:pull_in_image_to_upload')}</div>
+          <div><hr></div>
+          <div>
+            <button class="villain-image-browse-button">${this.editor.i18n.t('images:browse_server_for_images')}</button>
+          </div>
+        </div>
+      `);
 
       $imageDropper.find('.villain-image-browse-button')
         .on('click', $.proxy(this.onImageBrowseButton, this));
@@ -299,7 +299,7 @@ const Image = Block.extend({
       const $form = $(`<form name="image-meta-${this.dataId}">`);
 
       const titleInput = HTMLUtils.createInput(
-        'Tittel',
+        this.editor.i18n.t('images:title'),
         'title',
         data.title,
         [
@@ -312,7 +312,7 @@ const Image = Block.extend({
         ],
       );
       const creditsInput = HTMLUtils.createInput(
-        'Kreditering',
+        this.editor.i18n.t('images:credits'),
         'credits',
         data.credits,
         [
@@ -325,7 +325,7 @@ const Image = Block.extend({
         ],
       );
       const URLInput = HTMLUtils.createInput(
-        'URL/link',
+        this.editor.i18n.t('images:url'),
         'link',
         data.link,
         [
@@ -350,7 +350,7 @@ const Image = Block.extend({
       });
 
       const $radios = HTMLUtils.createRadios(
-        'Størrelse',
+        this.editor.i18n.t('images:size'),
         'imagesize',
         sizes,
         data.url,
@@ -391,13 +391,13 @@ const Image = Block.extend({
        * Data returned from image browse.
        */
       if (data.status !== 200) {
-        alertError('Ingen bilder fantes.');
+        alertError(this.editor.i18n.t('errors:no_images_found'));
         this.done();
         return false;
       }
 
       if (!{}.hasOwnProperty.call(data, 'images')) {
-        alertError('Ingen bilder fantes.');
+        alertError(this.editor.i18n.t('errors:no_images_found'));
         this.done();
         return false;
       }
@@ -415,14 +415,10 @@ const Image = Block.extend({
       }
       $images.on('click', 'img', $.proxy(function setDataOnClick(ev) {
         this.setData({
-          url: $(ev.target)
-            .data('large'),
-          title: $(ev.target)
-            .data('title'),
-          credits: $(ev.target)
-            .data('credits'),
-          sizes: $(ev.target)
-            .data('sizes'),
+          url: $(ev.target).data('large'),
+          title: $(ev.target).data('title'),
+          credits: $(ev.target).data('credits'),
+          sizes: $(ev.target).data('sizes'),
         });
         this.getData();
         this.refreshContentBlock();
@@ -431,15 +427,15 @@ const Image = Block.extend({
       }, this));
 
       this.$setup.html('');
-      this.$setup.append(
-        '<div class="villain-message success">Klikk på bildet du vil sette inn</div>'
-      );
+      this.$setup.append(`
+        <div class="villain-message success">${this.editor.i18n.t('images:click_image_to_insert')}</div>
+      `);
       this.$setup.append($images);
       this.done();
       return true;
     }, this))
     .fail(() => {
-      alertError('Kunne ikke koble til bildeserver.');
+      alertError(this.editor.i18n.t('errors:image_server_connection_failed'));
       this.done();
       return false;
     });

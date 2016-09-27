@@ -316,11 +316,11 @@
 
 .villain-block-wrapper[data-block-type="columns"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="header"] .villain-setup-block,
-.villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="text"] .villain-setup-block {
   max-width: 300px;
 }
 
+.villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="map"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="slideshow"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="video"] .villain-setup-block {

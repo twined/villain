@@ -206,7 +206,7 @@ const Columns = Block.extend({
     if (!this.hasData()) {
       this.getRow().hide();
       this.$setup.append(`
-        <label for="villain-columns-number">Antall kolonner</label>
+        <label for="villain-columns-number">${this.editor.i18n.t('columns:number_of_columns')}</label>
         <input type="text" id="villain-columns-number-${this.dataId}"
          class="villain-columns-number" name="villain-columns-number" />`
       );
@@ -231,14 +231,14 @@ const Columns = Block.extend({
     for (let i = 1; i < (parseInt(columnCount, 10) + 1); i += 1) {
       columnCountWrapper.append(
         `<label for="villain-column-width-${i}">
-           Kolonne ${i} klassenavn (col-md-6...)
+           ${this.editor.i18n.t('columns:setup_class_name', { columnNumber: i })}
          </label>
          <input type="text" name="villain-column-width-${i}" class="villain-column-width" />`
       );
     }
     columnCountWrapper.append(
       `<button id="villain-columns-apply-${this.dataId}" class="villain-columns-apply">
-         Sett opp kolonner
+         ${this.editor.i18n.t('columns:setup_columns')}
       </button>`
     );
     this.$setup.append(columnCountWrapper);
