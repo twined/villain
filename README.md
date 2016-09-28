@@ -1,7 +1,5 @@
-# ∞
-
-Villain
-=======
+∞ Villain
+=========
 
 *EXPERIMENTAL, DO NOT USE!*
 
