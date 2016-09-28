@@ -22420,9 +22420,9 @@ var Editor = _backbone2.default.View.extend({
       'line-height': '20px'
     });
 
-    var $sourceView = (0, _jquery2.default)('\n      <div data-editor="' + this.instanceId + '"\n           class="villain-toggle-source">\n        <i class="fa villain-mask-icon"></i>\n        <div class="villain-toggle-menu" style="display: none;">\n          Version: ' + this.version + '\n        </div>\n      </div>\n    ');
+    var $sourceView = (0, _jquery2.default)('\n      <div data-editor="' + this.instanceId + '"\n           class="villain-toggle-source">\n        <span class="">&#8734;</span>\n        <div class="villain-toggle-menu" style="display: none;">\n          Version: ' + this.version + '\n        </div>\n      </div>\n    ');
 
-    $sourceView.on('click', 'i', _jquery2.default.proxy(this.onToggleMask, this));
+    $sourceView.on('click', 'span', _jquery2.default.proxy(this.onToggleMask, this));
     $sourceView.insertBefore(this.$textArea);
 
     this.eventBus.on('source:toggle', this.toggleSource, this);

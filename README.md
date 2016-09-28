@@ -1,4 +1,4 @@
-![Villain mask](https://raw.githubusercontent.com/twined/villain/master/design/mask.png)
+# ∞
 
 Villain
 =======

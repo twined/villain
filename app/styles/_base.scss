@@ -20,9 +20,12 @@
   padding: 5px 15px;
   text-align: right;
 
-  i {
+  span {
     background-color: #fff;
-    padding: 5px;
+    cursor: pointer;
+    font-family: BlinkMacSystemFont, -apple-system, Helvetica;
+    font-weight: bold;
+    padding: 2px 5px;
   }
 }
 

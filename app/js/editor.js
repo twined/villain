@@ -65,14 +65,14 @@ const Editor = Backbone.View.extend({
     const $sourceView = $(`
       <div data-editor="${this.instanceId}"
            class="villain-toggle-source">
-        <i class="fa villain-mask-icon"></i>
+        <span class="">&#8734;</span>
         <div class="villain-toggle-menu" style="display: none;">
           Version: ${this.version}
         </div>
       </div>
     `);
 
-    $sourceView.on('click', 'i', $.proxy(this.onToggleMask, this));
+    $sourceView.on('click', 'span', $.proxy(this.onToggleMask, this));
     $sourceView.insertBefore(this.$textArea);
 
     this.eventBus.on('source:toggle', this.toggleSource, this);

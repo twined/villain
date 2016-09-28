@@ -999,15 +999,18 @@ html {
   padding: 5px 15px;
   text-align: right; }
   /* line 23, /Users/trond/dev/js/villain/app/styles/_base.scss */
-  .villain-toggle-source i {
+  .villain-toggle-source span {
     background-color: #fff;
-    padding: 5px; }
+    cursor: pointer;
+    font-family: BlinkMacSystemFont, -apple-system, Helvetica;
+    font-weight: bold;
+    padding: 2px 5px; }
 
-/* line 29, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 32, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-editor {
   background-image: linear-gradient(to right top, transparent 33%, #dbf1e7 33%, #dbf1e7 66%, transparent 66%);
   background-size: 3px 3px; }
-  /* line 33, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 36, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor input[type="email"], .villain-editor input[type="number"], .villain-editor input[type="password"], .villain-editor input[type="search"], .villain-editor input[type="tel"], .villain-editor input[type="text"], .villain-editor input[type="url"], .villain-editor input[type="color"], .villain-editor input[type="date"], .villain-editor input[type="datetime"], .villain-editor input[type="datetime-local"], .villain-editor input[type="month"], .villain-editor input[type="time"], .villain-editor input[type="week"],
   .villain-editor select[multiple=multiple],
   .villain-editor textarea {
@@ -1026,22 +1029,22 @@ html {
     -webkit-transition: border-color;
     -moz-transition: border-color;
     transition: border-color; }
-    /* line 46, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 49, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor input[type="email"]:focus, .villain-editor input[type="number"]:focus, .villain-editor input[type="password"]:focus, .villain-editor input[type="search"]:focus, .villain-editor input[type="tel"]:focus, .villain-editor input[type="text"]:focus, .villain-editor input[type="url"]:focus, .villain-editor input[type="color"]:focus, .villain-editor input[type="date"]:focus, .villain-editor input[type="datetime"]:focus, .villain-editor input[type="datetime-local"]:focus, .villain-editor input[type="month"]:focus, .villain-editor input[type="time"]:focus, .villain-editor input[type="week"]:focus,
     .villain-editor select[multiple=multiple]:focus,
     .villain-editor textarea:focus {
       border-color: #479270;
       box-shadow: none;
       outline: none; }
-    /* line 52, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 55, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor input[type="email"]:hover, .villain-editor input[type="number"]:hover, .villain-editor input[type="password"]:hover, .villain-editor input[type="search"]:hover, .villain-editor input[type="tel"]:hover, .villain-editor input[type="text"]:hover, .villain-editor input[type="url"]:hover, .villain-editor input[type="color"]:hover, .villain-editor input[type="date"]:hover, .villain-editor input[type="datetime"]:hover, .villain-editor input[type="datetime-local"]:hover, .villain-editor input[type="month"]:hover, .villain-editor input[type="time"]:hover, .villain-editor input[type="week"]:hover,
     .villain-editor select[multiple=multiple]:hover,
     .villain-editor textarea:hover {
       border-color: #c4c4c4; }
-  /* line 57, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 60, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor *:focus {
     outline: 0; }
-  /* line 61, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 64, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor .villain-block-button {
     background-color: transparent;
     border: 0;
@@ -1061,49 +1064,49 @@ html {
     -webkit-animation-name: fadeInDown;
     -moz-animation-name: fadeInDown;
     animation-name: fadeInDown; }
-    /* line 75, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 78, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor .villain-block-button:hover {
       background-color: #fff;
       color: #479270; }
-    /* line 81, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 84, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor .villain-block-button i {
       font-size: 30px; }
-    /* line 85, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 88, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor .villain-block-button p {
       margin: 0;
       padding-top: 5px; }
-  /* line 91, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 94, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor .villain-message {
     font-weight: bold;
     margin: 15px 0;
     padding: 10px;
     text-align: center; }
-    /* line 97, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 100, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor .villain-message.error {
       background-color: #FFB0B0;
       border-bottom: 4px solid #DF9898; }
-    /* line 102, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 105, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor .villain-message.success {
       background-color: #B2FCB2;
       border-bottom: 4px solid #A0EAA0; }
-  /* line 108, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 111, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor [contenteditable] {
     min-height: 1rem; }
-  /* line 112, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 115, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor a {
     color: #ef4f4f;
     text-decoration: none;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
     transition: color 0.1s linear; }
-    /* line 117, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 120, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor a:active, .villain-editor a:focus {
       color: #dd1414;
       outline: none; }
-    /* line 123, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 126, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor a:hover {
       color: #dd1414; }
-  /* line 128, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 131, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor blockquote {
     border-left: 2px solid #DDD;
     color: #595959;
@@ -1111,33 +1114,33 @@ html {
     font-style: italic;
     margin: 1.5em 0;
     padding-left: 0.75em; }
-  /* line 137, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 140, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor cite {
     color: #737373;
     font-style: italic; }
-    /* line 141, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 144, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor cite:before {
       content: "\2014 \00A0"; }
-  /* line 146, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 149, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor dl {
     margin-bottom: 0.75em; }
-    /* line 149, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 152, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor dl dd {
       margin: 0; }
-    /* line 153, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 156, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor dl dt {
       font-weight: bold;
       margin-top: 0.75em; }
-  /* line 159, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 162, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor fieldset {
     background: #f7f7f7;
     border: 1px solid #DDD;
     margin: 0 0 0.75em 0;
     padding: 1.5em; }
-  /* line 166, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 169, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h1 {
     font-size: 2.25em; }
-  /* line 170, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 173, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h1,
   .villain-editor h2,
   .villain-editor h3,
@@ -1148,57 +1151,57 @@ html {
     line-height: 1.25;
     margin: 0;
     text-rendering: optimizeLegibility; }
-  /* line 182, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 185, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h2 {
     font-size: 2em; }
-  /* line 186, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 189, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h3 {
     font-size: 1.75em; }
-  /* line 190, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 193, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h4 {
     font-size: 1.5em; }
-  /* line 194, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 197, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h5 {
     font-size: 1.25em; }
-  /* line 198, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 201, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor h6 {
     font-size: 1em; }
-  /* line 202, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 205, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor hr {
     border-bottom: 1px solid #DDD;
     border-left: none;
     border-right: none;
     border-top: none;
     margin: 1.5em 0; }
-  /* line 210, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 213, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor img,
   .villain-editor picture {
     margin: 0;
     max-width: 100%; }
-  /* line 216, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 219, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor input,
   .villain-editor label,
   .villain-editor select {
     display: block;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 1em; }
-  /* line 224, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 227, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor input[type="checkbox"],
   .villain-editor input[type="radio"] {
     display: inline;
     margin-right: 1.5em; }
-  /* line 230, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 233, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor input[type="file"] {
     padding-bottom: 0.75em;
     width: 100%; }
-  /* line 235, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 238, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor input[type="search"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none; }
-  /* line 239, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 242, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor label {
     font-size: 11px;
     font-weight: bold;
@@ -1206,77 +1209,77 @@ html {
     margin-bottom: 0.375em;
     margin-bottom: 0.375em;
     text-transform: uppercase; }
-    /* line 247, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 250, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor label.required:after {
       content: "*"; }
-    /* line 251, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 254, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-editor label abbr {
       display: none; }
-  /* line 256, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 259, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor ol,
   .villain-editor ul {
     list-style-type: none;
     margin: 0;
     padding: 0; }
-    /* line 268, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 271, /Users/trond/dev/js/villain/app/styles/_base.scss */
     
     .villain-editor .villain-text-block-list ul, .villain-text-block-list
     .villain-editor ul {
       list-style-type: disc;
       margin-bottom: 0.75em;
       padding-left: 1.5em; }
-  /* line 275, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 278, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor p {
     margin: 0 0 0.75em; }
-  /* line 279, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 282, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor select {
     margin-bottom: 1.5em;
     max-width: 100%;
     width: auto; }
-  /* line 285, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 288, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor table {
     border-collapse: collapse;
     margin: 0.75em 0;
     table-layout: fixed;
     width: 100%; }
-  /* line 292, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 295, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor td {
     border-bottom: 1px solid #DDD;
     padding: 0.75em 0; }
-  /* line 297, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 300, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor td,
   .villain-editor th,
   .villain-editor tr {
     vertical-align: middle; }
-  /* line 303, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 306, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor textarea {
     resize: vertical; }
-  /* line 307, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 310, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-editor th {
     border-bottom: 1px solid #b7b7b7;
     font-weight: bold;
     padding: 0.75em 0;
     text-align: left; }
 
-/* line 315, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 318, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type="columns"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="header"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="text"] .villain-setup-block {
   max-width: 300px; }
 
-/* line 321, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 324, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type="image"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="map"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="slideshow"] .villain-setup-block,
 .villain-block-wrapper[data-block-type="video"] .villain-setup-block {
   max-width: 600px; }
 
-/* line 328, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 331, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-setup-block {
   background-color: #F1F7EE;
   margin: 0 auto;
   padding: 20px 15px; }
-  /* line 333, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 336, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block:before {
     border-bottom: 2px solid #abdac5;
     content: "\f0ad";
@@ -1286,52 +1289,52 @@ html {
     padding-bottom: 10px;
     text-align: center;
     text-transform: uppercase; }
-  /* line 344, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 347, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .center-cropped {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 250px;
     width: 250px; }
-  /* line 352, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 355, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-form {
     margin: 25px auto 0;
     max-width: 500px; }
-  /* line 357, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 360, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-image-dropper {
     text-align: center; }
-    /* line 360, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 363, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-setup-block .villain-image-dropper i {
       color: #CCC;
       font-size: 300px; }
-      /* line 364, /Users/trond/dev/js/villain/app/styles/_base.scss */
+      /* line 367, /Users/trond/dev/js/villain/app/styles/_base.scss */
       .villain-setup-block .villain-image-dropper i.drop-hover {
         color: #76CD88; }
-  /* line 370, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 373, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-map-setup-icon {
     text-align: center; }
-    /* line 373, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 376, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-setup-block .villain-map-setup-icon i {
       color: #CCC;
       font-size: 300px; }
-  /* line 379, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 382, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-map-setup-input-wrapper {
     margin: 25px auto;
     max-width: 450px;
     text-align: center; }
-  /* line 385, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 388, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-video-setup-icon {
     text-align: center; }
-    /* line 388, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 391, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-setup-block .villain-video-setup-icon i {
       color: #CCC;
       font-size: 300px; }
-  /* line 394, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 397, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block .villain-video-setup-input-wrapper {
     margin: 25px auto;
     max-width: 450px;
     text-align: center; }
-  /* line 400, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 403, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block button,
   .villain-setup-block input[type="submit"] {
     background-color: #479270;
@@ -1345,15 +1348,15 @@ html {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none; }
-    /* line 411, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 414, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-setup-block button:hover,
     .villain-setup-block input[type="submit"]:hover {
       background-color: black; }
-  /* line 416, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 419, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-setup-block hr {
     border-bottom: 1px solid #fff; }
 
-/* line 421, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 424, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-inner {
   background-color: #fff;
   border: 2px solid #fff;
@@ -1361,7 +1364,7 @@ html {
   margin: 5px 0;
   padding: 38px 12px;
   position: relative; }
-  /* line 429, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 432, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .row {
     margin-left: 20px;
     margin-right: 20px;
@@ -1374,7 +1377,7 @@ html {
       content: "";
       display: table;
       clear: both; }
-    /* line 435, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 438, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-1,
     .villain-block-inner .row .col-md-1,
     .villain-block-inner .row .col-sm-1,
@@ -1389,7 +1392,7 @@ html {
       .villain-block-inner .row .col-sm-1:last-child,
       .villain-block-inner .row .one:last-child {
         margin-right: 0; }
-    /* line 442, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 445, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-10,
     .villain-block-inner .row .col-md-10,
     .villain-block-inner .row .col-sm-10,
@@ -1404,7 +1407,7 @@ html {
       .villain-block-inner .row .col-sm-10:last-child,
       .villain-block-inner .row .ten:last-child {
         margin-right: 0; }
-    /* line 449, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 452, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-11,
     .villain-block-inner .row .col-md-11,
     .villain-block-inner .row .col-sm-11,
@@ -1419,7 +1422,7 @@ html {
       .villain-block-inner .row .col-sm-11:last-child,
       .villain-block-inner .row .eleven:last-child {
         margin-right: 0; }
-    /* line 456, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 459, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-12,
     .villain-block-inner .row .col-md-12,
     .villain-block-inner .row .col-sm-12,
@@ -1434,7 +1437,7 @@ html {
       .villain-block-inner .row .col-sm-12:last-child,
       .villain-block-inner .row .twelve:last-child {
         margin-right: 0; }
-    /* line 463, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 466, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-2,
     .villain-block-inner .row .col-md-2,
     .villain-block-inner .row .col-sm-2,
@@ -1449,7 +1452,7 @@ html {
       .villain-block-inner .row .col-sm-2:last-child,
       .villain-block-inner .row .two:last-child {
         margin-right: 0; }
-    /* line 470, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 473, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-3,
     .villain-block-inner .row .col-md-3,
     .villain-block-inner .row .col-sm-3,
@@ -1464,7 +1467,7 @@ html {
       .villain-block-inner .row .col-sm-3:last-child,
       .villain-block-inner .row .three:last-child {
         margin-right: 0; }
-    /* line 477, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 480, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-4,
     .villain-block-inner .row .col-md-4,
     .villain-block-inner .row .col-sm-4,
@@ -1479,7 +1482,7 @@ html {
       .villain-block-inner .row .col-sm-4:last-child,
       .villain-block-inner .row .four:last-child {
         margin-right: 0; }
-    /* line 484, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 487, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-5,
     .villain-block-inner .row .col-md-5,
     .villain-block-inner .row .col-sm-5,
@@ -1494,7 +1497,7 @@ html {
       .villain-block-inner .row .col-sm-5:last-child,
       .villain-block-inner .row .five:last-child {
         margin-right: 0; }
-    /* line 491, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 494, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-6,
     .villain-block-inner .row .col-md-6,
     .villain-block-inner .row .col-sm-6,
@@ -1509,7 +1512,7 @@ html {
       .villain-block-inner .row .col-sm-6:last-child,
       .villain-block-inner .row .six:last-child {
         margin-right: 0; }
-    /* line 498, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 501, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-7,
     .villain-block-inner .row .col-md-7,
     .villain-block-inner .row .col-sm-7,
@@ -1524,7 +1527,7 @@ html {
       .villain-block-inner .row .col-sm-7:last-child,
       .villain-block-inner .row .seven:last-child {
         margin-right: 0; }
-    /* line 505, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 508, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-8,
     .villain-block-inner .row .col-md-8,
     .villain-block-inner .row .col-sm-8,
@@ -1539,7 +1542,7 @@ html {
       .villain-block-inner .row .col-sm-8:last-child,
       .villain-block-inner .row .eight:last-child {
         margin-right: 0; }
-    /* line 512, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 515, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .col-lg-9,
     .villain-block-inner .row .col-md-9,
     .villain-block-inner .row .col-sm-9,
@@ -1554,27 +1557,27 @@ html {
       .villain-block-inner .row .col-sm-9:last-child,
       .villain-block-inner .row .nine:last-child {
         margin-right: 0; }
-    /* line 519, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 522, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .row .villain-block-wrapper {
       margin: 0; }
-  /* line 524, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 527, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-html-block textarea {
     border: 0 !important;
     box-shadow: none !important;
     font-family: monospace !important; }
-    /* line 529, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 532, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .villain-html-block textarea:focus {
       background-color: #eee !important; }
-  /* line 534, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 537, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-image-block {
     text-align: center; }
-  /* line 538, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 541, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-map-block {
     height: 0;
     padding-top: 56.25%;
     position: relative;
     width: 100%; }
-    /* line 544, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 547, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .villain-map-block iframe {
       height: 100%;
       left: 0;
@@ -1582,36 +1585,36 @@ html {
       position: absolute;
       top: 0;
       width: 100%; }
-  /* line 554, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 557, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-md-block {
     position: relative; }
-    /* line 557, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 560, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .villain-md-block textarea {
       border: 0 !important;
       box-shadow: none !important;
       font-family: monospace !important;
       font-size: 15px !important;
       line-height: 24px; }
-      /* line 564, /Users/trond/dev/js/villain/app/styles/_base.scss */
+      /* line 567, /Users/trond/dev/js/villain/app/styles/_base.scss */
       .villain-block-inner .villain-md-block textarea:focus {
         background-color: #eee !important; }
-  /* line 571, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 574, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-slideshow-block h4 {
     margin-bottom: 15px; }
-  /* line 576, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 579, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-text-block {
     /* make space for the action buttons */
     padding-right: 30px; }
-  /* line 581, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 584, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-text-block[data-text-type="lead"] {
     font-size: 2rem; }
-  /* line 585, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 588, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-inner .villain-video-block {
     height: 0;
     padding-top: 56.25%;
     position: relative;
     width: 100%; }
-    /* line 591, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 594, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-block-inner .villain-video-block iframe {
       height: 100%;
       left: 0;
@@ -1619,18 +1622,18 @@ html {
       top: 0;
       width: 100%; }
 
-/* line 601, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 604, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-inner.hover {
   border: 2px solid #abdac5; }
 
-/* line 605, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 608, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-add-block {
   margin: 17px 0; }
-  /* line 608, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 611, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-add-block:first-of-type {
     margin-top: 0; }
 
-/* line 613, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 616, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-add-block-button {
   background-color: #fff;
   border: 0;
@@ -1643,23 +1646,23 @@ html {
   padding: 0 0 5px;
   width: 100%; }
 
-/* line 626, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 629, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-add-block-button:hover {
   background-color: #479270;
   color: #ffffff; }
 
-/* line 631, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 634, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-add-block-button.drop-hover {
   background-color: #76CD88;
   color: #FFF; }
 
-/* line 636, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 639, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-selection {
   background-color: #479270;
   padding: 5px 15px;
   position: relative;
   text-align: center; }
-  /* line 642, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 645, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-selection button.villain-close-picker {
     background-color: transparent;
     border: 0;
@@ -1703,52 +1706,52 @@ html {
     -o-transform: translateY(0);
     transform: translateY(0); } }
 
-/* line 666, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 669, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header {
   font-size: 32px; }
 
-/* line 670, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 673, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header[data-header-level="1"] {
   font-size: 32px; }
 
-/* line 674, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 677, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header[data-header-level="2"] {
   font-size: 25px; }
 
-/* line 678, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 681, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header[data-header-level="3"] {
   font-size: 20px; }
 
-/* line 682, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 685, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header[data-header-level="4"] {
   font-size: 17px; }
 
-/* line 686, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 689, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-header[data-header-level="5"] {
   font-size: 14px; }
 
-/* line 690, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 693, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-subheader {
   font-size: 24px; }
 
-/* line 694, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 697, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block div {
   /*
     margin-top: 3px;
     margin-bottom: 7px;
   */ }
 
-/* line 701, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 704, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-block-list {
   font-size: 18px; }
 
-/* line 709, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 712, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-actions {
   bottom: 0;
   position: absolute;
   right: 0;
   visibility: hidden; }
-  /* line 715, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 718, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-actions .villain-action-button {
     background: #ffffff;
     border-bottom: 0;
@@ -1764,28 +1767,28 @@ html {
     padding-top: 6px;
     text-align: center;
     width: 30px; }
-    /* line 731, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 734, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-actions .villain-action-button:hover {
       background: #ffffff;
       color: #479270; }
 
-/* line 738, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 741, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-action-button-move {
   cursor: move; }
 
-/* line 742, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 745, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-loader {
   background-color: rgba(255, 255, 255, 0.7);
   display: table;
   height: 100%;
   width: 100%; }
-  /* line 748, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 751, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-loader i {
     display: table-cell;
     text-align: center;
     vertical-align: middle; }
 
-/* line 755, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 758, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper {
   margin: 0 15px;
   -webkit-animation-duration: 0.5s;
@@ -1798,7 +1801,7 @@ html {
   -moz-animation-name: fadeInDown;
   animation-name: fadeInDown; }
 
-/* line 762, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 765, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper.organize::after {
   background-color: #000;
   color: #fff;
@@ -1809,17 +1812,17 @@ html {
   padding: 5px;
   text-align: center; }
 
-/* line 773, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 776, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper.loading {
   pointer-events: none;
   position: relative; }
-  /* line 777, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 780, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-wrapper.loading .loading-icon {
     display: block;
     font-size: 4.8125rem;
     line-height: 5.25rem;
     vertical-align: middle; }
-  /* line 784, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 787, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-wrapper.loading .loading-overlay {
     background: rgba(255, 255, 255, 0.8);
     bottom: 0;
@@ -1829,7 +1832,7 @@ html {
     text-align: center;
     top: 0;
     z-index: 100; }
-  /* line 795, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 798, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-block-wrapper.loading .loading-spinner {
     bottom: 0;
     color: #B8B8B8;
@@ -1840,27 +1843,27 @@ html {
     text-align: center;
     top: 50%; }
 
-/* line 807, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 810, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type="text"] {
   font-size: 20px; }
 
-/* line 812, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 815, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type="divider"] .villain-block-inner {
   padding: 20px 12px; }
 
-/* line 817, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 820, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type=columns] > .villain-block-inner {
   padding: 12px; }
 
-/* line 821, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 824, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-block-wrapper[data-block-type=columns] > div {
   background-color: rgba(71, 146, 112, 0.08); }
 
-/* line 825, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 828, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-text-toolbar {
   display: none;
   padding-left: 10px; }
-  /* line 829, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 832, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-text-toolbar button {
     background-color: #efefef;
     border: 0;
@@ -1868,22 +1871,22 @@ html {
     margin-right: 10px;
     padding: 6px 10px;
     width: 35px; }
-    /* line 837, /Users/trond/dev/js/villain/app/styles/_base.scss */
+    /* line 840, /Users/trond/dev/js/villain/app/styles/_base.scss */
     .villain-text-toolbar button:hover {
       cursor: pointer; }
 
-/* line 843, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 846, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-form-input-wrapper {
   margin-bottom: 15px;
   margin-top: 15px; }
 
-/* line 848, /Users/trond/dev/js/villain/app/styles/_base.scss */
+/* line 851, /Users/trond/dev/js/villain/app/styles/_base.scss */
 .villain-form-label-wrapper {
   background-color: #333;
   display: inline-block;
   margin-bottom: 8px;
   padding: 4px 6px 0; }
-  /* line 854, /Users/trond/dev/js/villain/app/styles/_base.scss */
+  /* line 857, /Users/trond/dev/js/villain/app/styles/_base.scss */
   .villain-form-label-wrapper label {
     color: #fff !important;
     font-size: 11px !important; }
