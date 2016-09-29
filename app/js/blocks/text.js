@@ -151,21 +151,52 @@ const Text = Block.extend({
       [
         { name: this.editor.i18n.t('text:paragraph'), val: 'paragraph' },
         { name: this.editor.i18n.t('text:lead'), val: 'lead' },
+        { name: this.editor.i18n.t('text:custom'), val: 'custom' },
       ],
       type,
       [
         {
           ev: 'change',
           fn: (e) => {
-            this.setDataProperty('type', $(e.target).val());
+            const val = $(e.target).val();
+            if (val === 'custom') {
+              $(`input[name="text-custom-${this.dataId}"]`).prop('disabled', false);
+            } else {
+              $(`input[name="text-custom-${this.dataId}"]`).prop('disabled', true);
+            }
+            this.setDataProperty('type', val);
             this.refreshContentBlock();
-            this.$content.attr('data-text-type', $(e.target).val());
+            this.$content.attr('data-text-type', val);
           },
         },
       ],
     );
 
     this.$setup.append(radios);
+
+    let initialCustomClass;
+
+    if (['lead', 'paragraph'].indexOf(this.data.type) >= 0) {
+      initialCustomClass = '';
+    } else {
+      initialCustomClass = this.data.type;
+    }
+
+    const $customField = HTMLUtils.createInput(
+      this.editor.i18n.t('text:custom'),
+      `text-custom-${this.dataId}`,
+      initialCustomClass,
+      {
+        ev: 'keyup',
+        fn: (e) => {
+          this.setDataProperty('type', $(e.target).val());
+          this.refreshContentBlock();
+          this.$content.attr('data-text-type', $(e.target).val());
+        },
+      },
+    );
+
+    this.$setup.append($customField);
   },
 });
 

@@ -29,6 +29,7 @@ const LOCALE_NB = {
     paragraph: 'Paragraf',
     lead: 'Ingress',
     type: 'Type',
+    custom: 'Egendefinert',
   },
 
   video: {

@@ -22163,16 +22163,41 @@ var Text = _block2.default.extend({
     var type = this.data.type;
     this.$setup.hide();
 
-    var radios = _html2.default.createRadios(this.editor.i18n.t('text:type'), 'text-type-' + this.dataId, [{ name: this.editor.i18n.t('text:paragraph'), val: 'paragraph' }, { name: this.editor.i18n.t('text:lead'), val: 'lead' }], type, [{
+    var radios = _html2.default.createRadios(this.editor.i18n.t('text:type'), 'text-type-' + this.dataId, [{ name: this.editor.i18n.t('text:paragraph'), val: 'paragraph' }, { name: this.editor.i18n.t('text:lead'), val: 'lead' }, { name: this.editor.i18n.t('text:custom'), val: 'custom' }], type, [{
       ev: 'change',
+      fn: function fn(e) {
+        var val = (0, _jquery2.default)(e.target).val();
+        if (val === 'custom') {
+          (0, _jquery2.default)('input[name="text-custom-' + _this2.dataId + '"]').prop('disabled', false);
+        } else {
+          (0, _jquery2.default)('input[name="text-custom-' + _this2.dataId + '"]').prop('disabled', true);
+        }
+        _this2.setDataProperty('type', val);
+        _this2.refreshContentBlock();
+        _this2.$content.attr('data-text-type', val);
+      }
+    }]);
+
+    this.$setup.append(radios);
+
+    var initialCustomClass = void 0;
+
+    if (['lead', 'paragraph'].indexOf(this.data.type) >= 0) {
+      initialCustomClass = '';
+    } else {
+      initialCustomClass = this.data.type;
+    }
+
+    var $customField = _html2.default.createInput(this.editor.i18n.t('text:custom'), 'text-custom-' + this.dataId, initialCustomClass, {
+      ev: 'keyup',
       fn: function fn(e) {
         _this2.setDataProperty('type', (0, _jquery2.default)(e.target).val());
         _this2.refreshContentBlock();
         _this2.$content.attr('data-text-type', (0, _jquery2.default)(e.target).val());
       }
-    }]);
+    });
 
-    this.$setup.append(radios);
+    this.$setup.append($customField);
   }
 });
 
@@ -23012,7 +23037,8 @@ var LOCALE_NB = {
   text: {
     paragraph: 'Paragraf',
     lead: 'Ingress',
-    type: 'Type'
+    type: 'Type',
+    custom: 'Egendefinert'
   },
 
   video: {
@@ -23502,8 +23528,17 @@ var HTMLUtils = function () {
     }
   }, {
     key: 'createInput',
-    value: function createInput(labelName, inputName, initialValue) {
-      return '\n      <div class="villain-form-input-wrapper">\n        <div class="villain-form-label-wrapper">\n          <label>' + labelName + '</label>\n        </div>\n        <input type="text" value="' + initialValue + '" name="' + inputName + '" />\n      </div>\n    ';
+    value: function createInput(labelName, inputName, initialValue, event) {
+      var $input = (0, _jquery2.default)('\n      <div class="villain-form-input-wrapper">\n        <div class="villain-form-label-wrapper">\n          <label>' + labelName + '</label>\n        </div>\n        <input type="text" value="' + initialValue + '" name="' + inputName + '" />\n      </div>\n    ');
+
+      if (event) {
+        var ev = event.ev;
+        var fn = event.fn;
+
+        $input.on(ev, fn);
+      }
+
+      return $input;
     }
   }]);
 

@@ -40,15 +40,22 @@ class HTMLUtils {
     return $radios;
   }
 
-  static createInput(labelName, inputName, initialValue) {
-    return `
+  static createInput(labelName, inputName, initialValue, event) {
+    const $input = $(`
       <div class="villain-form-input-wrapper">
         <div class="villain-form-label-wrapper">
           <label>${labelName}</label>
         </div>
         <input type="text" value="${initialValue}" name="${inputName}" />
       </div>
-    `;
+    `);
+
+    if (event) {
+      const { ev, fn } = event;
+      $input.on(ev, fn);
+    }
+
+    return $input;
   }
 }
 
