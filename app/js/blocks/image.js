@@ -302,40 +302,34 @@ const Image = Block.extend({
         this.editor.i18n.t('images:title'),
         'title',
         data.title,
-        [
-          {
-            ev: 'keyup',
-            fn: _.debounce((e) => {
-              this.setDataProperty('title', $(e.target).val());
-            }),
-          },
-        ],
+        {
+          ev: 'keyup',
+          fn: _.debounce((e) => {
+            this.setDataProperty('title', $(e.target).val());
+          }),
+        },
       );
       const creditsInput = HTMLUtils.createInput(
         this.editor.i18n.t('images:credits'),
         'credits',
         data.credits,
-        [
-          {
-            ev: 'keyup',
-            fn: _.debounce((e) => {
-              this.setDataProperty('credits', $(e.target).val());
-            }),
-          },
-        ],
+        {
+          ev: 'keyup',
+          fn: _.debounce((e) => {
+            this.setDataProperty('credits', $(e.target).val());
+          }),
+        },
       );
       const URLInput = HTMLUtils.createInput(
         this.editor.i18n.t('images:url'),
         'link',
         data.link,
-        [
-          {
-            ev: 'keyup',
-            fn: _.debounce((e) => {
-              this.setDataProperty('link', $(e.target).val());
-            }),
-          },
-        ],
+        {
+          ev: 'keyup',
+          fn: _.debounce((e) => {
+            this.setDataProperty('link', $(e.target).val());
+          }),
+        },
       );
 
       $form.append(titleInput);

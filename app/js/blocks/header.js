@@ -88,14 +88,12 @@ const Header = Block.extend({
       this.editor.i18n.t('header:anchor'),
       `header-anchor-${this.dataId}`,
       anchor,
-      [
-        {
-          ev: 'keyup',
-          fn: (e) => {
-            this.setDataProperty('anchor', $(e.target).val());
-          },
+      {
+        ev: 'keyup',
+        fn: (e) => {
+          this.setDataProperty('anchor', $(e.target).val());
         },
-      ],
+      },
     );
 
     this.$setup.append(headerSizeRadios);
