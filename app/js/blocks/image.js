@@ -90,6 +90,8 @@ const Image = Block.extend({
       /**
        * Callback after confirming upload
        */
+      this.done();
+
       if (retData.status === '200') {
         // image uploaded successfully
         this.$setup.append(`<div class="villain-message success">${this.editor.i18n.t('images:upload_success')}</div>`);
@@ -195,7 +197,6 @@ const Image = Block.extend({
     .always($.proxy(() => {
 
     }));
-    this.done();
     return true;
   },
 
@@ -384,7 +385,8 @@ const Image = Block.extend({
       /**
        * Data returned from image browse.
        */
-      if (data.status !== 200) {
+
+      if (parseInt(data.status, 10) !== 200) {
         alertError(this.editor.i18n.t('errors:no_images_found'));
         this.done();
         return false;

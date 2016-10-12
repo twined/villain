@@ -170,11 +170,11 @@ const Block = Backbone.View.extend({
   },
 
   loading() {
-    this.$el.loadingOverlay();
+    this.$el.LoadingOverlay('show');
   },
 
   done() {
-    this.$el.loadingOverlay('remove');
+    this.$el.LoadingOverlay('hide');
   },
 
   addToPathName(relativeUrl) {
