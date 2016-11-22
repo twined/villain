@@ -98,6 +98,8 @@ const Slideshow = Block.extend({
   },
 
   getImageseries(series) {
+    const self = this;
+
     $.ajax({
       type: 'get',
       dataType: 'json',
@@ -178,9 +180,9 @@ const Slideshow = Block.extend({
   },
 
   setup() {
-    if (!this.hasData()) {
-      const self = this;
+    const self = this;
 
+    if (!this.hasData()) {
       this.$content.hide();
       const select = '<select class="imageserie-select" name="imageserie"></select>';
       this.$setup.append($(`

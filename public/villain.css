@@ -1487,8 +1487,13 @@ html {
       line-height: 24px; }
       .villain-block-inner .villain-md-block textarea:focus {
         background-color: #eee !important; }
-  .villain-block-inner .villain-slideshow-block h4 {
-    margin-bottom: 15px; }
+  .villain-block-inner .villain-slideshow-block.villain-content {
+    text-align: center; }
+    .villain-block-inner .villain-slideshow-block.villain-content h4 {
+      margin-bottom: 15px;
+      background-color: transparent;
+      color: #000;
+      display: inherit; }
   .villain-block-inner .villain-text-block {
     /* make space for the action buttons */
     padding-right: 30px; }

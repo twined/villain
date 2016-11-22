@@ -22078,6 +22078,8 @@ var Slideshow = _block2.default.extend({
     }));
   },
   getImageseries: function getImageseries(series) {
+    var self = this;
+
     _jquery2.default.ajax({
       type: 'get',
       dataType: 'json',
@@ -22155,23 +22157,19 @@ var Slideshow = _block2.default.extend({
     return html;
   },
   setup: function setup() {
-    var _this = this;
+    var self = this;
 
     if (!this.hasData()) {
-      (function () {
-        var self = _this;
+      this.$content.hide();
+      var select = '<select class="imageserie-select" name="imageserie"></select>';
+      this.$setup.append((0, _jquery2.default)('\n        <label for="imageserie">\n          ' + this.editor.i18n.t('slides:imageserie') + '\n        </label>\n        ' + select + '\n      '));
 
-        _this.$content.hide();
-        var select = '<select class="imageserie-select" name="imageserie"></select>';
-        _this.$setup.append((0, _jquery2.default)('\n        <label for="imageserie">\n          ' + _this.editor.i18n.t('slides:imageserie') + '\n        </label>\n        ' + select + '\n      '));
+      var $select = this.$setup.find('.imageserie-select');
+      $select.on('change', function imageSeriesSelectChangeCallback() {
+        self.getImageseries((0, _jquery2.default)(this).val());
+      });
 
-        var $select = _this.$setup.find('.imageserie-select');
-        $select.on('change', function imageSeriesSelectChangeCallback() {
-          self.getImageseries((0, _jquery2.default)(this).val());
-        });
-
-        _this.getAllImageseries();
-      })();
+      this.getAllImageseries();
     } else {
       this.$setup.hide();
 
@@ -22591,7 +22589,7 @@ var _en2 = _interopRequireDefault(_en);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var VILLAIN_VERSION = '0.2.0';
+var VILLAIN_VERSION = '0.2.1';
 
 var Editor = _backbone2.default.View.extend({
   textArea: '#id_body',

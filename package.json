@@ -2,7 +2,7 @@
   "name": "Villain",
   "description": "Villain Editor",
   "author": "Twined",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": {
     "type": "git",
     "url": "http://github.com/twined/villain"
