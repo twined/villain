@@ -3,6 +3,11 @@
   "description": "Villain Editor",
   "author": "Twined",
   "version": "0.2.1",
+  "files": [
+    "package.json",
+    "public/villain.all.js",
+    "public/villain.css"
+  ],
   "repository": {
     "type": "git",
     "url": "http://github.com/twined/villain"
