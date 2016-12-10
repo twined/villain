@@ -411,6 +411,10 @@ const Block = Backbone.View.extend({
         this.$el.width(300);
       }
     }
+    this.afterShowSetupCallback();
+  },
+
+  afterShowSetupCallback() {
   },
 
   hideSetup() {
@@ -421,6 +425,11 @@ const Block = Backbone.View.extend({
     this.$setup.height('');
 
     this.$content.show();
+
+    this.afterHideSetupCallback();
+  },
+
+  afterHideSetupCallback() {
   },
 }, {
   getButton(cls, afterId) {

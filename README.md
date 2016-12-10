@@ -5,7 +5,7 @@
 
 ## Usage:
 
-Include `villain.all.js` and `villain.css` located in `public/`.
+Include `villain.all.js` and `villain.css` located in `dist/`.
 
 Add to your HTML:
 

@@ -1,3 +1,10 @@
+## v0.3.0 (2016-12-10)
+
+* Enhancements
+  * Adds trumbowyg as frontend for text blocks
+  * Now uses webpack.
+  * Published as NPM package.
+
 ## v0.2.1 (2016-11-22)
 
 * Bug fixes

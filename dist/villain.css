@@ -930,7 +930,6 @@ body.stop-scrolling {
     -moz-transform: translateY(145%);
     -o-transform: translateY(145%);
     transform: translateY(145%); } }
-
 @charset "UTF-8";
 /* Neat 1.7.0
  * http://neat.bourbon.io
@@ -970,6 +969,558 @@ html {
   .villain-setup-block input[type="submit"]:disabled {
     cursor: not-allowed;
     opacity: 0.5; }
+
+#trumbowyg-icons {
+  overflow: hidden;
+  visibility: hidden;
+  height: 0;
+  width: 0; }
+  #trumbowyg-icons svg {
+    height: 0;
+    width: 0; }
+
+.villain-editor {
+  /* Modal box */
+  /**
+   * Fullscreen
+   */
+  /*
+   * Dark theme
+   */ }
+  .villain-editor .trumbowyg-box *,
+  .villain-editor .trumbowyg-box *::before,
+  .villain-editor .trumbowyg-box *::after {
+    box-sizing: border-box; }
+  .villain-editor .trumbowyg-box svg {
+    width: 17px;
+    height: 100%;
+    fill: #222; }
+  .villain-editor .trumbowyg-box,
+  .villain-editor .trumbowyg-editor {
+    display: block;
+    position: relative;
+    border: 0;
+    width: 100%;
+    min-height: 300px;
+    margin: 0 auto;
+    margin-top: -25px; }
+  .villain-editor .trumbowyg-box .trumbowyg-editor {
+    margin: 0 auto; }
+  .villain-editor .trumbowyg-box.trumbowyg-fullscreen {
+    background: #FEFEFE;
+    border: none !important; }
+  .villain-editor .trumbowyg-editor,
+  .villain-editor .trumbowyg-textarea {
+    position: relative;
+    box-sizing: border-box;
+    padding: 20px;
+    min-height: 300px;
+    width: 100%;
+    border-style: none;
+    resize: none;
+    outline: none;
+    overflow: auto; }
+  .villain-editor .trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-box-blur .trumbowyg-editor::before {
+    color: transparent !important;
+    text-shadow: 0 0 7px #333; }
+    @media screen and (min-width: 0 \0 ) {
+      .villain-editor .trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-box-blur .trumbowyg-editor::before {
+        color: rgba(200, 200, 200, 0.6) !important; } }
+    @supports (-ms-accelerator: true) {
+      .villain-editor .trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-box-blur .trumbowyg-editor::before {
+        color: rgba(200, 200, 200, 0.6) !important; } }
+  .villain-editor .trumbowyg-box-blur .trumbowyg-editor img,
+  .villain-editor .trumbowyg-box-blur .trumbowyg-editor hr {
+    opacity: 0.2; }
+  .villain-editor .trumbowyg-textarea {
+    position: relative;
+    display: block;
+    overflow: auto;
+    border: none;
+    white-space: normal; }
+  .villain-editor .trumbowyg-box.trumbowyg-editor-visible .trumbowyg-textarea {
+    height: 1px !important;
+    width: 25%;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: none;
+    opacity: 0 !important; }
+  .villain-editor .trumbowyg-box.trumbowyg-editor-hidden .trumbowyg-textarea {
+    display: block; }
+  .villain-editor .trumbowyg-box.trumbowyg-editor-hidden .trumbowyg-editor {
+    display: none; }
+  .villain-editor .trumbowyg-box.trumbowyg-disabled .trumbowyg-textarea {
+    opacity: 0.8;
+    background: none; }
+  .villain-editor .trumbowyg-editor[contenteditable=true]:empty:not(:focus)::before {
+    content: attr(placeholder);
+    color: #999;
+    pointer-events: none; }
+  .villain-editor .trumbowyg-button-pane {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    min-height: 36px;
+    background: transparent;
+    border-bottom: 0;
+    margin: 0;
+    padding: 0 5px;
+    list-style-type: none;
+    line-height: 10px;
+    backface-visibility: hidden; }
+    .villain-editor .trumbowyg-button-pane::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background: #d7e0e2; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-button-group {
+      display: flex;
+      flex-flow: row wrap; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-button-group .trumbowyg-fullscreen-button svg {
+        color: transparent; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-button-group:not(:empty) + .trumbowyg-button-group::before {
+        content: " ";
+        display: block;
+        width: 1px;
+        background: transparent;
+        margin: 0 5px;
+        height: 35px; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-bold-button {
+      font-size: 0; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-bold-button:before {
+        content: "\F032";
+        font-family: 'FontAwesome';
+        font-size: 14px; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-bold-button {
+      font-size: 0; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-bold-button:before {
+        content: "\F032";
+        font-family: 'FontAwesome';
+        font-size: 14px; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-italic-button {
+      font-size: 0; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-italic-button:before {
+        content: "\F033";
+        font-family: 'FontAwesome';
+        font-size: 14px; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-link-button {
+      font-size: 0; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-link-button:before {
+        content: "\F0C1";
+        font-family: 'FontAwesome';
+        font-size: 14px; }
+    .villain-editor .trumbowyg-button-pane button {
+      display: block;
+      position: relative;
+      width: 35px;
+      height: 35px;
+      padding: 1px 6px !important;
+      margin-bottom: 1px;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+      background: none;
+      transition: background-color 150ms, opacity 150ms; }
+      .villain-editor .trumbowyg-button-pane button.trumbowyg-textual-button {
+        width: auto;
+        line-height: 35px; }
+    .villain-editor .trumbowyg-button-pane.trumbowyg-disable button:not(.trumbowyg-not-disable):not(.trumbowyg-active),
+    .trumbowyg-disabled .villain-editor .trumbowyg-button-pane button:not(.trumbowyg-not-disable):not(.trumbowyg-viewHTML-button) {
+      opacity: 0.2;
+      cursor: default; }
+    .villain-editor .trumbowyg-button-pane.trumbowyg-disable .trumbowyg-button-group::before,
+    .trumbowyg-disabled .villain-editor .trumbowyg-button-pane .trumbowyg-button-group::before {
+      background: transparent; }
+    .villain-editor .trumbowyg-button-pane button:not(.trumbowyg-disable):hover,
+    .villain-editor .trumbowyg-button-pane button:not(.trumbowyg-disable):focus,
+    .villain-editor .trumbowyg-button-pane button.trumbowyg-active {
+      background-color: #FFF;
+      outline: none; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-open-dropdown::after {
+      display: block;
+      content: " ";
+      position: absolute;
+      top: 25px;
+      right: 3px;
+      height: 0;
+      width: 0;
+      border: 3px solid transparent;
+      border-top-color: #555; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-open-dropdown.trumbowyg-textual-button {
+      padding-left: 10px !important;
+      padding-right: 18px !important; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-open-dropdown.trumbowyg-textual-button::after {
+        top: 17px;
+        right: 7px; }
+    .villain-editor .trumbowyg-button-pane .trumbowyg-right {
+      margin-left: auto; }
+      .villain-editor .trumbowyg-button-pane .trumbowyg-right::before {
+        display: none !important; }
+  .villain-editor .trumbowyg-dropdown {
+    width: 200px;
+    border: 1px solid #ecf0f1;
+    padding: 5px 0;
+    border-top: none;
+    background: #FFF;
+    margin-left: -1px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 3px; }
+    .villain-editor .trumbowyg-dropdown button {
+      display: block;
+      width: 100%;
+      height: 35px;
+      line-height: 35px;
+      text-decoration: none;
+      background: #FFF;
+      padding: 0 10px;
+      color: #333 !important;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-size: 15px;
+      transition: all 150ms; }
+      .villain-editor .trumbowyg-dropdown button:hover, .villain-editor .trumbowyg-dropdown button:focus {
+        background: #ecf0f1; }
+      .villain-editor .trumbowyg-dropdown button svg {
+        float: left;
+        margin-right: 14px; }
+  .villain-editor .trumbowyg-modal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 520px;
+    width: 100%;
+    height: 350px;
+    z-index: 11;
+    overflow: hidden;
+    backface-visibility: hidden; }
+  .villain-editor .trumbowyg-modal-box {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 500px;
+    width: calc(100% - 20px);
+    padding-bottom: 45px;
+    z-index: 1;
+    background-color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 3px;
+    backface-visibility: hidden; }
+    .villain-editor .trumbowyg-modal-box .trumbowyg-modal-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0 0 20px;
+      padding: 15px 0 13px;
+      display: block;
+      border-bottom: 1px solid #EEE;
+      color: #333;
+      background: #fbfcfc; }
+    .villain-editor .trumbowyg-modal-box .trumbowyg-progress {
+      width: 100%;
+      height: 3px;
+      position: absolute;
+      top: 58px; }
+      .villain-editor .trumbowyg-modal-box .trumbowyg-progress .trumbowyg-progress-bar {
+        background: #2BC06A;
+        height: 100%;
+        transition: width 150ms linear; }
+    .villain-editor .trumbowyg-modal-box label {
+      display: block;
+      position: relative;
+      margin: 15px 12px;
+      height: 29px;
+      line-height: 29px;
+      overflow: hidden; }
+      .villain-editor .trumbowyg-modal-box label .trumbowyg-input-infos {
+        display: block;
+        text-align: left;
+        height: 25px;
+        line-height: 25px;
+        transition: all 150ms; }
+        .villain-editor .trumbowyg-modal-box label .trumbowyg-input-infos span {
+          display: block;
+          color: #69878f;
+          background-color: #fbfcfc;
+          border: 1px solid #DEDEDE;
+          padding: 0 7px;
+          width: 150px; }
+        .villain-editor .trumbowyg-modal-box label .trumbowyg-input-infos span.trumbowyg-msg-error {
+          color: #e74c3c; }
+      .villain-editor .trumbowyg-modal-box label.trumbowyg-input-error input,
+      .villain-editor .trumbowyg-modal-box label.trumbowyg-input-error textarea {
+        border: 1px solid #e74c3c; }
+      .villain-editor .trumbowyg-modal-box label.trumbowyg-input-error .trumbowyg-input-infos {
+        margin-top: -27px; }
+      .villain-editor .trumbowyg-modal-box label input {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 27px;
+        line-height: 27px;
+        border: 1px solid #DEDEDE;
+        background: #fff;
+        font-size: 14px;
+        max-width: 330px;
+        width: 70%;
+        padding: 0 7px;
+        transition: all 150ms; }
+        .villain-editor .trumbowyg-modal-box label input:hover, .villain-editor .trumbowyg-modal-box label input:focus {
+          outline: none;
+          border: 1px solid #95a5a6; }
+        .villain-editor .trumbowyg-modal-box label input:focus {
+          background: #fbfcfc; }
+    .villain-editor .trumbowyg-modal-box .error {
+      margin-top: 25px;
+      display: block;
+      color: red; }
+    .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button {
+      position: absolute;
+      bottom: 10px;
+      right: 0;
+      text-decoration: none;
+      color: #FFF;
+      display: block;
+      width: 100px;
+      height: 35px;
+      line-height: 33px;
+      margin: 0 10px;
+      background-color: #333;
+      border: none;
+      cursor: pointer;
+      font-family: "Trebuchet MS", Helvetica, Verdana, sans-serif;
+      font-size: 16px;
+      transition: all 150ms; }
+      .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit {
+        right: 110px;
+        background: #2bc06a; }
+        .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:hover, .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:focus {
+          background: #40d47e;
+          outline: none; }
+        .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:active {
+          background: #25a25a; }
+      .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset {
+        color: #555;
+        background: #e6e6e6; }
+        .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:hover, .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:focus {
+          background: #fbfbfb;
+          outline: none; }
+        .villain-editor .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:active {
+          background: #d5d5d5; }
+  .villain-editor .trumbowyg-overlay {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    left: 0;
+    display: none;
+    z-index: 10; }
+  .villain-editor body.trumbowyg-body-fullscreen {
+    overflow: hidden; }
+  .villain-editor .trumbowyg-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 99999; }
+    .villain-editor .trumbowyg-fullscreen.trumbowyg-box,
+    .villain-editor .trumbowyg-fullscreen .trumbowyg-editor {
+      border: none; }
+    .villain-editor .trumbowyg-fullscreen .trumbowyg-editor,
+    .villain-editor .trumbowyg-fullscreen .trumbowyg-textarea {
+      height: calc(100% - 37px) !important;
+      overflow: auto; }
+    .villain-editor .trumbowyg-fullscreen .trumbowyg-overlay {
+      height: 100% !important; }
+    .villain-editor .trumbowyg-fullscreen .trumbowyg-button-group .trumbowyg-fullscreen-button svg {
+      color: #222;
+      fill: transparent; }
+  .villain-editor .trumbowyg-editor {
+    /*
+     * lset for resetCss option
+     */ }
+    .villain-editor .trumbowyg-editor object,
+    .villain-editor .trumbowyg-editor embed,
+    .villain-editor .trumbowyg-editor video,
+    .villain-editor .trumbowyg-editor img {
+      max-width: 100%; }
+    .villain-editor .trumbowyg-editor video,
+    .villain-editor .trumbowyg-editor img {
+      height: auto; }
+    .villain-editor .trumbowyg-editor img {
+      cursor: move; }
+    .villain-editor .trumbowyg-editor.trumbowyg-reset-css {
+      background: #FEFEFE !important;
+      font-family: "Trebuchet MS", Helvetica, Verdana, sans-serif !important;
+      font-size: 14px !important;
+      line-height: 1.45em !important;
+      white-space: normal !important;
+      color: #333; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css a {
+        color: #15c !important;
+        text-decoration: underline !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css div,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css p,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ul,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ol,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css blockquote {
+        box-shadow: none !important;
+        background: none !important;
+        margin: 0 !important;
+        margin-bottom: 15px !important;
+        line-height: 1.4em !important;
+        font-family: "Trebuchet MS", Helvetica, Verdana, sans-serif !important;
+        font-size: 14px !important;
+        border: none; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css iframe,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css object,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css hr {
+        margin-bottom: 15px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css blockquote {
+        margin-left: 32px !important;
+        font-style: italic !important;
+        color: #555; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ul,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ol {
+        padding-left: 20px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ul ul,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ol ol,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ul ol,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css ol ul {
+        border: none;
+        margin: 2px !important;
+        padding: 0 !important;
+        padding-left: 24px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css hr {
+        display: block;
+        height: 1px;
+        border: none;
+        border-top: 1px solid #CCC; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h1,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h2,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h3,
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h4 {
+        color: #111;
+        background: none;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-weight: bold; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h1 {
+        font-size: 32px !important;
+        line-height: 38px !important;
+        margin-bottom: 20px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h2 {
+        font-size: 26px !important;
+        line-height: 34px !important;
+        margin-bottom: 15px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h3 {
+        font-size: 22px !important;
+        line-height: 28px !important;
+        margin-bottom: 7px !important; }
+      .villain-editor .trumbowyg-editor.trumbowyg-reset-css h4 {
+        font-size: 16px !important;
+        line-height: 22px !important;
+        margin-bottom: 7px !important; }
+  .villain-editor .trumbowyg-dark .trumbowyg-textarea {
+    background: #111;
+    color: #ddd; }
+  .villain-editor .trumbowyg-dark .trumbowyg-box {
+    border: 1px solid #343434; }
+    .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-fullscreen {
+      background: #111; }
+    .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor::before {
+      text-shadow: 0 0 7px #ccc; }
+      @media screen and (min-width: 0 \0 ) {
+        .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor::before {
+          color: rgba(20, 20, 20, 0.6) !important; } }
+      @supports (-ms-accelerator: true) {
+        .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor *, .villain-editor .trumbowyg-dark .trumbowyg-box.trumbowyg-box-blur .trumbowyg-editor::before {
+          color: rgba(20, 20, 20, 0.6) !important; } }
+    .villain-editor .trumbowyg-dark .trumbowyg-box svg {
+      fill: #ecf0f1;
+      color: #ecf0f1; }
+  .villain-editor .trumbowyg-dark .trumbowyg-button-pane {
+    background-color: #222;
+    border-bottom-color: #343434; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane::after {
+      background: transparent; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane .trumbowyg-button-group:not(:empty)::before {
+      background-color: transparent; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane .trumbowyg-button-group:not(:empty) .trumbowyg-fullscreen-button svg {
+      color: transparent; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane.trumbowyg-disable .trumbowyg-button-group::before {
+      background-color: transparent; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane button:not(.trumbowyg-disable):hover,
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane button:not(.trumbowyg-disable):focus,
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane button.trumbowyg-active {
+      background-color: #333; }
+    .villain-editor .trumbowyg-dark .trumbowyg-button-pane .trumbowyg-open-dropdown::after {
+      border-top-color: #fff; }
+  .villain-editor .trumbowyg-dark .trumbowyg-fullscreen .trumbowyg-button-group .trumbowyg-fullscreen-button svg {
+    color: #ecf0f1;
+    fill: transparent; }
+  .villain-editor .trumbowyg-dark .trumbowyg-dropdown {
+    border-color: #222;
+    background: #333;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 3px; }
+    .villain-editor .trumbowyg-dark .trumbowyg-dropdown button {
+      background: #333;
+      color: #fff !important; }
+      .villain-editor .trumbowyg-dark .trumbowyg-dropdown button:hover, .villain-editor .trumbowyg-dark .trumbowyg-dropdown button:focus {
+        background: #222; }
+  .villain-editor .trumbowyg-dark .trumbowyg-modal-box {
+    background-color: #222; }
+    .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-title {
+      border-bottom: 1px solid #555;
+      color: #fff;
+      background: #3c3c3c; }
+    .villain-editor .trumbowyg-dark .trumbowyg-modal-box label {
+      display: block;
+      position: relative;
+      margin: 15px 12px;
+      height: 27px;
+      line-height: 27px;
+      overflow: hidden; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box label .trumbowyg-input-infos span {
+        color: #eee;
+        background-color: #2f2f2f;
+        border-color: #222; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box label .trumbowyg-input-infos span.trumbowyg-msg-error {
+        color: #e74c3c; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box label.trumbowyg-input-error input,
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box label.trumbowyg-input-error textarea {
+        border-color: #e74c3c; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box label input {
+        border-color: #222;
+        color: #eee;
+        background: #333; }
+        .villain-editor .trumbowyg-dark .trumbowyg-modal-box label input:hover, .villain-editor .trumbowyg-dark .trumbowyg-modal-box label input:focus {
+          border-color: #626262; }
+        .villain-editor .trumbowyg-dark .trumbowyg-modal-box label input:focus {
+          background-color: #2f2f2f; }
+    .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit {
+      background: #1b7943; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:hover, .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:focus {
+        background: #25a25a; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:active {
+        background: #176437; }
+    .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset {
+      background: #333;
+      color: #ccc; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:hover, .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:focus {
+        background: #444; }
+      .villain-editor .trumbowyg-dark .trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:active {
+        background: #111; }
+  .villain-editor .trumbowyg-dark .trumbowyg-overlay {
+    background-color: rgba(15, 15, 15, 0.6); }
 
 .villain-mask-icon {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAMCAYAAACJOyb4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3JpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphNjRmZDk0Ny1mMjJjLTRjNmMtYTliNi0xM2RkMDhiOWI4MjQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MDM2QjU0ODQ3QzEyMTFFNkI1QUVCRjQ3ODU4QzA5N0IiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDM2QjU0ODM3QzEyMTFFNkI1QUVCRjQ3ODU4QzA5N0IiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgSWxsdXN0cmF0b3IgQ0MgMjAxNCAoTWFjaW50b3NoKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQyMjdERTgzN0IyRTExRTY4MEI3RTcxODExRkQ5MzIzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjQyMjdERTg0N0IyRTExRTY4MEI3RTcxODExRkQ5MzIzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+HCWYSQAAAVdJREFUeNq01M0rRFEYx/Ezc0d5ywJlko0oopQFKws7sSB/gKIsZGFha2FjT7GwsGApG0mZBVlIUrJghRpFY4HyEiPk5Xvqd3M7HTOlPPWZ5s55njP3OfPciRljEhhBKRZwa36iEj3oRxPK8YI01rGG00h+HAOow7zRxl9yiQl0YRKZyJpPFkvKH8RuZG3Vbr6VZ4O/SsfVwn9ESUJnbeMRc3rfgs7IWr7YwQEeMIwaBHbhQm1knIJajOMQ7562zzGDdqcuPPdro2J78YnuX+7syNn4Dc2ePDtNN+FwBBq1BsTQgRN8oAKNGEOvxiwMW1eloyyw54t6TKNVOVf2ZcrT8rPm2f38Xl/sdvHkyd2zd7Ptaa8YhZHrY/SpkzasRNbCO3dj3+g4FnPMq52EMk/xbI6aMyQDJW6gCNVqO6undRmjuPNsntJfRVK/wavyNjFkp/BbgAEAhWiI3BX1FUYAAAAASUVORK5CYII=");
@@ -1068,8 +1619,6 @@ html {
     .villain-editor .villain-message.success {
       background-color: #B2FCB2;
       border-bottom: 4px solid #A0EAA0; }
-  .villain-editor [contenteditable] {
-    min-height: 1rem; }
   .villain-editor a {
     color: #ef4f4f;
     text-decoration: none;
@@ -1092,7 +1641,7 @@ html {
     color: #737373;
     font-style: italic; }
     .villain-editor cite:before {
-      content: "\2014 \00A0"; }
+      content: "\2014   \A0"; }
   .villain-editor dl {
     margin-bottom: 0.75em; }
     .villain-editor dl dd {
@@ -1221,7 +1770,7 @@ html {
   padding: 20px 15px; }
   .villain-setup-block:before {
     border-bottom: 2px solid #abdac5;
-    content: "\f0ad";
+    content: "\F0AD";
     display: block;
     font: normal normal normal 14px/1 FontAwesome;
     margin-bottom: 15px;
@@ -1779,6 +2328,3 @@ html {
   border-right: 0.625em solid transparent;
   border-top: 0.625em solid #4d5358;
   margin-left: -0.625em; }
-
-
-/*# sourceMappingURL=villain.css.map*/
