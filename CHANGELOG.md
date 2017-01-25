@@ -1,3 +1,7 @@
+## v0.3.1 (2017-01-25)
+
+* Distribute non-minified.
+
 ## v0.3.0 (2016-12-10)
 
 * Enhancements
