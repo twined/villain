@@ -12,7 +12,7 @@ import VillainError from './errors/error';
 import LOCALE_NB from './locales/nb';
 import LOCALE_EN from './locales/en';
 
-const VILLAIN_VERSION = '0.3.1';
+const VILLAIN_VERSION = '0.3.2';
 
 const Editor = Backbone.View.extend({
   textArea: '#id_body',

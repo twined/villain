@@ -17690,7 +17690,7 @@ var Image = __WEBPACK_IMPORTED_MODULE_2__block__["a" /* default */].extend({
        */
       this.done();
 
-      if (retData.status === '200') {
+      if (retData.status === 200) {
         (function () {
           // image uploaded successfully
           _this.$setup.append('<div class="villain-message success">' + _this.editor.i18n.t('images:upload_success') + '</div>');
@@ -17928,7 +17928,7 @@ var Image = __WEBPACK_IMPORTED_MODULE_2__block__["a" /* default */].extend({
        * Data returned from image browse.
        */
 
-      if (parseInt(data.status, 10) !== 200) {
+      if (data.status !== 200) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__alerts__["a" /* alertError */])(_this4.editor.i18n.t('errors:no_images_found'));
         _this4.done();
         return false;
@@ -19276,7 +19276,7 @@ window.Villain = { Editor: __WEBPACK_IMPORTED_MODULE_0__editor__["a" /* default 
 
 
 
-var VILLAIN_VERSION = '0.3.1';
+var VILLAIN_VERSION = '0.3.2';
 
 var Editor = __WEBPACK_IMPORTED_MODULE_2_backbone___default.a.View.extend({
   textArea: '#id_body',

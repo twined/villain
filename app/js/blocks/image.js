@@ -92,7 +92,7 @@ const Image = Block.extend({
        */
       this.done();
 
-      if (retData.status === '200') {
+      if (retData.status === 200) {
         // image uploaded successfully
         this.$setup.append(`<div class="villain-message success">${this.editor.i18n.t('images:upload_success')}</div>`);
         // remove upload button
@@ -386,7 +386,7 @@ const Image = Block.extend({
        * Data returned from image browse.
        */
 
-      if (parseInt(data.status, 10) !== 200) {
+      if (data.status !== 200) {
         alertError(this.editor.i18n.t('errors:no_images_found'));
         this.done();
         return false;

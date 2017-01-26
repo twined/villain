@@ -1,3 +1,7 @@
+## v0.3.2 (2017-01-26)
+
+* Fix bug with image attributes
+
 ## v0.3.1 (2017-01-25)
 
 * Distribute non-minified.
