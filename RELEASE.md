@@ -6,7 +6,7 @@ RELEASE INSTRUCTIONS
 3. Set correct version in `CHANGELOG.md`
 4. npm run deploy
 5. npm publish --access=public
-6. git commit -m "Release 0.3.0"
+6. git add . && git commit -m "Release 0.3.2"
 7. git tag v0.3.0
 8. git push origin v0.3.0
 9. npm publish --access=public

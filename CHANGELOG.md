@@ -1,6 +1,6 @@
 ## v0.3.2 (2017-01-26)
 
-* Fix bug with image attributes
+* Unify status code parsing. Always presume ints!
 
 ## v0.3.1 (2017-01-25)
 
