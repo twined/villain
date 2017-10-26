@@ -1,3 +1,7 @@
+## v0.4.0 (2017-10-26)
+
+* Change packaging to be ES compatible
+
 ## v0.3.2 (2017-01-26)
 
 * Unify status code parsing. Always presume ints!
