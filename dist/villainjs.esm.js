@@ -24092,6 +24092,12 @@ const Editor = backbone.View.extend({
     this.options = underscore.extend(Editor.defaults, newOpts);
   },
 
+  setData(data) {
+    this.data = JSON.parse(data);
+    this.$el.html('');
+    this.render();
+  },
+
   render() {
     // add + block
     const addblock = new Plus({
