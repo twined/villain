@@ -17,7 +17,8 @@ Add to your HTML:
         v = new Villain.Editor({
           textArea: 'textarea[name="post[data]"]',
           baseURL: '/admin/posts/',
-          imageSeries: 'post'
+          imageSeries: 'post',
+          extraHeaders: {'Authorization', 'Bearer TOKEN'}
         });
       });
     </script>
@@ -29,6 +30,7 @@ Add to your HTML:
   * `language`: `en` or `nb` for now, `nb` is default.
   * `baseUrl`: Base URL to which we append `browse/`, `upload/` etc
   * `defaultBlocks`: If you only want a subset of blocks to be enabled.
+  * `extraHeaders`: Extra headers sent with json calls
 
 ```javascript
 document.addEventListener("DOMContentLoaded", function(event) {
