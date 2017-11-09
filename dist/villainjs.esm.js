@@ -14697,6 +14697,8 @@ var _typeof$2 = typeof Symbol === "function" && typeof Symbol.iterator === "symb
 
 function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+// definition http://translate.sourceforge.net/wiki/l10n/pluralforms
+/* eslint-disable */
 var sets = [{ lngs: ['ach', 'ak', 'am', 'arn', 'br', 'fil', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'tg', 'ti', 'tr', 'uz', 'wa'], nr: [1, 2], fc: 1 }, { lngs: ['af', 'an', 'ast', 'az', 'bg', 'bn', 'ca', 'da', 'de', 'dev', 'el', 'en', 'eo', 'es', 'es_ar', 'et', 'eu', 'fi', 'fo', 'fur', 'fy', 'gl', 'gu', 'ha', 'he', 'hi', 'hu', 'hy', 'ia', 'it', 'kn', 'ku', 'lb', 'mai', 'ml', 'mn', 'mr', 'nah', 'nap', 'nb', 'ne', 'nl', 'nn', 'no', 'nso', 'pa', 'pap', 'pms', 'ps', 'pt', 'pt_br', 'rm', 'sco', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw', 'ta', 'te', 'tk', 'ur', 'yo'], nr: [1, 2], fc: 2 }, { lngs: ['ay', 'bo', 'cgg', 'fa', 'id', 'ja', 'jbo', 'ka', 'kk', 'km', 'ko', 'ky', 'lo', 'ms', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'], nr: [1], fc: 3 }, { lngs: ['be', 'bs', 'dz', 'hr', 'ru', 'sr', 'uk'], nr: [1, 2, 5], fc: 4 }, { lngs: ['ar'], nr: [0, 1, 2, 3, 11, 100], fc: 5 }, { lngs: ['cs', 'sk'], nr: [1, 2, 5], fc: 6 }, { lngs: ['csb', 'pl'], nr: [1, 2, 5], fc: 7 }, { lngs: ['cy'], nr: [1, 2, 3, 8], fc: 8 }, { lngs: ['fr'], nr: [1, 2], fc: 9 }, { lngs: ['ga'], nr: [1, 2, 3, 7, 11], fc: 10 }, { lngs: ['gd'], nr: [1, 2, 3, 20], fc: 11 }, { lngs: ['is'], nr: [1, 2], fc: 12 }, { lngs: ['jv'], nr: [0, 1], fc: 13 }, { lngs: ['kw'], nr: [1, 2, 3, 4], fc: 14 }, { lngs: ['lt'], nr: [1, 2, 10], fc: 15 }, { lngs: ['lv'], nr: [1, 2, 0], fc: 16 }, { lngs: ['mk'], nr: [1, 2], fc: 17 }, { lngs: ['mnk'], nr: [0, 1, 2], fc: 18 }, { lngs: ['mt'], nr: [1, 2, 11, 20], fc: 19 }, { lngs: ['or'], nr: [2, 1], fc: 2 }, { lngs: ['ro'], nr: [1, 2, 20], fc: 20 }, { lngs: ['sl'], nr: [5, 1, 2, 3], fc: 21 }];
 
 var _rulesPluralsTypes = {
@@ -17709,8 +17711,9 @@ const Block = backbone.View.extend({
       return relativeUrl;
     }
 
-    const divider = window.location.pathname.slice(-1) === '/' ? '' : '/';
-    const fullPath = window.location.pathname + divider + relativeUrl;
+    const base = this.editor.options.baseURL;
+    const divider = base.slice(-1) === '/' ? '' : '/';
+    const fullPath = base + divider + relativeUrl;
 
     return fullPath;
   },
@@ -18296,6 +18299,10 @@ var empty$1 = Object.freeze({
 
 var require$$0$1 = ( empty$1 && empty ) || empty$1;
 
+/*
+ * Set up window for Node.js
+ */
+
 var _window = (typeof window !== 'undefined' ? window : commonjsGlobal);
 
 /*
@@ -18572,6 +18579,14 @@ function next(prev, current) {
 }
 
 var whitespace = collapseWhitespace;
+
+/*
+ * to-markdown - an HTML to Markdown converter
+ *
+ * Copyright 2011+, Dom Christie
+ * Licenced under the MIT licence
+ *
+ */
 
 'use strict';
 
@@ -18876,6 +18891,17 @@ class Markup {
         return html;
     }
 }
+
+/**
+ * Trumbowyg v2.8.1 - A lightweight WYSIWYG editor
+ * Trumbowyg core file
+ * ------------------------
+ * @link http://alex-d.github.io/Trumbowyg
+ * @license MIT
+ * @author Alexandre Demode (Alex-D)
+ *         Twitter : @AlexandreDemode
+ *         Website : alex-d.fr
+ */
 
 jquery.trumbowyg = {
     langs: {
@@ -22257,6 +22283,7 @@ const Image = Block.extend({
       dataType: 'json',
       accepts: { json: 'text/json' },
       url: this.addToPathName(this.editor.options.uploadURL),
+      headers: this.editor.options.extraHeaders,
       cache: false,
       contentType: false,
       processData: false,
@@ -22335,6 +22362,7 @@ const Image = Block.extend({
               type: 'post',
               url: self.addToPathName(retData.form.action),
               data: imagedata,
+              headers: self.editor.options.extraHeaders,
               cache: false,
               contentType: false,
               processData: false,
@@ -22514,6 +22542,7 @@ const Image = Block.extend({
     jquery.ajax({
       type: 'get',
       url: this.addToPathName(this.editor.options.browseURL),
+      headers: this.editor.options.extraHeaders,
       cache: false,
       contentType: false,
       processData: false,
@@ -22657,6 +22686,7 @@ const Slideshow = Block.extend({
         json: 'text/json'
       },
       url: this.addToPathName(this.editor.options.imageseriesURL),
+      headers: this.editor.options.extraHeaders,
       cache: false,
       contentType: false,
       processData: false,
@@ -22688,6 +22718,7 @@ const Slideshow = Block.extend({
     jquery.ajax({
       type: 'get',
       dataType: 'json',
+      headers: this.editor.options.extraHeaders,
       accepts: {
         json: 'text/json'
       },
@@ -24517,7 +24548,8 @@ Editor.defaults = {
   browseURL: 'villain/browse/',
   uploadURL: 'villain/upload/',
   imageseriesURL: 'villain/imageseries/',
-  language: 'nb'
+  language: 'nb',
+  extraHeaders: {}
 };
 
 const Blocks = {
